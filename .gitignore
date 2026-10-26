@@ -1,0 +1,19 @@
+# Godot and .NET generated files
+.godot/
+**/bin/
+**/obj/
+.vs/
+.idea/
+
+# Local exports and signing credentials
+builds/
+exports/
+*.apk
+*.aab
+*.keystore
+*.jks
+export_credentials.cfg
+
+# OS files
+.DS_Store
+Thumbs.db
