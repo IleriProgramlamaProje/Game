@@ -13,12 +13,12 @@ Bu belge, oyun ekibinin sırayla uygulayacağı çalışma planıdır. Merkezî 
 | [tema.json](https://github.com/IleriProgramlamaProje/Docs/blob/main/tema.json) | Göstergeler, hitap, karakterler, açılış ve onaylı son metinleri |
 | [ekip.md](https://github.com/IleriProgramlamaProje/Docs/blob/main/ekip.md) | Başkan/yardımcı rotasyonu ve rapor sorumluları |
 | [kararlar.md](https://github.com/IleriProgramlamaProje/Docs/blob/main/kararlar.md) | Tarihli kararlar; aynı konuda en yeni karar esas alınır |
-| [kurulum.md](https://github.com/IleriProgramlamaProje/Docs/blob/main/kurulum.md) | Genel hazırlık; Unity bölümleri Godot kurulumu için kullanılmaz |
+| [kurulum.md](https://github.com/IleriProgramlamaProje/Docs/blob/main/kurulum.md) | Üç depo, Python ve Godot kurulumu; eski Unity araştırması arşivdedir |
 | [Game README](../README.md) | Bu reponun gerçek sürümleri ve çalıştırma komutları |
 
 **Çelişki halinde:** Onaylı ürün/veri kuralları burada tek taraflı değiştirilmez. Sorun PR'da belirtilir, iki ekip birlikte netleştirir ve merkezî karar günlüğüne yazılır. Kart JSON'u merkezî belgede hâlâ öneri olarak işaretlidir; mevcut alanlar başlangıç sözleşmesi kabul edilip değişiklikler iki ekiple görüşülür.
 
-**Motor geçişinin sınırı:** Game deposunda Godot kurulmuştur; merkezî belgelerde Unity adları hâlâ vardır. Bu belge, o belgelerin tamamının ekipçe güncellendiği anlamına gelmez. Öğretmen/ekip motor geçişini teyit etmeli. `7.4y` görevindeki Unity Sentis adımı Godot'a aynen taşınamaz; zorunlu teslim kapsamına eklenmez.
+**Motor geçişinin sınırı:** Game deposunda Godot kurulmuştur; merkezî güncel kurulum ve rehberler bu duruma uyarlandı. Tarihli Unity kararları ve araştırmaları geçmiş kayıt olarak korunur. Bu teknik güncelleme ekip/öğretmen onayı yerine geçmez. Öğretmen/ekip motor geçişini teyit etmeli. `7.4y` görevindeki Unity Sentis adımı Godot'a aynen taşınamaz; zorunlu teslim kapsamına eklenmez.
 
 **Adlandırma:** Merkezî belgelerde “Muhammet” yazan ekip üyesi bu çalışma alanında Muhammed olarak anılır; aşağıdaki rotasyon aynı kişiyi ifade eder.
 
@@ -49,7 +49,7 @@ Bu belge, oyun ekibinin sırayla uygulayacağı çalışma planıdır. Merkezî 
 ### Sıradaki işler
 
 - [ ] İki oyun ekibi üyesi projeyi kendi bilgisayarında açıp C# çıktısını doğrulasın.
-- [ ] Godot motor geçişi ve merkezî belgelerin güncellenmesi ekip toplantısında teyit edilsin.
+- [ ] Godot motor geçişi ve güncellenen merkezî belgeler ekip toplantısında teyit edilsin.
 - [ ] **G0 Android erken denemesi** yapılsın: aşağıdaki risk kapısı.
 - [ ] `1.7` tek ana sahne ve ekran panelleri: yerel uygulama hazır (`Sahneler/Oyun.tscn`, `OyunEkranlari.cs`), üç boyutta headless/grafik test geçti. İkinci geliştiricinin bilgisayarı ve gerçek giriş kontrolleri bekliyor; görev henüz kapalı değil.
 - [ ] `1.8` oyun durumu ve dört gösterge uygulansın.
@@ -253,7 +253,7 @@ Game/
 
 ### H1 · 26 Ekim – 1 Kasım — ilk kart kaydırılıyor
 
-Ortak işler `1.0a–1.0d`: kart biçimini okuma, 23 rol için kör tahmin testine katılım, teslim sorumlusu kurası ve karar günlüğü. Merkezî `1.0b` kabul metnindeki eski “15/16 rol” ifadesi 25 Ekim'deki **23 rol** kararıyla çelişir; yeni karar esas alınır.
+Ortak işler `1.0a–1.0d`: kart biçimini okuma, 23 rol için kör tahmin testine katılım, teslim sorumlusu kurası ve karar günlüğü. Merkezî `1.0b` kabul metni 25 Ekim tarihli **23 rol** kararıyla uyumlu tutulur.
 
 | Durum | Kod | İş / önerilen parça | Bitti sayılması için | Ön koşul |
 | --- | --- | --- | --- | --- |
