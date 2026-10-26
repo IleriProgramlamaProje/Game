@@ -2,6 +2,8 @@
 
 İleri Programlama okul projesinin oyun istemcisi. Önceki Unity iskeleti yerine Godot kullanılır. Python/AI ve belgeler kardeş depolardadır.
 
+**Geliştirmeye başlamadan:** [Oyun geliştirme planı](docs/oyun_gelistirme_plani.md) — haftalık görevler, Godot yapısı, kabul testleri ve devir kontrol listeleri.
+
 ## Sürümler
 
 - **Godot 4.7.2 stable · .NET sürümü** (standart/Steam sürümü C# içermez).
