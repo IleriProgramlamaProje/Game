@@ -1,0 +1,171 @@
+[gd_scene format=3 uid="uid://bbnsr6mo152jg"]
+
+[ext_resource type="Script" uid="uid://cgcax0xjllohp" path="res://Betikler/Arayuz/OyunEkranlari.cs" id="1_ekranlar"]
+
+[node name="Oyun" type="Control" unique_id=212666902]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ekranlar")
+
+[node name="Zemin" type="PanelContainer" parent="." unique_id=1571191201]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="KenarBosluklari" type="MarginContainer" parent="Zemin" unique_id=773949141]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Duzen" type="VBoxContainer" parent="Zemin/KenarBosluklari" unique_id=1712225079]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Baslik" type="Label" parent="Zemin/KenarBosluklari/Duzen" unique_id=136584958]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Oyun ekranları"
+autowrap_mode = 3
+
+[node name="GelistirmeNotu" type="Label" parent="Zemin/KenarBosluklari/Duzen" unique_id=1683886456]
+layout_mode = 2
+text = "Geliştirme önizlemesi · 1.7
+Düğmeler panelleri gösterir; henüz oyun başlatmaz."
+autowrap_mode = 3
+
+[node name="Gezinti" type="HBoxContainer" parent="Zemin/KenarBosluklari/Duzen" unique_id=953872583]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AcilisDugmesi" type="Button" parent="Zemin/KenarBosluklari/Duzen/Gezinti" unique_id=1663971063]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_pressed = true
+text = "Açılış"
+
+[node name="OyunDugmesi" type="Button" parent="Zemin/KenarBosluklari/Duzen/Gezinti" unique_id=1708862130]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Oyun"
+
+[node name="SonucDugmesi" type="Button" parent="Zemin/KenarBosluklari/Duzen/Gezinti" unique_id=1385088644]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Sonuç"
+
+[node name="SonDugmesi" type="Button" parent="Zemin/KenarBosluklari/Duzen/Gezinti" unique_id=1395835240]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Son"
+
+[node name="Ayirici" type="HSeparator" parent="Zemin/KenarBosluklari/Duzen" unique_id=1589296702]
+layout_mode = 2
+
+[node name="Icerik" type="ScrollContainer" parent="Zemin/KenarBosluklari/Duzen" unique_id=1234107022]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Paneller" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Icerik" unique_id=1336429969]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AcilisPaneli" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller" unique_id=599832254]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Baslik" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/AcilisPaneli" unique_id=1422182147]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Tahta çıkmadan önce"
+autowrap_mode = 3
+
+[node name="Hikaye" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/AcilisPaneli" unique_id=1168405153]
+layout_mode = 2
+text = "Kral babamız bir savaşta hayatını kaybetti. Şimdi Divan toplanacak ve yeni hükümdarı seçecek. Gözler sana çevrildi."
+autowrap_mode = 3
+
+[node name="SiradakiAdim" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/AcilisPaneli" unique_id=618154220]
+layout_mode = 2
+text = "Cinsiyet seçimi ve Tahta Çık düğmesi 1.12 görevinde eklenecek."
+autowrap_mode = 3
+
+[node name="OyunPaneli" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller" unique_id=476910171]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Baslik" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/OyunPaneli" unique_id=512105215]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Kart ekranı"
+autowrap_mode = 3
+
+[node name="Aciklama" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/OyunPaneli" unique_id=277593930]
+layout_mode = 2
+text = "Henüz kart destesi bağlanmadı.
+
+Sıradaki adımlar: dört gösterge (1.8), yerel deste (1.9), kart görünümü (1.10) ve kaydırma (1.11)."
+autowrap_mode = 3
+
+[node name="SonucPaneli" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller" unique_id=1053019647]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Baslik" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/SonucPaneli" unique_id=1320030397]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Kararın sonucu"
+autowrap_mode = 3
+
+[node name="Aciklama" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/SonucPaneli" unique_id=1394197288]
+layout_mode = 2
+text = "Henüz bir karar verilmedi.
+
+Seçilen kararın sonuç cümlesi, sayısal etkiler ve Devam Et düğmesi 2.5 görevinde bağlanacak."
+autowrap_mode = 3
+
+[node name="SonPaneli" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller" unique_id=2056609788]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Baslik" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/SonPaneli" unique_id=1145215408]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Hükümdarlığın sonu"
+autowrap_mode = 3
+
+[node name="Aciklama" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/SonPaneli" unique_id=1362633439]
+layout_mode = 2
+text = "Henüz oyun sonu hesaplanmıyor.
+
+Sekiz farklı son ve Yeniden Dene düğmesi 2.6 görevinde bağlanacak. Hedef yıla ulaşma sonu 3.8 görevinde eklenecek."
+autowrap_mode = 3

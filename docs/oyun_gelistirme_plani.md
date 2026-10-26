@@ -51,11 +51,11 @@ Bu belge, oyun ekibinin sırayla uygulayacağı çalışma planıdır. Merkezî 
 - [ ] İki oyun ekibi üyesi projeyi kendi bilgisayarında açıp C# çıktısını doğrulasın.
 - [ ] Godot motor geçişi ve merkezî belgelerin güncellenmesi ekip toplantısında teyit edilsin.
 - [ ] **G0 Android erken denemesi** yapılsın: aşağıdaki risk kapısı.
-- [ ] `1.7` tek ana sahne ve ekran panelleri kurulsun.
+- [ ] `1.7` tek ana sahne ve ekran panelleri: yerel uygulama hazır (`Sahneler/Oyun.tscn`, `OyunEkranlari.cs`), üç boyutta headless/grafik test geçti. İkinci geliştiricinin bilgisayarı ve gerçek giriş kontrolleri bekliyor; görev henüz kapalı değil.
 - [ ] `1.8` oyun durumu ve dört gösterge uygulansın.
 - [ ] `1.9` on kartlık yerel örnek deste okunsun.
 
-Henüz kart ekranı, kaydırma, kayıt, model bağlantısı veya APK tamamlanmış değildir. Onay kutuları ancak PR + test kanıtıyla işaretlenir.
+Dört panelin geliştirme önizlemesi oluşturuldu; henüz kart gösterimi, kaydırma, kayıt, model bağlantısı veya APK tamamlanmış değildir. Onay kutuları ancak PR + test kanıtıyla işaretlenir.
 
 ### G0 · Android C# risk kapısı — ek teknik öneri
 
@@ -71,7 +71,9 @@ Kaynak: [Godot Android dışa aktarma](https://docs.godotengine.org/en/stable/tu
 
 ## 4. Ekip ve devir takvimi
 
-Görevler kişi başına parçalanmaz; **başkan + yardımcı eşli çalışır**. Sahne dosyalarının çakışmaması için o an düzenleyen kişi ekipte belirtilir.
+Merkezî plana göre **başkan + yardımcı eşli çalışır**; aynı alandaki iki kişi bütün görevlerden birlikte sorumludur. Aşağıdaki kişi bazlı tablolar bu atamayı görünür kılar; işi yalnız tek kişinin bildiği parçalara ayırmaz. Sahne dosyalarının çakışmaması için o an düzenleyen kişi ekipte belirtilir.
+
+**Çalışma önerisi:** Başkan haftanın sırasını, entegrasyonu ve teslim kontrolünü yönlendirir; yardımcı uygulama, test ve belgelemeyi birlikte yürütür. Kod yazan/test eden rolleri görevler arasında değiştirilir. Bu uygulama önerisi, merkezî plandaki onaylı rol ve görev atamalarını değiştirmez.
 
 | Dönem | Tarihler | Oyun başkanı + yardımcı | Pazar teslimi |
 | --- | --- | --- | --- |
@@ -81,6 +83,124 @@ Görevler kişi başına parçalanmaz; **başkan + yardımcı eşli çalışır*
 | 4 · H7–H8 | 7 – 20 Ara | **Sokul** + Kara | Dış test, son APK ve oyun sunumu |
 
 Başkan pazartesiden itibaren yeni yardımcıya mevcut durumu anlatır. Çarşamba öğle arası toplantısında engeller konuşulur. Dönem raporları **Docs deposundaki** `raporlar/donem-N-oyun.md` dosyasına yazılır: 8 Kas Kara, 22 Kas Muhammed, 6 Ara Mert, 20 Ara Sokul.
+
+### 4.1 Hafta hafta kişi bazlı görev dağılımı
+
+Bu bölüm **dört kişinin bütün haftasını** gösterir. Oyun görevlerinin ayrıntılı kabul ölçütleri bölüm 6'dadır; YZ görevlerinin ayrıntıları merkezî yol haritasındadır ve **AI reposunda** uygulanır. Tablodaki görev aralıkları başkan ile yardımcının **ortak sorumluluğudur**. Bunlar yapılacak iş atamalarıdır, tamamlanma kaydı değildir.
+
+#### Hazırlık · 22–25 Ekim — eksikse H1 başında tamamlanır
+
+| Kişi | Sorumluluk |
+| --- | --- |
+| Mert | Koordinasyon, repo/Drive erişimleri (`Hz.1`); öğretmen hız ölçümü ve üretici çalıştırma (`Hz.3–Hz.5`); kendi kurulum/torba işleri (`Hz.2`, `Hz.6`) |
+| Sokul | Kendi kurulum eksikleri ve ortak torba hazırlığı (`Hz.2`, `Hz.6`); H1'de Mert ile YZ üretim hattına katılım |
+| Kara | Kendi kurulum eksikleri ve ortak torba hazırlığı (`Hz.2`, `Hz.6`); oyun ekibinin Godot sürüm/kurulum kontrolü |
+| Muhammed | Kendi kurulum eksikleri ve ortak torba hazırlığı (`Hz.2`, `Hz.6`); Game reposundaki C# başlangıcını Kara'ya aktarma |
+
+#### H1 · 26 Ekim – 1 Kasım
+
+| Kişi | Alan · rol / eş | Atanan görevler | Hafta içi ek sorumluluk / çıktı |
+| --- | --- | --- | --- |
+| Mert | YZ **başkanı** / Sokul | `1.1–1.6`: Kart biçimi dönüştürücüsü, 20 kart prompt denemesi, torba kontrolü, 500 hikâye + 100 kart denemesi, filtre, büyük üretim | `Hz.3` Colab hız ölçümü; gece üretimi ve sayı takibi; genel koordinasyon |
+| Sokul | YZ yardımcısı / Mert | `1.1–1.6`: Aynı üretim hattı, dönüştürücü/filtre testleri ve veri kontrolü | Mert ile Colab gece üretimi; oyun ekibine onaylı örnek kart JSON'u sağlama |
+| Kara | Oyun **başkanı** / Muhammed | `1.7–1.13`: Godot ana sahne/paneller, göstergeler, yerel kart verisi, kart ekranı, kaydırma, açılış ve oyun akışı | `G0` erken Android denemesini Muhammed ile yürütme; kendi bilgisayarında 1.7 ve gerçek giriş kontrolleri |
+| Muhammed | Oyun yardımcısı / Kara | `1.7–1.13`: Aynı oyun görevleri; mevcut sahne iskeletinden göstergelere ve kart döngüsüne ilerleme | `G0` Android araçları/cihaz denemesi ve test kanıtı; 1.7'nin yerel testlerini Kara'ya anlatma |
+
+**Herkes:** `1.0a–1.0d` kart biçimini okuma, karakter kör tahmin testi, **28 Ekim teslim sorumlusu kurası**, karar günlüğüne katkı. Torbaların ilk hâli hafta sonuna kadar kontrol edilir. **Pazar hedefi:** Oyun tarafında ilk kart kaydırılabiliyor; YZ tarafında üretim hattı çalışıyor.
+
+#### H2 · 2–8 Kasım
+
+| Kişi | Alan · rol / eş | Atanan görevler | Pazar teslimi / ek sorumluluk |
+| --- | --- | --- | --- |
+| Mert | YZ **başkanı** / Sokul | `2.1–2.4`: Veri üretimi/filtre, lisansı uygun hazır veriler, tokenizer eğitimi, `train.bin`/`val.bin` hazırlama | **8 Kas:** `donem-1-yapay-zeka.md`; veri/tokenizer konumları, çalıştırma adımları ve devir paketi; koordinasyon |
+| Sokul | YZ yardımcısı / Mert | `2.1–2.4`: Aynı veri/tokenizer işleri; eğitim verisi ve çıktı doğrulamaları | Mert ile gece üretimi; H3'te Kara'ya anlatacağı YZ hattını öğrenip devir notlarını hazırlama |
+| Kara | Oyun **başkanı** / Muhammed | `2.5–2.9`: Sonuç ekranı, sekiz son, yıl sayacı, altın set yedek destesi, modelsiz tam oyun | **8 Kas:** `donem-1-oyun.md`; sekiz son testleri ve çalışır sürüm |
+| Muhammed | Oyun yardımcısı / Kara | `2.5–2.9`: Aynı oyun görevleri; sonuç/son/yıl/deste akışını birlikte uygulama ve test etme | H3'te Mert'e anlatacağı oyun yapısını öğrenme; yarım işler ve test adımlarını Kara ile belgeleme |
+
+**Pazar hedefi:** Yedek desteyle baştan sona oynanan oyun + tokenizer/veri hazırlığı. İki başkan kendi dönem raporunu teslim eder.
+
+#### H3 · 9–15 Kasım
+
+| Kişi | Alan · rol / eş | Atanan görevler | Hafta içi ek sorumluluk / çıktı |
+| --- | --- | --- | --- |
+| Mert | Oyun yardımcısı / Muhammed | `3.7–3.10`: Rol–konu tablosu, kazanma/rekor, kayıt sistemi, oynanabilir ilk APK | Pazartesiden itibaren Muhammed'den oyun devri alma; APK/yeniden açma testlerine katılma; koordinasyon |
+| Sokul | YZ **başkanı** / Kara | `3.1–3.6`: Üretimi tamamlama, model kodu, eğitim döngüsü, 1M deneme, örnek üretimi, 10M eğitim | Pazartesiden itibaren Kara'ya YZ devri anlatma; Colab üretim/eğitim kayıtlarını takip etme |
+| Kara | YZ yardımcısı / Sokul | `3.1–3.6`: Aynı model/eğitim işleri; kodu ve denemeleri birlikte yürütme | Sokul'dan devir alma; o dönemin YZ ekibi olarak Colab işlerine katılım |
+| Muhammed | Oyun **başkanı** / Mert | `3.7–3.10`: Aynı rol–konu/kazanma/kayıt/APK işleri; entegrasyon ve kabul kontrollerini yönlendirme | Pazartesiden itibaren Mert'e oyun devri anlatma; G0'dan farklı olarak modelsiz **tam oyunun** APK'sını doğrulama |
+
+**Pazar hedefi:** Gerçek telefonda oynanabilir ilk APK; YZ tarafında 1M doğrulaması ve 10M eğitim çıktıları. Hedef yıl henüz test ayarıdır; kalıcı değer H4'te kararlaştırılır.
+
+#### H4 · 16–22 Kasım
+
+| Kişi | Alan · rol / eş | Atanan görevler | Pazar teslimi / ek sorumluluk |
+| --- | --- | --- | --- |
+| Mert | Oyun yardımcısı / Muhammed | `4.7–4.9`: Yaklaşık 42 görsel, arayüz/ses, denge testi | Tarz/lisans notları ve cihaz testlerine katkı; denge raporunu Muhammed ile hazırlama; koordinasyon |
+| Sokul | YZ **başkanı** / Kara | `4.1–4.6`: 30M eğitim, 200 kartlık sınav setini ayırma, sınav/öğretmen puanı/ezber ölçümü, 1M–10M–30M karşılaştırması | **22 Kas:** `donem-2-yapay-zeka.md`; H5 karar noktası için ölçüm tablosu/grafikleri |
+| Kara | YZ yardımcısı / Sokul | `4.1–4.6`: Aynı eğitim/ölçüm işleri; sınav kartlarının eğitimden ayrı tutulması ve sonuç kontrolü | H5'te Muhammed'e aktaracağı YZ durumunu öğrenme; ölçüm ve devir notlarına katkı |
+| Muhammed | Oyun **başkanı** / Mert | `4.7–4.9`: Aynı görsel/arayüz/ses/denge işleri; tam oyun entegrasyonu | **22 Kas:** `donem-2-oyun.md` ve `denge_testi.md`; oyun adı, hedef süre/yıl ve kart-yıl oranını toplantıya taşıma |
+
+**Herkes:** En az 10 oyunluk ekip denge testine katkı verir. Etki kademelerinin değiştirilmesi iki ekibin onayını gerektirir. **Pazar hedefi:** Görselleri/arayüzü eklenmiş APK ve ölçülebilir denge raporu; YZ model karşılaştırması hazır.
+
+#### H5 · 23–29 Kasım
+
+| Kişi | Alan · rol / eş | Atanan görevler | Hafta içi ek sorumluluk / çıktı |
+| --- | --- | --- | --- |
+| Mert | Oyun **başkanı** / Sokul | `5.4–5.6`: Godot Python istemcisi, yedek desteye geçiş, bekleme görünümü | Pazartesiden itibaren Sokul'a oyun devri; YZ ekibiyle `5.2` API sözleşmesini onaylama; koordinasyon |
+| Sokul | Oyun yardımcısı / Mert | `5.4–5.6`: Aynı bağlantı/fallback/bekleme işleri; sunucu yok/yavaş/bozuk cevap testleri | Mert'ten oyun devri alma; sahte sunucuyla istemci denemeleri |
+| Kara | YZ **başkanı** / Muhammed | `5.1–5.3`: İnce ayar 1. tur, iki ekiple `api.md`, sahte sunucu | Pazartesiden itibaren Muhammed'e YZ devri; sınav kartlarını ince ayardan dışlama; sözleşme ve sahte cevapları oyun ekibine sunma |
+| Muhammed | YZ yardımcısı / Kara | `5.1–5.3`: Aynı ince ayar/sözleşme/sahte sunucu işleri | Kara'dan devir alma; önceki oyun deneyimini API alanları ve hata/fallback senaryolarına aktarma |
+
+**Herkes:** **25 Kasım karar noktası toplantısı** — ölçümlere göre mevcut model veya B planı değerlendirilir. **Pazar hedefi:** İki ekipçe onaylı sözleşme ve sahte sunucuyla çalışan, hata halinde yerel desteye dönen oyun.
+
+#### H6 · 30 Kasım – 6 Aralık
+
+| Kişi | Alan · rol / eş | Atanan görevler | Pazar teslimi / ek sorumluluk |
+| --- | --- | --- | --- |
+| Mert | Oyun **başkanı** / Sokul | `6.5–6.6`: Gerçek model sunucusuna bağlantı, model kartlarının uzun/kısa metin görünümü | **6 Ara:** `donem-3-oyun.md`; gerçek model + fallback test kanıtı; koordinasyon |
+| Sokul | Oyun yardımcısı / Mert | `6.5–6.6`: Aynı entegrasyon/görünüm işleri; zaman aşımı, hatalı kart ve geç gelen cevap kontrolleri | H7'de Kara'ya anlatacağı oyun durumunu ve açık sorunları hazırlama |
+| Kara | YZ **başkanı** / Muhammed | `6.1–6.4`: Kart üretici, doğrulayıcı ve testleri, kısıtlı üretim, gerçek sunucu | **6 Ara:** `donem-3-yapay-zeka.md`; API uyumu, 3 sn yanıt hedefi ve model/veri konumları |
+| Muhammed | YZ yardımcısı / Kara | `6.1–6.4`: Aynı kart üretimi/doğrulama/sunucu işleri; oyun ekibiyle uçtan uca test | H7'de Mert'e anlatacağı YZ durumunu öğrenme; sunucu/model çalıştırma notlarına katkı |
+
+**Pazar hedefi:** Dizüstünde gerçek model kartlarıyla oynanan, sunucu kapanınca takılmadan yedek desteye dönen oyun; iki alanın devir raporları hazır.
+
+#### H7 · 7–13 Aralık
+
+| Kişi | Alan · rol / eş | Atanan görevler | Hafta içi ek sorumluluk / çıktı |
+| --- | --- | --- | --- |
+| Mert | YZ yardımcısı / Muhammed | `7.0y–7.3y`: İnce ayar 2. tur, son ölçüm, ölçüme dayalı iyileştirme, modelin içine bakış görseli | Muhammed'den YZ devri alma; dış oyun testi için tanıdık getirme; koordinasyon |
+| Sokul | Oyun **başkanı** / Kara | `7.5o–7.6o`: En az beş ekip dışı oyuncuyla test, önemli hataları düzeltme ve denge | Pazartesiden itibaren Kara'ya oyun devri; `oyun_testi.md` gözlemlerini derleme; tanıdık oyuncu getirme |
+| Kara | Oyun yardımcısı / Sokul | `7.5o–7.6o`: Aynı dış test/hata/denge işleri; gözlem ve tekrar üretim adımları | Sokul'dan oyun devri alma; tanıdık oyuncu getirme ve düzeltmelerin tekrar testi |
+| Muhammed | YZ **başkanı** / Mert | `7.0y–7.3y`: Aynı ikinci ince ayar/ölçüm/iyileştirme/iç bakış işleri | Pazartesiden itibaren Mert'e YZ devri; 200 sınav kartını ince ayardan dışlama; tanıdık oyuncu getirme |
+
+**`7.4y` için Mert + Muhammed:** Yalnız zorunlu işler bitmişse ve ekip onaylarsa ayrı ONNX/Godot fizibilitesine bakılır. Eski Unity Sentis maddesi Godot'ta uygulanmış veya zorunlu sayılmaz. **Pazar hedefi:** Dış test raporu, kritik hata düzeltmeleri ve son model ölçümleri.
+
+#### H8 · 14–20 Aralık
+
+| Kişi | Alan · rol / eş | Atanan görevler | Pazar teslimi / ek sorumluluk |
+| --- | --- | --- | --- |
+| Mert | YZ yardımcısı / Muhammed | `8.3`, `8.4`: Dizüstü offline model kurulumu ve model sunumu; oyun ekibiyle entegrasyon | Model çalıştırma/yedek gösterim hazırlığı; `8.5b` tam prova; koordinasyon |
+| Sokul | Oyun **başkanı** / Kara | `8.1`, `8.2`, `8.5`: Cila, son offline APK, oyun sunumu; `8.3` ortak dizüstü kurulumu | **20 Ara:** `donem-4-oyun.md`; teslim sorumlusuyla APK kontrolü ve `8.6` README'ye katkı |
+| Kara | Oyun yardımcısı / Sokul | `8.1`, `8.2`, `8.5`: Aynı cila/APK/oyun sunumu işleri; `8.3` ortak kurulum | Gerçek cihazda offline tam oyun, APK tekrar testi ve `8.5b` tam prova |
+| Muhammed | YZ **başkanı** / Mert | `8.3`, `8.4`: Aynı offline sunum kurulumu, 1M→30M/ölçüm/iç bakış sunum bölümü | **20 Ara:** `donem-4-yapay-zeka.md`; model bölümü teslimi ve `8.5b` tam prova |
+
+**Teslim sorumlusu (28 Ekim kurasında belirlenecek):** Oyun ekibiyle `8.2` son APK kontrolü, `8.6` nihai README ve teslim paketi takibi. Bu belge bu rolü kura yapılmadan bir kişiye atamaz. **Son teslim:** 20 Aralık; çalışan APK, dizüstü gösterimi, sunum ve son dönem raporları.
+
+### 4.2 Her hafta herkesin kişisel sorumluluğu
+
+Aşağıdaki işler yukarıdaki teknik görevlere **ek olarak** her hafta sürer:
+
+| Kişi | Altın set üretimi | Çapraz okuma | Sürekli rol |
+| --- | --- | --- | --- |
+| Mert | Günde ~11 / haftada ~78 **iyi kart** | Sokul'un kartlarını okur | Koordinatör; erişim/bağımlılık/karar takibini yürütür |
+| Sokul | Günde ~11 / haftada ~78 **iyi kart** | Kara'nın kartlarını okur | O haftaki alanda eşli geliştirme ve PR incelemesi |
+| Kara | Günde ~11 / haftada ~78 **iyi kart** | Muhammed'in kartlarını okur | O haftaki alanda eşli geliştirme ve PR incelemesi |
+| Muhammed | Günde ~11 / haftada ~78 **iyi kart** | Mert'in kartlarını okur | O haftaki alanda eşli geliştirme ve PR incelemesi |
+
+- Herkes **çarşamba öğle arası toplantısına** katılır; engel ve kararları paylaşır. Karar günlüğünü koordinatör günceller.
+- Kartı üreten kişi kendi kartına nihai “iyi/at” onayı vermez. Hedef kabul edilmiş iyi karttır; elenenler için ek üretim gerekebilir.
+- O haftanın YZ ikilisi Colab üretim/eğitim işlerini kendi hesaplarıyla yürütür; gece işleri oyun ekibine sessizce devredilmez.
+- Herkes değişikliklerini PR ve test kanıtıyla paylaşır; kod yazan ile inceleyen aynı kişi olmaz. Tercihen diğer alandan biri inceler; inceleme gecikirse başkan/koordinatörle planlanır.
+- Dönem sonunda raporu başkan yazar; yardımcı test/çalıştırma/devir notlarını sağlar. Merkezî `Docs/raporlar/` dosyaları o repoda güncellenir.
 
 ## 5. Godot uygulama yapısı — öneri
 
@@ -250,7 +370,7 @@ dotnet build game/Game.csproj
 
 F5: ana sahne; F6: açık sahne. Oynanış testi F5 ile yapılır. Muhammed'in bilgisayarına özgü editör komutu [README](../README.md) içindedir; `.tools` diğer arkadaşlarda otomatik var sayılmaz.
 
-**Henüz otomatik oyun test projesi yok.** İlk çekirdek mantık PR'ında test yaklaşımı seçilip çalıştırma komutu README'ye eklenir. Test projesi olmadan `dotnet test` çalıştırmak testlerin varlığını/başarısını kanıtlamaz. Çekirdek hesaplar için otomatik, sahne/giriş/telefon için manuel test birlikte kullanılır.
+**Ayrı otomatik çekirdek oyun test projesi henüz yok.** `1.7` için Godot içinde çalışan `Testler/SahneIskeletiTesti.tscn` eklendi; komutu ve sınırları Game README içindedir. Bu test panel sinyalleri/görünürlük/yerleşimi kontrol eder, gerçek klavye/dokunmatik girişini veya oyun kurallarını test etmez. İlk çekirdek mantık PR'ında o mantığın test yaklaşımı seçilip çalıştırma komutu README'ye eklenir. Test projesi olmadan `dotnet test` çalıştırmak testlerin varlığını/başarısını kanıtlamaz. Çekirdek hesaplar için otomatik, sahne/giriş/telefon için manuel test birlikte kullanılır.
 
 Her ilgili PR'da şu senaryoların sonucu yazılır:
 

@@ -18,7 +18,7 @@ Godot .NET editörü ve dışa aktarma şablonları resmî sürüm arşivinden a
 1. .NET SDK'yı kurun: https://dotnet.microsoft.com/download/dotnet/10.0
 2. Godot **.NET** sürümünü indirip arşivden çıkarın; beraberindeki `GodotSharp` klasörünü koruyun.
 3. Godot proje yöneticisinde `game/project.godot` dosyasını içe aktarın.
-4. Projeyi derleyip F6/F5 ile başlangıç sahnesini çalıştırın. Konsolda `C# ortamı hazır` görülmelidir. Henüz oyun arayüzü yoktur; boş pencere beklenir.
+4. Projeyi derleyip **F5** ile `Sahneler/Oyun.tscn` ana sahnesini çalıştırın. Geliştirme önizlemesinde Açılış, Oyun, Sonuç ve Son düğmeleri panelleri değiştirir; henüz oyun kuralları uygulanmaz. **F6 yalnız açık sahneyi çalıştırır**: eski `Baslangic.tscn` açıksa boş pencere ve `C# ortamı hazır` mesajı beklenir.
 
 Repo kökünden derleme:
 
@@ -40,6 +40,21 @@ Muhammed'in mevcut çalışma alanına .NET editörü, repoya dahil edilmeden `.
 - `game/Baslangic.cs`: `_Ready()` içinde C# çalışma zamanı doğrulaması.
 - `game/Baslangic.tscn`: Scriptin bağlı olduğu başlangıç sahnesi.
 - `game/project.godot`: Ana sahne, C# ve Compatibility ayarları.
+- `game/Sahneler/Oyun.tscn`: Tek ana sahne, dört panel ve geliştirme önizleme düğmeleri (1.7).
+- `game/Betikler/Arayuz/OyunEkranlari.cs`: Aynı sahnede yalnız seçili paneli gösterir; oyun durumu/etki hesabı yapmaz.
+- `game/Testler/SahneIskeletiTesti.tscn`: Üç pencere boyutunda panel geçişi ve yerleşim kontrolleri.
+
+## Sahne iskeleti testi
+
+Önce `dotnet build game/Game.csproj` çalıştırın. Muhammed'in bilgisayarında **Game repo kökünden**:
+
+```sh
+../.tools/Godot_v4.7.2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux.x86_64 --headless --path game res://Testler/SahneIskeletiTesti.tscn
+```
+
+Diğer bilgisayarlarda aynı argümanları kurulu Godot .NET çalıştırılabilir dosyasına verin. Test başarıda `SAHNE TESTİ BAŞARILI` yazar ve 0 koduyla çıkar; başarısızlıkta hata ve 1 koduyla çıkar. `--headless` olmadan çalıştırıldığında ayrıca `.godot/testler/` altında yerel ekran görüntüleri oluşturur. Bu çıktılar Git'e girmez.
+
+Kontroller: açılışta doğru panel, dört düğmenin sinyal bağlantısı, tek görünür panel/seçili düğme, geçersiz ekran seçiminin reddi ve 1152×648, 360×640, 640×360 yerleşimleri. Bu test **gerçek fare/dokunma/klavye girişini taklit etmez**; düğmenin `Pressed` sinyalini tetikler. Elle Tab/Shift+Tab, Enter/Space, fare tıklaması ve seçili düğmeye tekrar basma da denenmeli. Bu testler APK veya ikinci bilgisayar doğrulaması değildir.
 
 `.godot/`, derleme çıktıları, APK/AAB ve imzalama anahtarları Git dışında tutulur. `.cs.uid`, `.tscn`, `.csproj` ve kaynak `.import` tanımları kaynaklarla birlikte saklanır.
 
@@ -58,4 +73,5 @@ Gerekenler: aynı Godot sürümünün **.NET export templates** paketi, OpenJDK 
 - `dotnet build game/Game.csproj`: başarılı.
 - Godot .NET ile headless import: başarılı.
 - Başlangıç sahnesi headless çalıştırıldı ve C# konsol çıktısı görüldü.
-- Grafik pencere, dokunmatik ve Android APK testi henüz yapılmadı.
+- Grafik editör ve ilk C# sahnesi çalıştırıldı; 1.7 sahne iskeleti üç boyutta headless ve grafik testten geçti.
+- İkinci geliştiricinin bilgisayarı, gerçek dokunmatik/klavye etkileşimi ve Android APK henüz doğrulanmadı.
