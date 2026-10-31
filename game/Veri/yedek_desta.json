@@ -1,0 +1,74 @@
+{
+  "kartlar": [
+    {
+      "id": "O001", "konusan": "elci", "konu": "elci_gelisi",
+      "metin": "{hitap}, komşu beyliğin elçisi kapıda bekliyor. Yanında değerli kumaşlar getirmiş; fakat kabul edilmezse bu davranışı bir küçümseme sayacaklarını söylüyor. Divan, verilecek ilk sözün sınır boyundaki havayı değiştireceğini düşünüyor.",
+      "sol": { "etiket": "Elçiyi huzura kabul et", "etki": { "para": 5, "yonetim": -5 }, "sonuc": "Elçi memnun ayrıldı, fakat Divan verilen tavizden hoşlanmadı." },
+      "sag": { "etiket": "Elçiyi geri gönder", "etki": { "yonetim": 5, "para": -5 }, "sonuc": "Divan kararlılığını övdü, ancak ticaret hediyeleri kaybedildi." },
+      "kaynak": "altin_set", "lisans": "sadece_ders"
+    },
+    {
+      "id": "O026", "konusan": "sinir_beyi", "konu": "sinirda_baskin",
+      "metin": "{hitap}, sınırdaki köy gece baskınında zarar gördü. Köylüler muhafız bekliyor; iz süren askerler ise saldırganların neden geldiğini öğrenmeden yola çıkmanın yeni bir tuzağa düşürebileceğini söylüyor.",
+      "sol": { "etiket": "Köye yardım gönder", "etki": { "halk": 5, "para": -5 }, "sonuc": "Köylüler rahatladı, fakat hazine yardım yükünü hissetti." },
+      "sag": { "etiket": "Saldırıyı önce araştır", "etki": { "ordu": 5, "yonetim": -5 }, "sonuc": "İzler dikkatle toplandı, ancak köylüler yardımı gecikmiş buldu." },
+      "kaynak": "altin_set", "lisans": "sadece_ders"
+    },
+    {
+      "id": "O032", "konusan": "kale_kumandani", "konu": "asker_maasi",
+      "metin": "{hitap}, askerler üç aydır maaş alamadıkları için kışla avlusunda toplandı. Kumandan, ödenmezse nöbetlerin aksayacağını bildiriyor; Hazinedar ise bu harcamanın kış erzağını tehlikeye atacağını hatırlatıyor.",
+      "sol": { "etiket": "Askerlere maaş öde", "etki": { "ordu": 10, "para": -10 }, "sonuc": "Askerler görevlerine döndü, fakat hazine iyice hafifledi." },
+      "sag": { "etiket": "Ödemeyi sonraya bırak", "etki": { "para": 5, "ordu": -10 }, "sonuc": "Hazine korundu, ancak kışlada homurtular büyüdü." },
+      "kaynak": "altin_set", "lisans": "sadece_ders"
+    },
+    {
+      "id": "O053", "konusan": "hekim", "konu": "salgin",
+      "metin": "{hitap}, uzak köyde ateşli bir hastalık yayılıyor. Hekim temiz su ve dinlenme için ilaç götürmek istiyor; bazı aileler ise hastaları ayrı tutmanın köyü daha güvenli kılacağını düşünüyor.",
+      "sol": { "etiket": "Köye hekim gönder", "etki": { "halk": 5, "para": -5 }, "sonuc": "Hekim zamanında ulaştı, köylülerin kaygısı azaldı." },
+      "sag": { "etiket": "Hastaları ayrı tut", "etki": { "para": 5, "halk": -5 }, "sonuc": "Harcamalar azaldı, fakat aileler kendilerini yalnız bırakılmış hissetti." },
+      "kaynak": "altin_set", "lisans": "sadece_ders"
+    },
+    {
+      "id": "O056", "konusan": "ciftci", "konu": "kitlik",
+      "metin": "{hitap}, ambar önünde aç köylüler birikti. Çiftçiler hemen yiyecek dağıtılmasını isterken, bazıları tohumlukların saklanmaması hâlinde gelecek hasadın da zayıf kalacağını söylüyor.",
+      "sol": { "etiket": "Ambarlardan yiyecek dağıt", "etki": { "halk": 10, "para": -5 }, "sonuc": "Köylüler kışı daha umutlu karşıladı, ambarlar ise azaldı." },
+      "sag": { "etiket": "Tohumları hasada sakla", "etki": { "para": 5, "halk": -10 }, "sonuc": "Tohumluk korundu, fakat aç ailelerin öfkesi arttı." },
+      "kaynak": "altin_set", "lisans": "sadece_ders"
+    },
+    {
+      "id": "O059", "konusan": "koy_kethudasi", "konu": "kayip_cocuk",
+      "metin": "{hitap}, bir çocuk akşamdan beri dönmedi. Köy Kethüdası bütün köylüleri aramaya çağırmak istiyor; gözcüler ise yol ayrımlarına haberci göndermenin daha hızlı sonuç vereceğini savunuyor.",
+      "sol": { "etiket": "Köylüleri aramaya topla", "etki": { "halk": 10, "para": -5 }, "sonuc": "Köy birlikte arandı ve aile yalnız kalmadı." },
+      "sag": { "etiket": "Yollara haberci gönder", "etki": { "yonetim": 5, "halk": -5 }, "sonuc": "Arama düzenli başladı, ancak aileler daha geniş yardım bekledi." },
+      "kaynak": "altin_set", "lisans": "sadece_ders"
+    },
+    {
+      "id": "O076", "konusan": "kervan_basi", "konu": "kervan_soygunu",
+      "metin": "{hitap}, doğu yolunda bir kervan soyuldu. Kervan Başı muhafız isterken tüccarlar zararlarının karşılanmasını talep ediyor. Her iki istek de yolun güveni ve pazarın geleceği için önem taşıyor.",
+      "sol": { "etiket": "Kervana muhafız gönder", "etki": { "ordu": 5, "para": -5 }, "sonuc": "Yol daha güvenli oldu, fakat muhafızların masrafı hazineye yüklendi." },
+      "sag": { "etiket": "Zararı tüccarlara öde", "etki": { "yonetim": 5, "para": -10 }, "sonuc": "Tüccarlar saraya güven duydu, ancak hazine ciddi kayıp verdi." },
+      "kaynak": "altin_set", "lisans": "sadece_ders"
+    },
+    {
+      "id": "O080", "konusan": "ahi_ustasi", "konu": "sahte_akce",
+      "metin": "{hitap}, pazarda sahte akçeler çoğaldı. Ahi Ustası paraların toplanmasını istiyor; Hazinedar ise yeni tartı ve denetimin daha kalıcı bir çare olacağını, fakat esnafı zorlayacağını söylüyor.",
+      "sol": { "etiket": "Sahte akçeleri toplat", "etki": { "para": 5, "halk": -5 }, "sonuc": "Pazar rahatladı, ancak bazı esnaf kayıplarından yakındı." },
+      "sag": { "etiket": "Pazarı sık denetle", "etki": { "yonetim": 5, "para": -5 }, "sonuc": "Düzen güçlendi, fakat denetim masrafı arttı." },
+      "kaynak": "altin_set", "lisans": "sadece_ders"
+    },
+    {
+      "id": "O085", "konusan": "tuccar", "konu": "ticaret_yolu",
+      "metin": "{hitap}, kervanlar eşkıya korkusuyla başka yol seçiyor. Tüccar mevcut yolu güvenli kılmayı isterken, bazıları yeni bir yol açmanın gelecekte daha çok kazanç sağlayacağını söylüyor.",
+      "sol": { "etiket": "Yolu güvenli hâle getir", "etki": { "para": 5, "ordu": -5 }, "sonuc": "Kervanlar geri döndü, fakat nöbetçiler uzun süre yolda kaldı." },
+      "sag": { "etiket": "Yeni ticaret yolu aç", "etki": { "halk": 5, "para": -10 }, "sonuc": "Yeni yol umut verdi, ancak ilk masraf hazineyi zorladı." },
+      "kaynak": "altin_set", "lisans": "sadece_ders"
+    },
+    {
+      "id": "O093", "konusan": "hazinedar", "konu": "vergi_hesabi",
+      "metin": "{hitap}, vergiyi toplayan görevli aylardır hesap vermiyor. Hazinedar görevlinin sorgulanmasını istiyor; köylüler ise tüm vergilerin yeniden sayılmasının kendilerine yeni yük getireceğinden kaygılı.",
+      "sol": { "etiket": "Görevliyi sorgula", "etki": { "yonetim": 5, "para": -5 }, "sonuc": "Kayıtlar incelenmeye başladı, fakat soruşturma masraf doğurdu." },
+      "sag": { "etiket": "Vergileri yeniden saydır", "etki": { "para": 5, "halk": -5 }, "sonuc": "Eksikler bulundu, ancak köylü yeni sayımdan bunaldı." },
+      "kaynak": "altin_set", "lisans": "sadece_ders"
+    }
+  ]
+}
