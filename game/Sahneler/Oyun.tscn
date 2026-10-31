@@ -1,7 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bbnsr6mo152jg"]
+[gd_scene load_steps=3 format=3 uid="uid://bbnsr6mo152jg"]
 
 [ext_resource type="Script" uid="uid://cgcax0xjllohp" path="res://Betikler/Arayuz/OyunEkranlari.cs" id="1_ekranlar"]
 [ext_resource type="Script" path="res://Betikler/Arayuz/Gostergeler.cs" id="2_gostergeler"]
+[ext_resource type="Script" path="res://Betikler/Arayuz/KartGorunumu.cs" id="3_kart"]
 
 [node name="Oyun" type="Control" unique_id=212666902]
 layout_mode = 3
@@ -39,8 +40,8 @@ autowrap_mode = 3
 
 [node name="GelistirmeNotu" type="Label" parent="Zemin/KenarBosluklari/Duzen" unique_id=1683886456]
 layout_mode = 2
-text = "Geliştirme önizlemesi · 1.7
-Düğmeler panelleri gösterir; dört gösterge 1.8 kapsamında hazır."
+text = "Geliştirme önizlemesi · 1.10
+Düğmeler ekranları değiştirir; Oyun sekmesi yerel desteden örnek kartı gösterir."
 autowrap_mode = 3
 
 [node name="Gezinti" type="HBoxContainer" parent="Zemin/KenarBosluklari/Duzen" unique_id=953872583]
@@ -195,9 +196,41 @@ autowrap_mode = 3
 
 [node name="Aciklama" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/OyunPaneli" unique_id=277593930]
 layout_mode = 2
-text = "Henüz kart destesi bağlanmadı.
+text = "Yerel desteden gelen kart; kaydırma ve karar uygulaması sonraki görevde eklenecek."
+autowrap_mode = 3
 
-Sıradaki adımlar: dört gösterge (1.8), yerel deste (1.9), kart görünümü (1.10) ve kaydırma (1.11)."
+[node name="KartGorunumu" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/OyunPaneli"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+script = ExtResource("3_kart")
+
+[node name="KartBasligi" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/OyunPaneli/KartGorunumu"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Konuşan"
+autowrap_mode = 3
+
+[node name="KartMetni" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/OyunPaneli/KartGorunumu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Kart metni"
+autowrap_mode = 3
+
+[node name="SecenekAyirici" type="HSeparator" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/OyunPaneli/KartGorunumu"]
+layout_mode = 2
+
+[node name="SolSecenek" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/OyunPaneli/KartGorunumu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Sol seçenek"
+autowrap_mode = 3
+
+[node name="SagSecenek" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/OyunPaneli/KartGorunumu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Sağ seçenek"
 autowrap_mode = 3
 
 [node name="SonucPaneli" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller" unique_id=1053019647]

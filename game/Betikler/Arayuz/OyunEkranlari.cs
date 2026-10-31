@@ -21,6 +21,8 @@ public partial class OyunEkranlari : Control
 	{
 		Durum = new OyunDurumu();
 		GetNode<Gostergeler>("%Gostergeler").DurumuGoster(Durum);
+		var kart = new YedekDeste().KartlariYukle()[0];
+		GetNode<KartGorunumu>("%KartGorunumu").KartiGoster(kart, "Beyim");
 
 		foreach (Ekran ekran in Enum.GetValues<Ekran>())
 		{
