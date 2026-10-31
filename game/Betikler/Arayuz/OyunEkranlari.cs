@@ -13,11 +13,15 @@ public partial class OyunEkranlari : Control
 	}
 
 	public Ekran AktifEkran { get; private set; }
+	public OyunDurumu Durum { get; private set; }
 
 	private readonly Dictionary<Ekran, (Control Panel, Button Dugme)> _ekranlar = new();
 
 	public override void _Ready()
 	{
+		Durum = new OyunDurumu();
+		GetNode<Gostergeler>("%Gostergeler").DurumuGoster(Durum);
+
 		foreach (Ekran ekran in Enum.GetValues<Ekran>())
 		{
 			var panel = GetNode<Control>($"%{ekran}Paneli");

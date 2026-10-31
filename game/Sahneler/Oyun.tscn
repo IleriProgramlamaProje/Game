@@ -1,6 +1,7 @@
-[gd_scene format=3 uid="uid://bbnsr6mo152jg"]
+[gd_scene load_steps=2 format=3 uid="uid://bbnsr6mo152jg"]
 
 [ext_resource type="Script" uid="uid://cgcax0xjllohp" path="res://Betikler/Arayuz/OyunEkranlari.cs" id="1_ekranlar"]
+[ext_resource type="Script" path="res://Betikler/Arayuz/Gostergeler.cs" id="2_gostergeler"]
 
 [node name="Oyun" type="Control" unique_id=212666902]
 layout_mode = 3
@@ -39,7 +40,7 @@ autowrap_mode = 3
 [node name="GelistirmeNotu" type="Label" parent="Zemin/KenarBosluklari/Duzen" unique_id=1683886456]
 layout_mode = 2
 text = "Geliştirme önizlemesi · 1.7
-Düğmeler panelleri gösterir; henüz oyun başlatmaz."
+Düğmeler panelleri gösterir; dört gösterge 1.8 kapsamında hazır."
 autowrap_mode = 3
 
 [node name="Gezinti" type="HBoxContainer" parent="Zemin/KenarBosluklari/Duzen" unique_id=953872583]
@@ -81,6 +82,73 @@ text = "Son"
 
 [node name="Ayirici" type="HSeparator" parent="Zemin/KenarBosluklari/Duzen" unique_id=1589296702]
 layout_mode = 2
+
+[node name="Gostergeler" type="HBoxContainer" parent="Zemin/KenarBosluklari/Duzen"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_constants/separation = 12
+script = ExtResource("2_gostergeler")
+
+[node name="Yonetim" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Gostergeler"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="YonetimEtiketi" type="Label" parent="Zemin/KenarBosluklari/Duzen/Gostergeler/Yonetim"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Yönetim: 50"
+
+[node name="YonetimCubugu" type="ProgressBar" parent="Zemin/KenarBosluklari/Duzen/Gostergeler/Yonetim"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 50.0
+show_percentage = false
+
+[node name="Halk" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Gostergeler"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HalkEtiketi" type="Label" parent="Zemin/KenarBosluklari/Duzen/Gostergeler/Halk"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Halk: 50"
+
+[node name="HalkCubugu" type="ProgressBar" parent="Zemin/KenarBosluklari/Duzen/Gostergeler/Halk"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 50.0
+show_percentage = false
+
+[node name="Para" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Gostergeler"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ParaEtiketi" type="Label" parent="Zemin/KenarBosluklari/Duzen/Gostergeler/Para"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Para: 50"
+
+[node name="ParaCubugu" type="ProgressBar" parent="Zemin/KenarBosluklari/Duzen/Gostergeler/Para"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 50.0
+show_percentage = false
+
+[node name="Ordu" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Gostergeler"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OrduEtiketi" type="Label" parent="Zemin/KenarBosluklari/Duzen/Gostergeler/Ordu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Ordu: 50"
+
+[node name="OrduCubugu" type="ProgressBar" parent="Zemin/KenarBosluklari/Duzen/Gostergeler/Ordu"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 50.0
+show_percentage = false
 
 [node name="Icerik" type="ScrollContainer" parent="Zemin/KenarBosluklari/Duzen" unique_id=1234107022]
 unique_name_in_owner = true
