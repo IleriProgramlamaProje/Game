@@ -16,13 +16,14 @@ public partial class OyunEkranlari : Control
 	public OyunDurumu Durum { get; private set; }
 
 	private readonly Dictionary<Ekran, (Control Panel, Button Dugme)> _ekranlar = new();
+	private Kart _ilkKart = null;
 
 	public override void _Ready()
 	{
 		Durum = new OyunDurumu();
 		GetNode<Gostergeler>("%Gostergeler").DurumuGoster(Durum);
-		var kart = new YedekDeste().KartlariYukle()[0];
-		GetNode<KartGorunumu>("%KartGorunumu").KartiGoster(kart, "Beyim");
+		_ilkKart = new YedekDeste().KartlariYukle()[0];
+		GetNode<AcilisEkrani>("%AcilisPaneli").TahtaCikildi += OyunuBaslat;
 
 		foreach (Ekran ekran in Enum.GetValues<Ekran>())
 		{
@@ -33,6 +34,12 @@ public partial class OyunEkranlari : Control
 		}
 
 		EkraniGoster(Ekran.Acilis);
+	}
+
+	private void OyunuBaslat(string hitap)
+	{
+		GetNode<KartGorunumu>("%KartGorunumu").KartiGoster(_ilkKart, hitap);
+		EkraniGoster(Ekran.Oyun);
 	}
 
 	// Bu gezinti yalnızca 1.7 ekran iskeletini incelemek içindir; oyun kuralı uygulamaz.

@@ -1,8 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bbnsr6mo152jg"]
+[gd_scene load_steps=4 format=3 uid="uid://bbnsr6mo152jg"]
 
 [ext_resource type="Script" uid="uid://cgcax0xjllohp" path="res://Betikler/Arayuz/OyunEkranlari.cs" id="1_ekranlar"]
 [ext_resource type="Script" path="res://Betikler/Arayuz/Gostergeler.cs" id="2_gostergeler"]
 [ext_resource type="Script" path="res://Betikler/Arayuz/KartGorunumu.cs" id="3_kart"]
+[ext_resource type="Script" path="res://Betikler/Arayuz/AcilisEkrani.cs" id="4_acilis"]
 
 [node name="Oyun" type="Control" unique_id=212666902]
 layout_mode = 3
@@ -45,6 +46,7 @@ Düğmeler ekranları değiştirir; Oyun sekmesi yerel desteden örnek kartı g�
 autowrap_mode = 3
 
 [node name="Gezinti" type="HBoxContainer" parent="Zemin/KenarBosluklari/Duzen" unique_id=953872583]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 8
 
@@ -165,6 +167,7 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 16
+script = ExtResource("4_acilis")
 
 [node name="Baslik" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/AcilisPaneli" unique_id=1422182147]
 layout_mode = 2
@@ -177,10 +180,49 @@ layout_mode = 2
 text = "Kral babamız bir savaşta hayatını kaybetti. Şimdi Divan toplanacak ve yeni hükümdarı seçecek. Gözler sana çevrildi."
 autowrap_mode = 3
 
-[node name="SiradakiAdim" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/AcilisPaneli" unique_id=618154220]
+[node name="BaslaDugmesi" type="Button" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/AcilisPaneli"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-text = "Cinsiyet seçimi ve Tahta Çık düğmesi 1.12 görevinde eklenecek."
+text = "Başla"
+
+[node name="CinsiyetSecimi" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/AcilisPaneli"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Baslik" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/AcilisPaneli/CinsiyetSecimi"]
+layout_mode = 2
+text = "Hükümdarını seç"
 autowrap_mode = 3
+
+[node name="Secenekler" type="HBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/AcilisPaneli/CinsiyetSecimi"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ErkekDugmesi" type="Button" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/AcilisPaneli/CinsiyetSecimi/Secenekler"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Erkek"
+
+[node name="KadinDugmesi" type="Button" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/AcilisPaneli/CinsiyetSecimi/Secenekler"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Kadın"
+
+[node name="TahtaCikDugmesi" type="Button" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/AcilisPaneli/CinsiyetSecimi"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+disabled = true
+text = "Tahta Çık"
 
 [node name="OyunPaneli" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller" unique_id=476910171]
 unique_name_in_owner = true
