@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class KartGorunumu : VBoxContainer
+public partial class KartGorunumu : KaydirmaKontrolu
 {
 	private Label _baslik = null;
 	private Label _metin = null;
@@ -10,6 +10,7 @@ public partial class KartGorunumu : VBoxContainer
 
 	public override void _Ready()
 	{
+		base._Ready();
 		_baslik = GetNode<Label>("%KartBasligi");
 		_metin = GetNode<Label>("%KartMetni");
 		_solSecenek = GetNode<Label>("%SolSecenek");
@@ -22,5 +23,6 @@ public partial class KartGorunumu : VBoxContainer
 		_metin.Text = MetinYerlestirici.Yerlestir(kart.Metin, hitap);
 		_solSecenek.Text = $"Sol: {kart.Sol.Etiket}";
 		_sagSecenek.Text = $"Sağ: {kart.Sag.Etiket}";
+		SecenekleriHazirla(kart.Sol, kart.Sag);
 	}
 }

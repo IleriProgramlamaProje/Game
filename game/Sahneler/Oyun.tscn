@@ -201,6 +201,7 @@ autowrap_mode = 3
 
 [node name="KartGorunumu" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/OyunPaneli"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 240)
 layout_mode = 2
 theme_override_constants/separation = 12
 script = ExtResource("3_kart")
@@ -231,6 +232,13 @@ autowrap_mode = 3
 unique_name_in_owner = true
 layout_mode = 2
 text = "Sağ seçenek"
+autowrap_mode = 3
+
+[node name="KaydirmaOnizleme" type="Label" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller/OyunPaneli/KartGorunumu"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="SonucPaneli" type="VBoxContainer" parent="Zemin/KenarBosluklari/Duzen/Icerik/Paneller" unique_id=1053019647]
