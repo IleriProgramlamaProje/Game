@@ -18,7 +18,9 @@ Godot .NET editörü ve dışa aktarma şablonları resmî sürüm arşivinden a
 1. .NET SDK'yı kurun: https://dotnet.microsoft.com/download/dotnet/10.0
 2. Godot **.NET** sürümünü indirip arşivden çıkarın; beraberindeki `GodotSharp` klasörünü koruyun.
 3. Godot proje yöneticisinde `game/project.godot` dosyasını içe aktarın.
-4. Projeyi derleyip **F5** ile `Sahneler/Oyun.tscn` ana sahnesini çalıştırın. Geliştirme önizlemesinde Açılış, Oyun, Sonuç ve Son düğmeleri panelleri değiştirir; henüz oyun kuralları uygulanmaz. **F6 yalnız açık sahneyi çalıştırır**: eski `Baslangic.tscn` açıksa boş pencere ve `C# ortamı hazır` mesajı beklenir.
+4. Projeyi derleyip **F5** ile `Sahneler/Oyun.tscn` ana sahnesini çalıştırın. Hükümdarını seçip **Tahta Çık** düğmesine basın; kartı kaydırın veya karar düğmelerini kullanın. Sonuçtan **Devam Et** ile ilerleyin. Bir gösterge 0/100 olduğunda ilgili son açılır; **Yeniden Dene** yeni hükümdar seçimine döner. Her beş kabul edilmiş karar bir yıldır. **F6 yalnız açık sahneyi çalıştırır**: eski `Baslangic.tscn` açıksa boş pencere ve `C# ortamı hazır` mesajı beklenir.
+
+Mevcut yerel sürüm on örnek kartla ağ bağlantısı olmadan oynanır. Bunlar çapraz okumadan geçmiş altın set değildir. [H2 durum ve devir notu](docs/h2_durum.md), kalan ekip/veri işlerini; [veri notu](game/Veri/README.md), deste biçimini ve tema kaynağını açıklar.
 
 Repo kökünden derleme:
 
@@ -40,9 +42,12 @@ Muhammed'in mevcut çalışma alanına .NET editörü, repoya dahil edilmeden `.
 - `game/Baslangic.cs`: `_Ready()` içinde C# çalışma zamanı doğrulaması.
 - `game/Baslangic.tscn`: Scriptin bağlı olduğu başlangıç sahnesi.
 - `game/project.godot`: Ana sahne, C# ve Compatibility ayarları.
-- `game/Sahneler/Oyun.tscn`: Tek ana sahne, dört panel ve geliştirme önizleme düğmeleri (1.7).
-- `game/Betikler/Arayuz/OyunEkranlari.cs`: Aynı sahnede yalnız seçili paneli gösterir; oyun durumu/etki hesabı yapmaz.
-- `game/Testler/SahneIskeletiTesti.tscn`: Üç pencere boyutunda panel geçişi ve yerleşim kontrolleri.
+- `game/Sahneler/Oyun.tscn`: Açılış, kart, sonuç ve son panelleri.
+- `game/Betikler/Arayuz/OyunEkranlari.cs`: Veri yükleme, gösterge/sonuç/son sunumu, giriş ve ekran odağı.
+- `game/Betikler/Cekirdek/`: Godot'tan bağımsız gösterge hesabı, oyun akışı, yıl sayacı ve sekiz son kontrolü.
+- `game/Betikler/Kartlar/`: Kart doğrulama, yerel deste, tema ve oturum boyunca sabit karakter adları/hitap.
+- `game/Testler/SahneIskeletiTesti.tscn`: H1 çekirdek, fare/dokunma/klavye ve üç boyutta yerleşim kontrolleri.
+- `game/Testler/H2OyunTesti.tscn`: Sekiz son, sonuç ekranı, yıl sayacı, yeniden oyun ve bozuk desteden toparlanma.
 
 ## Sahne iskeleti testi
 
@@ -52,9 +57,17 @@ Muhammed'in mevcut çalışma alanına .NET editörü, repoya dahil edilmeden `.
 ../.tools/Godot_v4.7.2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux.x86_64 --headless --path game res://Testler/SahneIskeletiTesti.tscn
 ```
 
-Diğer bilgisayarlarda aynı argümanları kurulu Godot .NET çalıştırılabilir dosyasına verin. Test başarıda `SAHNE TESTİ BAŞARILI` yazar ve 0 koduyla çıkar; başarısızlıkta hata ve 1 koduyla çıkar. `--headless` olmadan çalıştırıldığında ayrıca `.godot/testler/` altında yerel ekran görüntüleri oluşturur. Bu çıktılar Git'e girmez.
+Diğer bilgisayarlarda aynı argümanları kurulu Godot .NET çalıştırılabilir dosyasına verin. Test başarıda `H1 TESTLERİ BAŞARILI` yazar ve 0 koduyla çıkar; başarısızlıkta hata ve 1 koduyla çıkar. `--headless` olmadan çalıştırıldığında ayrıca `.godot/testler/` altında yerel ekran görüntüleri oluşturur. Bu çıktılar Git'e girmez.
 
-Kontroller: açılışta doğru panel, dört düğmenin sinyal bağlantısı, tek görünür panel/seçili düğme, geçersiz ekran seçiminin reddi ve 1152×648, 360×640, 640×360 yerleşimleri. Bu test **gerçek fare/dokunma/klavye girişini taklit etmez**; düğmenin `Pressed` sinyalini tetikler. Elle Tab/Shift+Tab, Enter/Space, fare tıklaması ve seçili düğmeye tekrar basma da denenmeli. Bu testler APK veya ikinci bilgisayar doğrulaması değildir.
+Kontroller: kart/deste doğrulama, başlangıç ve sınırlar, hitap/isimler, eski/çift girişin reddi; Godot viewport'una sentetik fare, çoklu dokunma ve Enter girdisi; 1152×648, 360×640, 640×360 yerleşimleri. Fiziksel dokunmatik, ikinci bilgisayar ve APK doğrulaması ayrıca gerekir.
+
+H2 testi için aynı derlemeden sonra:
+
+```sh
+../.tools/Godot_v4.7.2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux.x86_64 --headless --path game res://Testler/H2OyunTesti.tscn
+```
+
+Başarı çıktısı `H2 TESTLERİ BAŞARILI` ve çıkış kodu 0'dır. Bu test kontrollü desteleri geçici `user://` dosyasına yazar ve temizler; proje destesini değiştirmez. Boş deste testi sırasında üç adet `Deste boş olamaz` uyarısı beklenir. Grafik modunda `.godot/testler/h2/` altına sekiz son ve sonuç ekranları kaydedilir. Linux'ta ekransız grafik kontrolü için komutun başına `xvfb-run -a` eklenebilir ve `--headless` kaldırılır.
 
 `.godot/`, derleme çıktıları, APK/AAB ve imzalama anahtarları Git dışında tutulur. `.cs.uid`, `.tscn`, `.csproj` ve kaynak `.import` tanımları kaynaklarla birlikte saklanır.
 

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Testler/H2OyunTesti.cs" id="1"]
+
+[node name="H2OyunTesti" type="Node"]
+script = ExtResource("1")

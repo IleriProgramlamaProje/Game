@@ -1,6 +1,6 @@
 # Oyun Geliştirme Planı · Godot + C#
 
-**Takvim:** 26 Ekim – 20 Aralık 2026 · **Son güncelleme:** 26 Ekim 2026
+**Takvim:** 26 Ekim – 20 Aralık 2026 · **Son güncelleme:** 2 Kasım 2026
 
 Bu belge, oyun ekibinin sırayla uygulayacağı çalışma planıdır. Merkezî `Docs` deposundaki oyun kapsamını, görev numaralarını, tarihleri ve rotasyonu korur; Unity'ye özgü uygulama adımlarını **Godot + C#** karşılıklarına uyarlar. Bir görev burada yazıyor diye uygulanmış sayılmaz.
 
@@ -52,10 +52,10 @@ Bu belge, oyun ekibinin sırayla uygulayacağı çalışma planıdır. Merkezî 
 - [ ] Godot motor geçişi ve güncellenen merkezî belgeler ekip toplantısında teyit edilsin.
 - [ ] **G0 Android erken denemesi** yapılsın: aşağıdaki risk kapısı.
 - [ ] `1.7` tek ana sahne ve ekran panelleri: yerel uygulama hazır (`Sahneler/Oyun.tscn`, `OyunEkranlari.cs`), üç boyutta headless/grafik test geçti. İkinci geliştiricinin bilgisayarı ve gerçek giriş kontrolleri bekliyor; görev henüz kapalı değil.
-- [ ] `1.8` oyun durumu ve dört gösterge uygulansın.
-- [ ] `1.9` on kartlık yerel örnek deste okunsun.
+- [ ] `1.8` oyun durumu ve dört gösterge: yerel uygulama ve otomatik sınır testleri hazır; inceleme/birleşme bekliyor.
+- [ ] `1.9` on kartlık yerel örnek deste okunuyor; bozuk veri ve başa dönüş testleri hazır; inceleme/birleşme bekliyor.
 
-Dört panelin geliştirme önizlemesi oluşturuldu; henüz kart gösterimi, kaydırma, kayıt, model bağlantısı veya APK tamamlanmış değildir. Onay kutuları ancak PR + test kanıtıyla işaretlenir.
+Yerel H1/H2 uygulamasında kart gösterimi, kaydırma, sonuç, sekiz son ve yıl sayacı örnek desteyle çalışır. Onaylı altın set, kayıt, model bağlantısı ve tam oyun APK doğrulaması bekler. Ayrıntılar [H2 durum notundadır](h2_durum.md). Onay kutuları ancak PR + test kanıtıyla işaretlenir.
 
 ### G0 · Android C# risk kapısı — ek teknik öneri
 
@@ -267,6 +267,8 @@ Ortak işler `1.0a–1.0d`: kart biçimini okuma, 23 rol için kör tahmin testi
 
 ### H2 · 2 – 8 Kasım — modelsiz tam oyun
 
+**2 Kasım yerel durum:** 2.5–2.7 uygulandı, 2.9 örnek desteyle doğrulandı. 2.8'in kod bağlantısı hazır; çapraz okunmuş veri bekleniyor. Ekip incelemesi ve birleşme tamamlanmadığı için kutular açık kalır; [test/devir notuna](h2_durum.md) bakın.
+
 | Durum | Kod | İş | Bitti sayılması için | Ön koşul |
 | --- | --- | --- | --- | --- |
 | [ ] | 2.5 | `SonucEkrani` | Seçilen sonucun cümlesi + işaretli sayılar + Devam Et; diğer seçeneğin sonucu görünmez | 1.13 |
@@ -370,7 +372,7 @@ dotnet build game/Game.csproj
 
 F5: ana sahne; F6: açık sahne. Oynanış testi F5 ile yapılır. Muhammed'in bilgisayarına özgü editör komutu [README](../README.md) içindedir; `.tools` diğer arkadaşlarda otomatik var sayılmaz.
 
-**Ayrı otomatik çekirdek oyun test projesi henüz yok.** `1.7` için Godot içinde çalışan `Testler/SahneIskeletiTesti.tscn` eklendi; komutu ve sınırları Game README içindedir. Bu test panel sinyalleri/görünürlük/yerleşimi kontrol eder, gerçek klavye/dokunmatik girişini veya oyun kurallarını test etmez. İlk çekirdek mantık PR'ında o mantığın test yaklaşımı seçilip çalıştırma komutu README'ye eklenir. Test projesi olmadan `dotnet test` çalıştırmak testlerin varlığını/başarısını kanıtlamaz. Çekirdek hesaplar için otomatik, sahne/giriş/telefon için manuel test birlikte kullanılır.
+Çekirdek ve sahne testleri Godot içinde `Testler/SahneIskeletiTesti.tscn` ve `Testler/H2OyunTesti.tscn` ile çalışır; komutları [README](../README.md) içindedir. H1 testi gösterge/kart/oturum mantığını ve viewport'a gönderilen sentetik fare/dokunma/Enter girdilerini, H2 testi sonuç/son/yıl/yeniden oyun ve hatalı desteyi kontrol eder. İkisi de üç pencere boyutunda denenir. Ayrı `dotnet test` projesi yoktur; bu komut test kanıtı sayılmaz. Fiziksel dokunmatik, ikinci bilgisayar ve APK ayrıca doğrulanmalıdır.
 
 Her ilgili PR'da şu senaryoların sonucu yazılır:
 

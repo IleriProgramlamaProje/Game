@@ -1,0 +1,232 @@
+[
+  {
+    "konusan": "hazinedar",
+    "konu": "kopru",
+    "metin": "{hitap}, çayın üzerindeki eski köprü çökmek üzere. Kervanlar geçemezse pazar boş kalacak; ustalar onarım için hazineden yardım bekliyor. Köylüler de haber göndermiş.",
+    "sol": {
+      "etiket": "Köprüyü hemen onar",
+      "etki": {
+        "para": -10,
+        "halk": 5
+      },
+      "sonuc": "Ustalar köprüyü sağlamlaştırdı; köylüler pazara yeniden ulaşabildi."
+    },
+    "sag": {
+      "etiket": "Geçişten akçe topla",
+      "etki": {
+        "halk": -5,
+        "para": 5
+      },
+      "sonuc": "Köprü onarıldı, fakat yeni geçiş bedeli köylülerin canını sıktı."
+    },
+    "kaynak": "model",
+    "lisans": "sadece_ders"
+  },
+  {
+    "konusan": "koy_kethudasi",
+    "konu": "hasat",
+    "metin": "Dolu, köyün buğdayını yere serdi. Ailelerin kışlık erzağı azaldı; komşu köyler ellerindeki tohumu ancak bir bedel karşılığında paylaşabileceklerini söylüyor. Köylüler saraydan yardım bekliyor.",
+    "sol": {
+      "etiket": "Tohumu hazineden al",
+      "etki": {
+        "para": -10,
+        "halk": 10
+      },
+      "sonuc": "Yeni tohumlar köylülere ulaştı, hazine ise hafifledi."
+    },
+    "sag": {
+      "etiket": "Askerin erzağını paylaş",
+      "etki": {
+        "ordu": -10,
+        "halk": 5
+      },
+      "sonuc": "Köylüler doydu, askerler azalan paylarına söylendi."
+    },
+    "kaynak": "model",
+    "lisans": "sadece_ders"
+  },
+  {
+    "konusan": "kale_kumandani",
+    "konu": "sur",
+    "metin": "{hitap}, doğu surundaki taşlar yerinden oynamış. Nöbetçiler yağmurlu gecelerde o bölümü tutmakta zorlanıyor; ustalar sağlam taş ve birkaç günlük işçi desteği istiyor.",
+    "sol": {
+      "etiket": "Ustalara akçe ayır",
+      "etki": {
+        "para": -10,
+        "ordu": 10
+      },
+      "sonuc": "Sur sağlamlaştı, nöbetçiler görevlerine daha rahat çıktı."
+    },
+    "sag": {
+      "etiket": "Köylüyü onarıma çağır",
+      "etki": {
+        "halk": -10,
+        "ordu": 5
+      },
+      "sonuc": "Sur onarıldı ama köylünün tarladaki işi gecikti."
+    },
+    "kaynak": "model",
+    "lisans": "sadece_ders"
+  },
+  {
+    "konusan": "kadi",
+    "konu": "su",
+    "metin": "İki köy aynı pınarın suyunu istiyor. Eski kayıtlar birbirini tutmuyor; her iki taraf da tarlalarının kuruyacağını söyleyerek adamlarını pınarın başında bekletiyor, {hitap}.",
+    "sol": {
+      "etiket": "Suyu sırayla paylaştır",
+      "etki": {
+        "yonetim": -5,
+        "halk": 5
+      },
+      "sonuc": "Köyler sıraya razı oldu; eski hükmü savunan Divan üyeleri hoşnutsuz kaldı."
+    },
+    "sag": {
+      "etiket": "Yeni bir kuyu kazdır",
+      "etki": {
+        "para": -15,
+        "halk": 10
+      },
+      "sonuc": "Yeni kuyuyla kavga duruldu, fakat kazı hazineden çok akçe götürdü."
+    },
+    "kaynak": "model",
+    "lisans": "sadece_ders"
+  },
+  {
+    "konusan": "tuccar",
+    "konu": "pazar",
+    "metin": "Uzak yoldan getirdiğim kumaşlar han avlusunda bekliyor. Pazara giriş akçesi yükselirse malları başka yere götüreceğim; burada alışveriş yapanlar da bu kumaşları arıyor, {hitap}.",
+    "sol": {
+      "etiket": "Giriş akçesini azalt",
+      "etki": {
+        "para": -5,
+        "halk": 5
+      },
+      "sonuc": "Mallar pazara indi; alışveriş arttı ama hazine daha az pay aldı."
+    },
+    "sag": {
+      "etiket": "Akçeyi aynı tut",
+      "etki": {
+        "halk": -5,
+        "para": 5
+      },
+      "sonuc": "Hazine payını aldı, pahalı kumaşlar halkın hoşuna gitmedi."
+    },
+    "kaynak": "model",
+    "lisans": "sadece_ders"
+  },
+  {
+    "konusan": "hekim",
+    "konu": "hastalik",
+    "metin": "{hitap}, aşağı mahallede birçok kişi ateş içinde yatıyor. Şifalı otlarımız tükeniyor; komşu kasabadan getirilecek otlar için atlı ve akçe gerekiyor. Aileler kapımızda bekliyor.",
+    "sol": {
+      "etiket": "Otları hemen getir",
+      "etki": {
+        "para": -10,
+        "halk": 10
+      },
+      "sonuc": "Otlar hastalara yetişti; hazine bu yardımla biraz daha azaldı."
+    },
+    "sag": {
+      "etiket": "Ordu hekimlerini gönder",
+      "etki": {
+        "ordu": -5,
+        "halk": 5
+      },
+      "sonuc": "Mahalleye yardım ulaştı, kışladaki bakım işleri yavaşladı."
+    },
+    "kaynak": "model",
+    "lisans": "sadece_ders"
+  },
+  {
+    "konusan": "kervan_basi",
+    "konu": "yol",
+    "metin": "Dağ geçidinde eşkıya görülmüş. Kervanı yola çıkarırsak mallar tehlikeye girecek; beklersek pazardaki tezgâhlar boş kalacak. Yolcular kararınızı handa bekliyor, {hitap}, vakit daralıyor.",
+    "sol": {
+      "etiket": "Kervana asker ver",
+      "etki": {
+        "ordu": -5,
+        "para": 10
+      },
+      "sonuc": "Kervan pazara ulaştı; geçitteki görev askerleri yordu."
+    },
+    "sag": {
+      "etiket": "Geçişi şimdilik durdur",
+      "etki": {
+        "para": -10,
+        "ordu": 5
+      },
+      "sonuc": "Mallar handa kaldı, askerler kalenin savunmasına döndü."
+    },
+    "kaynak": "model",
+    "lisans": "sadece_ders"
+  },
+  {
+    "konusan": "vezir",
+    "konu": "divan",
+    "metin": "{hitap}, uzak beyler aynı buyruğu farklı yorumlamış. Divan yeni bir yazı göndermemizi istiyor; ulakların yolu uzun, köylerde ise hangi kurala uyulacağı tartışılıyor.",
+    "sol": {
+      "etiket": "Her yere ulak gönder",
+      "etki": {
+        "para": -5,
+        "yonetim": 10
+      },
+      "sonuc": "Buyruk açıkça duyuruldu; ulakların yol masrafı hazineden ödendi."
+    },
+    "sag": {
+      "etiket": "Beylere karar hakkı ver",
+      "etki": {
+        "yonetim": -10,
+        "halk": 5
+      },
+      "sonuc": "Köylerde işler hızlandı, Divanın sözü uzaklarda zayıfladı."
+    },
+    "kaynak": "model",
+    "lisans": "sadece_ders"
+  },
+  {
+    "konusan": "ciftci",
+    "konu": "kanal",
+    "metin": "Tarlanın yanındaki su yolu çamurla doldu. Komşularla temizlemeye çalıştık ama taşları kaldıramadık; hasat gelmeden yardım bulamazsak ektiğimiz buğday kuruyacak. Bize bir yol gösterin, {hitap}.",
+    "sol": {
+      "etiket": "İşçilere ücret öde",
+      "etki": {
+        "para": -10,
+        "halk": 10
+      },
+      "sonuc": "Su yolu açıldı, buğday yeniden canlandı."
+    },
+    "sag": {
+      "etiket": "Askerleri kazıya gönder",
+      "etki": {
+        "ordu": -10,
+        "halk": 5
+      },
+      "sonuc": "Kanal temizlendi, askerlerin talimi yarım kaldı."
+    },
+    "kaynak": "model",
+    "lisans": "sadece_ders"
+  },
+  {
+    "konusan": "ahi_ustasi",
+    "konu": "cirak",
+    "metin": "Çarşıdaki ustalar yeni çırak almak istiyor. Yoksul aileler çocuklarını gönderecek, fakat ilk yılın aletlerini karşılayamıyor. Birkaç tezgâh bu yüzden kapalı bekliyor; yardımınızı umuyoruz, {hitap}.",
+    "sol": {
+      "etiket": "Aletleri hazineden karşıla",
+      "etki": {
+        "para": -10,
+        "halk": 5
+      },
+      "sonuc": "Çıraklar işe başladı; aletlerin bedeli hazineden çıktı."
+    },
+    "sag": {
+      "etiket": "Ustalardan pay iste",
+      "etki": {
+        "halk": -5,
+        "para": 5
+      },
+      "sonuc": "Ustalar paylarını ödedi, fakat bu yükten yakındılar."
+    },
+    "kaynak": "model",
+    "lisans": "sadece_ders"
+  }
+]

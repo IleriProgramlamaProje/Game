@@ -1,0 +1,372 @@
+{
+  "_not": "1 Kasım 2026. Gösterge adı Yönetim (eski adı Senato). 23 rol, kimlik kartlarıyla. Derviş, Ozan ve Kervan Başı kimlikleri 1 Kasım'da sadeleşti (dua, mecaz, güvenlik çıktı).",
+  "tema": "Türk tarzı krallık (Kral, Divan; Türk-İslam kültürü)",
+  "hitap": {
+    "erkek": "Beyim",
+    "kadin": "Hatunum"
+  },
+  "gostergeler": {
+    "liste": [
+      "yonetim",
+      "halk",
+      "para",
+      "ordu"
+    ],
+    "baslangic": 50,
+    "alt_sinir": 0,
+    "ust_sinir": 100
+  },
+  "etki_kademeleri": {
+    "+": 5,
+    "++": 10,
+    "+++": 15,
+    "-": -5,
+    "--": -10,
+    "---": -15
+  },
+  "sonlar": {
+    "yonetim_0": {
+      "baslik": "Divan Kardeşi Seçti",
+      "metin": "Divan, senin yerine kardeşini tahta çıkarmaya karar verdi. Güç artık senin elinden alındı."
+    },
+    "yonetim_100": {
+      "baslik": "Kukla Hükümdar",
+      "metin": "Divan bütün gücü ele aldı; sen sadece adı kalan bir hükümdarsın."
+    },
+    "halk_0": {
+      "baslik": "Halk İsyanı",
+      "metin": "Artan vergiler, kıtlık ve umutların boşa çıkması halkı isyana sürükledi."
+    },
+    "halk_100": {
+      "baslik": "Halkın Sevgilisi",
+      "metin": "Halk seni öyle sevdi ki Divan kıskançlıkla seni devirdi."
+    },
+    "para_0": {
+      "baslik": "Para İsyanı",
+      "metin": "Hazine tamamen boşaldı; çarşı durdu, açlık kısa sürede büyük bir isyana dönüştü."
+    },
+    "para_100": {
+      "baslik": "Dolu Hazine",
+      "metin": "Hazine taştı; komşu krallıklar hazineye göz dikti."
+    },
+    "ordu_0": {
+      "baslik": "Ordu İsyanı",
+      "metin": "Ordu, maaşların ödenmemesi ve verilen sözlerin tutulmaması nedeniyle isyan etti."
+    },
+    "ordu_100": {
+      "baslik": "Komutanın Tahtı",
+      "metin": "Ordu fazla güçlendi; komutan tahtı ele geçirdi."
+    },
+    "kazanma": {
+      "baslik": "Altın Çağ",
+      "metin": "Hedef süreye ulaştın. Oyuncu isterse rekor için devam eder."
+    }
+  },
+  "yil": {
+    "kac_kartta_bir_yil": 5,
+    "hedef_yil": null,
+    "_not": "Denge testinde (4. hafta) belirlenecek"
+  },
+  "karakterler": [
+    {
+      "anahtar": "vezir",
+      "unvan": "Vezir",
+      "ton": "Ciddi, ölçülü, diplomatik",
+      "gorev": "Devletin genel düzenini gözetir; kararlarda uzun vadeli sonuçları düşünür.",
+      "ornek": "Bu hükmün yarın doğuracağı sonucu da düşünmeliyiz, {hitap}.",
+      "alan": "Yönetim",
+      "cinsiyet": "Erkek",
+      "sik_sozler": "düzen; yarın; ölçülü olmak; devletin selameti",
+      "asla": "Öfkeyle konuşmaz, tek bir köyün küçük derdine girmez",
+      "farki": "Başkâtip kayıt anlatır; Vezir kararın uzun vadeli sonucunu tartar"
+    },
+    {
+      "anahtar": "kadi",
+      "unvan": "Kadı",
+      "ton": "Adaletli, kesin, sorgulayıcı",
+      "gorev": "Hukuki anlaşmazlıkları değerlendirir; delil ve tarafların ifadesini arar.",
+      "ornek": "İki tarafı dinlemeden hüküm verilirse adalet eksik kalır.",
+      "alan": "Yönetim",
+      "cinsiyet": "Erkek",
+      "sik_sozler": "hak; delil; şahit; hüküm; terazi",
+      "asla": "Ordu, sefer ya da ticaret kârı konuşmaz; şaka yapmaz",
+      "farki": "Derviş gönülden konuşur; Kadı kural ve delille konuşur"
+    },
+    {
+      "anahtar": "baskatip",
+      "unvan": "Başkâtip",
+      "ton": "Resmî, titiz, ayrıntıcı",
+      "gorev": "Sarayın resmî yazışmalarını ve geçmiş kayıtlarını yönetir.",
+      "ornek": "Eski yazışmaları inceledim. Bu mesele daha önce de saraya ulaşmış.",
+      "alan": "Yönetim",
+      "cinsiyet": "Çift",
+      "sik_sozler": "kayıt; defter; eski yazışma; mühürlü belge",
+      "asla": "Kendi görüşünü dayatmaz, duygusal konuşmaz",
+      "farki": "Vezir karar önerir; Başkâtip geçmişte ne yazıldığını hatırlatır"
+    },
+    {
+      "anahtar": "saray_hatun",
+      "unvan": "Saray Hatun",
+      "ton": "Zarif, ağırbaşlı, kararlı",
+      "gorev": "Sarayın iç işlerini ve hanedanla ilgili meseleleri gözetir.",
+      "ornek": "{hitap}, sözün yumuşağı bazen kılıçtan güçlüdür.",
+      "alan": "Yönetim",
+      "cinsiyet": "Kadın",
+      "sik_sozler": "hanedan; sarayın iç düzeni; incelik; sabır",
+      "asla": "Kaba konuşmaz, savaş planı yapmaz",
+      "farki": "Vezir devleti düşünür; Saray Hatun sarayın ve hanedanın huzurunu düşünür"
+    },
+    {
+      "anahtar": "elci",
+      "unvan": "Elçi",
+      "ton": "Nazik, temkinli, ikna edici",
+      "gorev": "Başka krallıklarla görüşür; önerileri ve haberleri iletir.",
+      "ornek": "Komşu krallığın sözüne kulak vermenizi dilerim, {hitap}.",
+      "alan": "Yönetim",
+      "cinsiyet": "Çift",
+      "sik_sozler": "komşu krallık; anlaşma; haber; hediye; söz",
+      "asla": "Kendi krallığını küçümsemez, tehdit etmez",
+      "farki": "Beylerbeyi içerideki beyleri yönetir; Elçi dışarıdaki krallıklarla konuşur"
+    },
+    {
+      "anahtar": "beylerbeyi",
+      "unvan": "Beylerbeyi",
+      "ton": "Otoriter, kendinden emin, buyurgan",
+      "gorev": "Bağlı bölgelerin beylerini ve yerel idareyi koordine eder.",
+      "ornek": "Beyler aynı buyruğa uyarsa yurdun düzeni bozulmaz.",
+      "alan": "Yönetim",
+      "cinsiyet": "Erkek",
+      "sik_sozler": "beyler; buyruk; bağlılık; uzak yurtlar",
+      "asla": "Yalvarmaz, köylü gibi yakınmaz",
+      "farki": "Sınır Beyi tek bir sınırı korur; Beylerbeyi bütün bağlı beyleri yönetir"
+    },
+    {
+      "anahtar": "soytari",
+      "unvan": "Soytarı",
+      "ton": "Alaycı, nüktedan, dobra",
+      "gorev": "Saraydaki çelişkileri şaka yoluyla dile getirir; gerektiğinde yöneticiyi eleştirir.",
+      "ornek": "Herkes başını sallıyor; acaba birinin de aklı çalışıyor mu, {hitap}?",
+      "alan": "Yönetim",
+      "cinsiyet": "Erkek",
+      "sik_sozler": "acaba; herkes başını sallıyor; söyleyeyim mi; gülmek",
+      "asla": "Ciddi rapor vermez, kimseye saygıyla eğilmez",
+      "farki": "Ozan hikâyeyle süsler; Soytarı alayla gerçeği yüze vurur"
+    },
+    {
+      "anahtar": "akinci_beyi",
+      "unvan": "Akıncı Beyi",
+      "ton": "Cesur, atılgan, coşkulu",
+      "gorev": "Hızlı akınlar ve keşif seferleri önerir.",
+      "ornek": "Düşman beklemez, {hitap}; biz de geç kalmayalım.",
+      "alan": "Ordu",
+      "cinsiyet": "Erkek",
+      "sik_sozler": "akın; at; hız; düşman beklemez; ganimet",
+      "asla": "Beklemeyi ve uzun hesap yapmayı sevmez",
+      "farki": "Kale Kumandanı savunur ve bekler; Akıncı Beyi saldırmak ister"
+    },
+    {
+      "anahtar": "kale_kumandani",
+      "unvan": "Kale Kumandanı",
+      "ton": "Sert, disiplinli, tedbirli",
+      "gorev": "Kalenin genel savunmasını, erzak ve asker hazırlığını yönetir.",
+      "ornek": "Erzak dolmadan kapıları açmak tehlikelidir.",
+      "alan": "Ordu",
+      "cinsiyet": "Erkek",
+      "sik_sozler": "sur; erzak; kapı; nöbet; tedbir",
+      "asla": "Acele etmez, akın önermez",
+      "farki": "Akıncı Beyi saldırı ister; Kale Kumandanı kaleyi sağlam tutmak ister"
+    },
+    {
+      "anahtar": "gozcu_basi",
+      "unvan": "Gözcü Başı",
+      "ton": "Kısa, gözlemci, uyarıcı",
+      "gorev": "Gözcülerden haber toplar; tehlikeyi erken bildirir.",
+      "ornek": "Kuzey yolunda toz yükseliyor. Atlılar yaklaşabilir.",
+      "alan": "Ordu",
+      "cinsiyet": "Çift",
+      "sik_sozler": "toz; duman; atlılar görüldü; kuzey yolu",
+      "asla": "Uzun konuşmaz, karar vermez; sadece haber verir",
+      "farki": "Sınır Beyi ne yapılacağını söyler; Gözcü Başı ne görüldüğünü söyler"
+    },
+    {
+      "anahtar": "sinir_beyi",
+      "unvan": "Sınır Beyi",
+      "ton": "Uyanık, temkinli, sert",
+      "gorev": "Sınırdaki yerleşimleri ve geçitleri korur.",
+      "ornek": "Sınır boyunda yabancı atlılar görüldü; geçitleri tutmalıyız.",
+      "alan": "Ordu",
+      "cinsiyet": "Erkek",
+      "sik_sozler": "geçit; sınır boyu; yabancı atlı; köyleri korumak",
+      "asla": "Saray işlerine, hazine hesabına girmez",
+      "farki": "Gözcü Başı haber getirir; Sınır Beyi sınırda ne yapılacağını ister"
+    },
+    {
+      "anahtar": "koy_kethudasi",
+      "unvan": "Köy Kethüdası",
+      "ton": "Açık sözlü, yakınan, saygılı",
+      "gorev": "Köylülerin şikâyetlerini ve ortak ihtiyaçlarını saraya iletir.",
+      "ornek": "Köylünün sözü size ulaşmazsa kime ulaşır, {hitap}?",
+      "alan": "Halk",
+      "cinsiyet": "Erkek",
+      "sik_sozler": "köylü; hasat; şikâyet; saraya ulaşmak",
+      "asla": "Saray dili konuşmaz, kendi çıkarını gizlemez",
+      "farki": "Çiftçi kendi tarlasını anlatır; Köy Kethüdası bütün köyün sözcüsüdür"
+    },
+    {
+      "anahtar": "dervis",
+      "unvan": "Derviş",
+      "ton": "Sakin, mütevazı, öğüt verici",
+      "gorev": "Yoksulların durumuna dikkat çeker; merhameti öne çıkarır.",
+      "ornek": "Yoksulun sesini duymayan kale içten çöker, {hitap}.",
+      "alan": "Halk",
+      "cinsiyet": "Erkek",
+      "sik_sozler": "yoksul; merhamet; gönül; sabır; paylaşmak",
+      "asla": "Kural ve ceza konuşmaz, kimseyi suçlamaz",
+      "farki": "Kadı hükümle konuşur; Derviş gönülle ve öğütle konuşur"
+    },
+    {
+      "anahtar": "ciftci",
+      "unvan": "Çiftçi",
+      "ton": "Dertli, dürüst, doğrudan",
+      "gorev": "Ekin, toprak ve köylünün geçim sorunlarını dile getirir.",
+      "ornek": "Tohumu ektik ama yağmur gelmedi; tarlalar susuz.",
+      "alan": "Halk",
+      "cinsiyet": "Çift",
+      "sik_sozler": "tarla; tohum; yağmur; ekin; emek",
+      "asla": "Saray işlerini, savaş planını bilmez",
+      "farki": "Köy Kethüdası köyün sözcüsü; Çiftçi kendi derdini sade anlatır"
+    },
+    {
+      "anahtar": "hekim",
+      "unvan": "Hekim",
+      "ton": "Şefkatli, temkinli, açıklayıcı",
+      "gorev": "Hastalıkları gözlemler; sağlık ve temizlikle ilgili öneriler sunar.",
+      "ornek": "Hastalara temiz su ve dinlenme gerek, {hitap}.",
+      "alan": "Halk",
+      "cinsiyet": "Çift",
+      "sik_sozler": "hasta; temiz su; dinlenme; ilaç; salgın",
+      "asla": "Savaş ya da vergi önermez, korkutmak için abartmaz",
+      "farki": "Derviş ruhu düşünür; Hekim bedeni ve hastalığı düşünür"
+    },
+    {
+      "anahtar": "ozan",
+      "unvan": "Ozan",
+      "ton": "Coşkulu, duygulu, türkü seven",
+      "gorev": "Halkın sevincini ve kaygısını hikâyelerle anlatır.",
+      "ornek": "Meydanda türküler yine hüzünlü; halkın umudu azalıyor.",
+      "alan": "Halk",
+      "cinsiyet": "Çift",
+      "sik_sozler": "türkü; halkın sesi; umut; meydan; düğün",
+      "asla": "Kuru rakamla konuşmaz, kimseyi doğrudan suçlamaz",
+      "farki": "Soytarı alay eder; Ozan benzetmeyle ve türküyle anlatır"
+    },
+    {
+      "anahtar": "coban",
+      "unvan": "Çoban",
+      "ton": "Sade, içten, çekingen",
+      "gorev": "Sürülerin, otlakların ve su kaynaklarının durumunu anlatır.",
+      "ornek": "Koyunlara su bulamaz olduk. Pınar çekildi, {hitap}.",
+      "alan": "Halk",
+      "cinsiyet": "Çift",
+      "sik_sozler": "koyun; otlak; pınar; kurt; sürü",
+      "asla": "Büyük laf etmez, saray dilini bilmez",
+      "farki": "Çiftçi tarlayı anlatır; Çoban sürüyü ve otlağı anlatır"
+    },
+    {
+      "anahtar": "hazinedar",
+      "unvan": "Hazinedar",
+      "ton": "Hesapçı, ciddi, tutumlu",
+      "gorev": "Hazinenin gelir ve giderini takip eder; harcama dengesini gözetir.",
+      "ornek": "Gelir azaldı; yeni bir yük almadan önce hesabı görmeliyiz.",
+      "alan": "Para",
+      "cinsiyet": "Erkek",
+      "sik_sozler": "hazine; gelir; gider; hesap; yük",
+      "asla": "Cömert vaatte bulunmaz, hesapsız harcamayı övmez",
+      "farki": "Tüccar kendi kazancını ister; Hazinedar krallığın hazinesini korur"
+    },
+    {
+      "anahtar": "ahi_ustasi",
+      "unvan": "Ahi Ustası",
+      "ton": "Babacan, dürüst, öğüt verici",
+      "gorev": "Esnafın dürüst ticaret yapmasını ve iş ahlakını savunur.",
+      "ornek": "Hileli tartı pazarı bozar; güveni yeniden sağlamalıyız.",
+      "alan": "Para",
+      "cinsiyet": "Erkek",
+      "sik_sozler": "esnaf; dürüst tartı; çırak; iş ahlakı",
+      "asla": "Hileyi savunmaz, kaba konuşmaz",
+      "farki": "Tüccar kâr peşinde; Ahi Ustası esnafın dürüstlüğünü savunur"
+    },
+    {
+      "anahtar": "kervan_basi",
+      "unvan": "Kervan Başı",
+      "ton": "Tedbirli, deneyimli, açık sözlü",
+      "gorev": "Ticaret yollarını gözetir; kervanların yolda başına iş gelmemesine bakar.",
+      "ornek": "Yolda eşkıya varsa hiçbir kervan geçmek istemez.",
+      "alan": "Para",
+      "cinsiyet": "Erkek",
+      "sik_sozler": "yol; kervan; eşkıya; han; yük",
+      "asla": "Saray entrikasına girmez",
+      "farki": "Tüccar malını düşünür; Kervan Başı yolun selametini düşünür"
+    },
+    {
+      "anahtar": "demirci_usta",
+      "unvan": "Demirci Usta",
+      "ton": "Sert, dobra, çalışkan",
+      "gorev": "Demir işlerini, alet ve nal üretimini yönetir.",
+      "ornek": "Ocak yanmadan nal dövemeyiz; kömür gerek.",
+      "alan": "Para",
+      "cinsiyet": "Erkek",
+      "sik_sozler": "ocak; demir; kömür; nal; örs",
+      "asla": "Uzun lafı sevmez, süslü konuşmaz",
+      "farki": "Ahi Ustası esnafın ahlakını; Demirci Usta işin kendisini (ocak, demir) konuşur"
+    },
+    {
+      "anahtar": "hanci",
+      "unvan": "Hancı",
+      "ton": "Samimi, konuşkan, meraklı",
+      "gorev": "Handaki yolcuları ağırlar; yol ve ticaret haberlerini duyar.",
+      "ornek": "Handa herkes aynı söylentiyi konuşuyor; bir tuhaflık var.",
+      "alan": "Para",
+      "cinsiyet": "Çift",
+      "sik_sozler": "yolcu; söylenti; han; konuk; haber",
+      "asla": "Resmî konuşmaz, kesin hüküm vermez",
+      "farki": "Kervan Başı yolu bilir; Hancı yolculardan duyduğu söylentiyi anlatır"
+    },
+    {
+      "anahtar": "tuccar",
+      "unvan": "Tüccar",
+      "ton": "İkna edici, kurnaz, pazarlıkçı",
+      "gorev": "Mal alışverişini ve ticaretin önündeki engelleri anlatır.",
+      "ornek": "Yolu açın, mallarım pazara ulaşsın; herkes kazansın.",
+      "alan": "Para",
+      "cinsiyet": "Çift",
+      "sik_sozler": "mal; pazar; kazanç; yol açılsın; herkes kazansın",
+      "asla": "Bedavaya iş yapmaz, kendi kârını unutmaz",
+      "farki": "Hazinedar krallığın hesabını; Tüccar kendi kazancını düşünür"
+    }
+  ],
+  "karakter_acik_sorular": [],
+  "yasak_kelimeler": [
+    "bakan",
+    "bütçe",
+    "depo",
+    "ekonomi",
+    "garnizon",
+    "güvenlik",
+    "lüks",
+    "meclis",
+    "memur",
+    "müzakere",
+    "politika",
+    "proje",
+    "reform",
+    "rezervuar",
+    "sistem",
+    "telefon",
+    "temsilci",
+    "tesisat",
+    "vali"
+  ],
+  "acilis": "Kral babamız bir savaşta hayatını kaybetti. Şimdi Divan toplanacak ve yeni hükümdarı seçecek. Gözler sana çevrildi.",
+  "cinsiyet_notu": "'Çift' roller oyunda erkek de kadın da olabilir: oyun başında rastgele seçilir, isim ve portre ona göre gelir (iki portre)."
+}
