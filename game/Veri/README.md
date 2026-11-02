@@ -4,9 +4,11 @@
 
 `yedek_deste.json` şu anda **10 yerel örnek kart** içerir. Çapraz okuma yapılmış altın set değildir; `kaynak: model`, `lisans: sadece_ders` alanları değiştirilmedi. 2 Kasım'da kullanıcının örnek desteyle ilerleme tercihiyle kullanılır. `2.8` görevinin onaylı veri şartı hâlâ bekler.
 
+`yedek_desta.json`, Ömer’in `bccec30` revizyonundaki on kartlık H1 destesidir; özgün dosya adı, `id`, `kaynak: altin_set` ve `lisans: sadece_ders` etiketleri korundu. Etiketler tek başına çapraz okuma kanıtı sayılmaz. Bu deste bileşen testinde okunur; oyunun varsayılanı yukarıdaki `yedek_deste.json` dosyasıdır.
+
 ## Deste sözleşmesi ve değiştirme
 
-- Kapsayıcı boş olmayan bir **JSON dizisi**dir. Kart alanları `konusan`, `konu`, `metin`, `sol`, `sag`, `kaynak`, `lisans`tır. Seçenekler `etiket`, `etki`, `sonuc` içerir. Biçim Docs/kart_formati.md bölüm 3 ile aynıdır.
+- Varsayılan kapsayıcı boş olmayan bir **JSON dizisi**dir. Ömer’in H1 biçimi olan `{ "kartlar": [...] }` da aynı doğrulayıcıyla okunur; isteğe bağlı `id` alanı korunur. Kart alanları `konusan`, `konu`, `metin`, `sol`, `sag`, `kaynak`, `lisans`tır. Seçenekler `etiket`, `etki`, `sonuc` içerir. Biçim Docs/kart_formati.md bölüm 3 ile aynıdır.
 - Rol tema listesinde bulunmalı; metin 20–50, karar 2–5 kelime olmalı. Her karar 1–3 göstergeyi ±5/10/15 etkiler ve en az bir negatif etki içerir. Boş sonuç, tanınmayan alan ve bozuk veri reddedilir.
 - Kartlar dosya sırasıyla dolaşır; son karttan sonra ilk karta dönülür. Yeni oyun ilk karttan başlar. Bu H1'den gelen deneme davranışıdır; ekipçe onaylanmış nihai tekrar politikası değildir.
 - Onaylı deste geldiğinde `AI/data/altin_set/yedek_deste.json` dosyasını buraya kopyalayın; kaynak/lisans alanlarını değiştirmeyin. `Oyun` kökünün Inspector'daki `DesteYolu` alanı alternatif bir paketlenmiş JSON dosyasını da seçebilir.

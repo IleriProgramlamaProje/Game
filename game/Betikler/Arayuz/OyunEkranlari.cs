@@ -14,16 +14,15 @@ public partial class OyunEkranlari : Control
 	private Tema _tema;
 	private MetinYerlestirici _metin;
 	private long _gosterilenKart;
-	private KaydirmaKontrolu _kart;
-	private readonly Dictionary<string, ProgressBar> _cubuklar = new();
+	private KartGorunumu _kart;
 	private T Bul<T>(string ad) where T : Node => GetNode<T>("%" + ad);
 
 	public override void _Ready()
 	{
-		_kart = Bul<KaydirmaKontrolu>("KartAlani");
+		_kart = Bul<KartGorunumu>("KartAlani");
 		_kart.Onizleme += Onizle;
-		_kart.Secildi += KararVer;
-		Bul<Button>("Baslat").Pressed += Baslat;
+		_kart.KararOnaylandi += taraf => KararVer(taraf == KartTarafi.Sag);
+		Bul<AcilisEkrani>("AcilisPaneli").TahtaCikildi += Baslat;
 		Bul<Button>("SolKarar").Pressed += () => KararVer(false);
 		Bul<Button>("SagKarar").Pressed += () => KararVer(true);
 		Bul<Button>("Devam").Pressed += () => { if (Oyun?.DevamEt() == true) Guncelle(); };
@@ -33,12 +32,10 @@ public partial class OyunEkranlari : Control
 			Oyun?.AcilisaDon();
 			_metin = null;
 			_gosterilenKart = 0;
-			Bul<OptionButton>("Cinsiyet").Select(0);
+			Bul<AcilisEkrani>("AcilisPaneli").Sifirla();
 			EkraniGoster(Ekran.Acilis);
 		};
 		Bul<Button>("TekrarYukle").Pressed += Yukle;
-		foreach (string anahtar in Gostergeler.Siralama)
-			_cubuklar.Add(anahtar, Bul<ProgressBar>(anahtar + "Cubuk"));
 		Resized += Yerlesim;
 		Yerlesim();
 		Yukle();
@@ -78,10 +75,9 @@ public partial class OyunEkranlari : Control
 			Bul<Label>("HataMetni").Text = "Oyun verisi okunamadı. Tema ve deste dosyalarını kontrol edip yeniden deneyin.";
 		}
 	}
-	private void Baslat()
+	private void Baslat(Hukumdar hukumdar)
 	{
 		if (Oyun == null || AktifEkran != Ekran.Acilis) return;
-		var hukumdar = Bul<OptionButton>("Cinsiyet").Selected == 0 ? Hukumdar.Bey : Hukumdar.Hatun;
 		_metin = new MetinYerlestirici(_tema.Karakterler, hukumdar, Random.Shared);
 		Oyun.Baslat(hukumdar);
 		Guncelle();
@@ -113,21 +109,13 @@ public partial class OyunEkranlari : Control
 	}
 	private void Guncelle()
 	{
-		foreach (var (anahtar, cubuk) in _cubuklar)
-		{
-			int deger = Oyun.Durum.Gostergeler.Degerler[anahtar];
-			cubuk.Value = deger;
-			Bul<Label>(anahtar + "Deger").Text = $"{Gostergeler.Ad(anahtar)}  {deger}";
-		}
+		Bul<Krallik.Arayuz.Gostergeler>("Gostergeler").DurumuGoster(Oyun.Durum);
 		Bul<Label>("KararSayisi").Text = $"Tahtta geçen yıl: {Oyun.Durum.Zaman.TamamlananYil} · Karar: {Oyun.Durum.KararSayisi}";
 		switch (Oyun.Asama)
 		{
 			case Asama.Kart:
 				_gosterilenKart = Oyun.KartKimligi;
-				Bul<Label>("KartBasligi").Text = _metin.Baslik(Oyun.AktifKart.Konusan);
-				Bul<Label>("KartMetni").Text = _metin.Yerlestir(Oyun.AktifKart.Metin);
-				Bul<Button>("SolKarar").Text = _metin.Yerlestir(Oyun.AktifKart.Sol.Etiket);
-				Bul<Button>("SagKarar").Text = _metin.Yerlestir(Oyun.AktifKart.Sag.Etiket);
+				_kart.KartiGoster(Oyun.AktifKart, _metin);
 				EkraniGoster(Ekran.Oyun);
 				break;
 			case Asama.Sonuc:

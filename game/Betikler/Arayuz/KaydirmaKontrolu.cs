@@ -1,10 +1,12 @@
 using Godot;
 using System;
 
+public enum KartTarafi { Sol, Sag }
+
 public partial class KaydirmaKontrolu : PanelContainer
 {
     public event Action<float> Onizleme;
-    public event Action<bool> Secildi;
+    public event Action<KartTarafi> KararOnaylandi;
     public bool Etkin { get; set; }
     private int? _isaretci;
     private Vector2 _baslangic;
@@ -60,14 +62,28 @@ public partial class KaydirmaKontrolu : PanelContainer
         Onizleme?.Invoke(Mathf.Clamp(fark.X / Esik, -1, 1));
         if (_yatay) GetViewport().SetInputAsHandled();
     }
-    private void Bitir(Vector2 konum, bool iptal)
+    private KartTarafi? Bitir(Vector2 konum, bool iptal)
     {
+        if (_isaretci == null || !Etkin) return null;
         float dx = konum.X - _baslangic.X;
         bool sec = !iptal && Mathf.Abs(dx) >= Esik && Mathf.Abs(dx) > Mathf.Abs(konum.Y - _baslangic.Y);
         Iptal(); // Çağrı ekranı değiştirirse eski parmak/fare durumu kalmasın.
         GetViewport().SetInputAsHandled();
-        if (sec) Secildi?.Invoke(dx > 0);
+        if (!sec) return null;
+        var taraf = dx > 0 ? KartTarafi.Sag : KartTarafi.Sol;
+        KararOnaylandi?.Invoke(taraf);
+        return taraf;
     }
+    // Programatik kullanım ve bileşen testleri de gerçek girişle aynı yolu izler.
+    public void SuruklemeyiBaslat(float x)
+    {
+        if (Etkin && _isaretci == null) Basla(-1, new Vector2(x, 0));
+    }
+    public void SuruklemeyiGuncelle(float x)
+    {
+        if (Etkin && _isaretci != null) Hareket(new Vector2(x, 0));
+    }
+    public KartTarafi? SuruklemeyiBitir(float x) => Bitir(new Vector2(x, 0), false);
     public void Iptal()
     {
         _isaretci = null;

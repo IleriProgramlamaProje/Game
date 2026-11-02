@@ -15,6 +15,7 @@ public sealed class Gostergeler
     };
     private readonly Dictionary<string, int> _degerler = Siralama.ToDictionary(x => x, _ => 50);
     public IReadOnlyDictionary<string, int> Degerler => new ReadOnlyDictionary<string, int>(_degerler);
+    public event Action<string, int> GostergeDegisti;
     public bool Sinirda => _degerler.Values.Any(x => x == 0 || x == 100);
 
     public static void EtkiyiDogrula(IReadOnlyDictionary<string, int> etki)
@@ -27,6 +28,7 @@ public sealed class Gostergeler
     {
         EtkiyiDogrula(etki); // Tamamını doğrulamadan hiçbir değeri değiştirme.
         foreach (var (anahtar, fark) in etki) _degerler[anahtar] = Math.Clamp(_degerler[anahtar] + fark, 0, 100);
+        foreach (var anahtar in etki.Keys) GostergeDegisti?.Invoke(anahtar, _degerler[anahtar]);
     }
 }
 

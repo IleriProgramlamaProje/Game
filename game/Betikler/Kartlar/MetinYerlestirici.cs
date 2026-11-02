@@ -52,22 +52,15 @@ public sealed record KarakterKimligi(string Unvan, string Isim, string Cinsiyet,
 
 public sealed class MetinYerlestirici
 {
-    private readonly Dictionary<string, KarakterKimligi> _kimlikler = new();
+    private readonly OturumKarakterleri _karakterler;
     private readonly Hukumdar _hukumdar;
-    private static readonly string[] ErkekAdlari = ["Yakup", "Osman", "Turgut", "Ali", "Yunus", "Orhan", "Selim", "Murat", "Sinan", "Kemal", "İlyas", "Ömer"];
-    private static readonly string[] KadinAdlari = ["Ayşe", "Elif", "Zeynep", "Selma", "Ayla", "İpek", "Suna", "Aslı", "Gül", "Dilek", "Esma", "Bahar"];
     public MetinYerlestirici(IEnumerable<Rol> roller, Hukumdar hukumdar, Random rastgele)
     {
+        _karakterler = new OturumKarakterleri(roller, rastgele);
         _hukumdar = hukumdar;
-        foreach (var rol in roller)
-        {
-            string cinsiyet = rol.Cinsiyet == "Çift" ? (rastgele.Next(2) == 0 ? "Erkek" : "Kadın") : rol.Cinsiyet;
-            var adlar = cinsiyet == "Erkek" ? ErkekAdlari : KadinAdlari;
-            _kimlikler.Add(rol.Anahtar, new(rol.Unvan, adlar[rastgele.Next(adlar.Length)], cinsiyet,
-                rol.Anahtar + (rol.Cinsiyet == "Çift" ? (cinsiyet == "Erkek" ? "_erkek" : "_kadin") : "")));
-        }
     }
-    public KarakterKimligi Kimlik(string rol) => _kimlikler[rol];
-    public string Baslik(string rol) => $"{Kimlik(rol).Unvan} {Kimlik(rol).Isim}";
-    public string Yerlestir(string metin) => metin.Replace("{hitap}", _hukumdar == Hukumdar.Bey ? "Beyim" : "Hatunum");
+    public KarakterKimligi Kimlik(string rol) => _karakterler.Kimlik(rol);
+    public string Baslik(string rol) => _karakterler.Baslik(rol);
+    public static string Yerlestir(string metin, string hitap) => metin.Replace("{hitap}", hitap);
+    public string Yerlestir(string metin) => Yerlestir(metin, _hukumdar == Hukumdar.Bey ? "Beyim" : "Hatunum");
 }

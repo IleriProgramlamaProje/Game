@@ -44,7 +44,9 @@ Muhammed'in mevcut çalışma alanına .NET editörü, repoya dahil edilmeden `.
 - `game/project.godot`: Ana sahne, C# ve Compatibility ayarları.
 - `game/Sahneler/Oyun.tscn`: Açılış, kart, sonuç ve son panelleri.
 - `game/Betikler/Arayuz/OyunEkranlari.cs`: Veri yükleme, gösterge/sonuç/son sunumu, giriş ve ekran odağı.
-- `game/Betikler/Cekirdek/`: Godot'tan bağımsız gösterge hesabı, oyun akışı, yıl sayacı ve sekiz son kontrolü.
+- `game/Betikler/Oyun/OyunDurumu.cs`: Godot'tan bağımsız gösterge değerleri, değişim bildirimleri ve oyun akışı.
+- `game/Betikler/Cekirdek/`: Yıl sayacı ve sekiz son kontrolü.
+- `game/Betikler/Arayuz/AcilisEkrani.cs`, `Gostergeler.cs`, `KartGorunumu.cs`: Ana sahnede kullanılan açılış, gösterge ve kart bileşenleri.
 - `game/Betikler/Kartlar/`: Kart doğrulama, yerel deste, tema ve oturum boyunca sabit karakter adları/hitap.
 - `game/Testler/SahneIskeletiTesti.tscn`: H1 çekirdek, fare/dokunma/klavye ve üç boyutta yerleşim kontrolleri.
 - `game/Testler/H2OyunTesti.tscn`: Sekiz son, sonuç ekranı, yıl sayacı, yeniden oyun ve bozuk desteden toparlanma.
@@ -68,6 +70,8 @@ H2 testi için aynı derlemeden sonra:
 ```
 
 Başarı çıktısı `H2 TESTLERİ BAŞARILI` ve çıkış kodu 0'dır. Bu test kontrollü desteleri geçici `user://` dosyasına yazar ve temizler; proje destesini değiştirmez. Boş deste testi sırasında üç adet `Deste boş olamaz` uyarısı beklenir. Grafik modunda `.godot/testler/h2/` altına sekiz son ve sonuç ekranları kaydedilir. Linux'ta ekransız grafik kontrolü için komutun başına `xvfb-run -a` eklenebilir ve `--headless` kaldırılır.
+
+Ömer'in H1 bileşen testleri de birleşik sahneye uyarlanmıştır. Aynı Godot komutunda son argüman olarak sırasıyla `res://Testler/OyunDurumuTesti.tscn`, `YedekDesteTesti.tscn`, `KartGorunumuTesti.tscn`, `KaydirmaKontroluTesti.tscn`, `AcilisEkraniTesti.tscn` ve `OyunAkisiTesti.tscn` kullanın (her dosya `res://Testler/` altındadır). Yedek deste testi hem JSON dizi destesini hem Ömer'in `kartlar` kapsayıcılı, kimlik içeren destesini doğrular.
 
 `.godot/`, derleme çıktıları, APK/AAB ve imzalama anahtarları Git dışında tutulur. `.cs.uid`, `.tscn`, `.csproj` ve kaynak `.import` tanımları kaynaklarla birlikte saklanır.
 

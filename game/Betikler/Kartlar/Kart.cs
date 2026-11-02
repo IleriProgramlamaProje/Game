@@ -15,6 +15,9 @@ public sealed record Secenek
 
 public sealed record Kart
 {
+    [JsonPropertyName("id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string Id { get; init; }
     [JsonPropertyName("konusan")] public string Konusan { get; init; }
     [JsonPropertyName("konu")] public string Konu { get; init; }
     [JsonPropertyName("metin")] public string Metin { get; init; }
@@ -41,42 +44,4 @@ public sealed record Kart
             Gostergeler.EtkiyiDogrula(secenek.Etki);
         }
     }
-}
-
-public interface IKartKaynagi
-{
-    Kart Sonraki();
-    void Sifirla();
-}
-
-// H1 örnek destesi dosya sırasıyla dolaşılır; son karttan sonra başa döner.
-public sealed class YedekDeste : IKartKaynagi
-{
-    private readonly Kart[] _kartlar;
-    private int _sira;
-    public int Adet => _kartlar.Length;
-    public YedekDeste(string json, IReadOnlySet<string> roller)
-    {
-        try
-        {
-            _kartlar = JsonSerializer.Deserialize<Kart[]>(json, new JsonSerializerOptions
-            {
-                UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow
-            });
-            if (_kartlar == null || _kartlar.Length == 0) throw new FormatException("Deste boş olamaz.");
-            foreach (var kart in _kartlar)
-            {
-                if (kart == null) throw new FormatException("Deste boş kart içeriyor.");
-                kart.Dogrula(roller);
-            }
-        }
-        catch (JsonException hata) { throw new FormatException("Deste JSON biçimi okunamadı.", hata); }
-    }
-    public Kart Sonraki()
-    {
-        var kart = _kartlar[_sira];
-        _sira = (_sira + 1) % _kartlar.Length;
-        return kart;
-    }
-    public void Sifirla() => _sira = 0;
 }

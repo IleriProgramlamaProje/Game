@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://bbnsr6mo152jg"]
+[gd_scene load_steps=6 format=3 uid="uid://bbnsr6mo152jg"]
 
 [ext_resource type="Script" path="res://Betikler/Arayuz/OyunEkranlari.cs" id="1"]
-[ext_resource type="Script" path="res://Betikler/Arayuz/KaydirmaKontrolu.cs" id="2"]
+[ext_resource type="Script" path="res://Betikler/Arayuz/KartGorunumu.cs" id="2"]
 [ext_resource type="Texture2D" path="res://Gorseller/tac_yer_tutucu.svg" id="3"]
+
+[ext_resource type="Script" path="res://Betikler/Arayuz/AcilisEkrani.cs" id="4"]
+[ext_resource type="Script" path="res://Betikler/Arayuz/Gostergeler.cs" id="5"]
 
 [node name="Oyun" type="Control"]
 layout_mode = 3
@@ -75,6 +78,7 @@ text = "Veriyi yeniden yükle"
 autowrap_mode = 3
 
 [node name="Gostergeler" type="VBoxContainer" parent="Icerik/Bosluk/Duzen"]
+script = ExtResource("5")
 unique_name_in_owner = true
 layout_mode = 2
 visible = false
@@ -175,6 +179,7 @@ show_percentage = false
 mouse_filter = 2
 
 [node name="AcilisPaneli" type="VBoxContainer" parent="Icerik/Bosluk/Duzen"]
+script = ExtResource("4")
 unique_name_in_owner = true
 layout_mode = 2
 visible = true
