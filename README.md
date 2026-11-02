@@ -36,6 +36,17 @@ Muhammed'in mevcut çalışma alanına .NET editörü, repoya dahil edilmeden `.
 
 Önceden açık standart Steam editörünü projeyi kaydederek kapatın; aynı projeyi iki editörde eşzamanlı düzenlemeyin.
 
+## Arayüz görselleri
+
+Kullanıcının sağladığı paket `game/Assets/ui/` altındadır. Açılış, kart, sonuç ve son ekranları lacivert kumaş zemin, altın çerçeveler ve parşömen okuma alanlarıyla ortak `krallik_tema.tres` temasını kullanır. Türkçe Noto Serif ve sembol yedeği lisanslarıyla paketlenmiştir. [Arayüz notu](docs/arayuz_assets.md) görsel eşleşmeleri ve kapsamı açıklar.
+
+PNG kaynakları **Git LFS** ile saklanır. Git LFS kurulu bir bilgisayarda klonlama/güncelleme sonrasında:
+
+```sh
+git lfs install
+git lfs pull
+```
+
 ## İlk C# dosyaları
 
 - `game/Game.csproj`: Godot .NET SDK ve hedef framework.

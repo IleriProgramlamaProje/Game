@@ -21,7 +21,7 @@ public partial class KaydirmaKontrolu : PanelContainer
     }
     public override void _Draw()
     {
-        if (HasFocus()) DrawRect(new Rect2(Vector2.Zero, Size), new Color(0.8f, 0.82f, 0.85f), false, 1);
+        if (HasFocus()) DrawRect(new Rect2(Vector2.Zero, Size), new Color(0.29f, 0.17f, 0.06f), false, 2);
     }
     public override void _ExitTree() => GetWindow().FocusExited -= Iptal;
 

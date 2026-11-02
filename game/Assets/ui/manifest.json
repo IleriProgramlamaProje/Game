@@ -1,0 +1,17 @@
+{
+  "version": "1.1",
+  "root": "res://Assets/ui",
+  "item_count": 97,
+  "atlas_count": 7,
+  "note": "Original raster resolution; not enlarged",
+  "categories": {
+    "cards": 10,
+    "icons": 24,
+    "tabs_labels": 17,
+    "widgets": 16,
+    "buttons": 10,
+    "panels_frames": 12,
+    "atlases": 7,
+    "backgrounds": 8
+  }
+}

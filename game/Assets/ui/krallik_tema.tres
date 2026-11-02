@@ -1,0 +1,231 @@
+[gd_resource type="Theme" load_steps=26 format=3]
+
+[ext_resource type="FontFile" path="res://Assets/ui/fonts/NotoSerif-Regular.ttf" id="govde"]
+[ext_resource type="FontFile" path="res://Assets/ui/fonts/NotoSerif-Bold.ttf" id="baslik"]
+[ext_resource type="Texture2D" path="res://Assets/ui/buttons/button_04.png" id="dugme"]
+[ext_resource type="Texture2D" path="res://Assets/ui/buttons/button_10.png" id="birincil"]
+[ext_resource type="Texture2D" path="res://Assets/ui/cards/card_frame_07.png" id="kart"]
+[ext_resource type="Texture2D" path="res://Assets/ui/panels_frames/panel_frame_03.png" id="bant"]
+
+[ext_resource type="FontFile" path="res://Assets/ui/fonts/DejaVuSans.ttf" id="semboller"]
+
+[sub_resource type="FontVariation" id="Govde"]
+base_font = ExtResource("govde")
+fallbacks = Array[Font]([ExtResource("semboller")])
+
+[sub_resource type="FontVariation" id="Baslik"]
+base_font = ExtResource("baslik")
+fallbacks = Array[Font]([ExtResource("semboller")])
+
+[sub_resource type="StyleBoxTexture" id="Dugme"]
+content_margin_left = 32.0
+content_margin_top = 14.0
+content_margin_right = 32.0
+content_margin_bottom = 14.0
+texture = ExtResource("dugme")
+texture_margin_left = 28.0
+texture_margin_top = 28.0
+texture_margin_right = 28.0
+texture_margin_bottom = 28.0
+
+[sub_resource type="StyleBoxTexture" id="DugmeUzerinde"]
+content_margin_left = 32.0
+content_margin_top = 14.0
+content_margin_right = 32.0
+content_margin_bottom = 14.0
+texture = ExtResource("dugme")
+texture_margin_left = 28.0
+texture_margin_top = 28.0
+texture_margin_right = 28.0
+texture_margin_bottom = 28.0
+modulate_color = Color(1.25, 1.2, 1.08, 1)
+
+[sub_resource type="StyleBoxTexture" id="DugmeBasili"]
+content_margin_left = 32.0
+content_margin_top = 14.0
+content_margin_right = 32.0
+content_margin_bottom = 14.0
+texture = ExtResource("birincil")
+texture_margin_left = 36.0
+texture_margin_top = 16.0
+texture_margin_right = 36.0
+texture_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxTexture" id="DugmePasif"]
+content_margin_left = 32.0
+content_margin_top = 14.0
+content_margin_right = 32.0
+content_margin_bottom = 14.0
+texture = ExtResource("dugme")
+texture_margin_left = 28.0
+texture_margin_top = 28.0
+texture_margin_right = 28.0
+texture_margin_bottom = 28.0
+modulate_color = Color(0.55, 0.58, 0.64, 1)
+
+[sub_resource type="StyleBoxTexture" id="Birincil"]
+content_margin_left = 38.0
+content_margin_top = 14.0
+content_margin_right = 38.0
+content_margin_bottom = 14.0
+texture = ExtResource("birincil")
+texture_margin_left = 36.0
+texture_margin_top = 16.0
+texture_margin_right = 36.0
+texture_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxTexture" id="BirincilUzerinde"]
+content_margin_left = 38.0
+content_margin_top = 14.0
+content_margin_right = 38.0
+content_margin_bottom = 14.0
+texture = ExtResource("birincil")
+texture_margin_left = 36.0
+texture_margin_top = 16.0
+texture_margin_right = 36.0
+texture_margin_bottom = 16.0
+modulate_color = Color(1.23, 1.17, 1.06, 1)
+
+[sub_resource type="StyleBoxTexture" id="BirincilBasili"]
+content_margin_left = 38.0
+content_margin_top = 14.0
+content_margin_right = 38.0
+content_margin_bottom = 14.0
+texture = ExtResource("birincil")
+texture_margin_left = 36.0
+texture_margin_top = 16.0
+texture_margin_right = 36.0
+texture_margin_bottom = 16.0
+modulate_color = Color(0.83, 0.81, 0.78, 1)
+
+[sub_resource type="StyleBoxTexture" id="Kart"]
+content_margin_left = 44.0
+content_margin_top = 52.0
+content_margin_right = 44.0
+content_margin_bottom = 52.0
+texture = ExtResource("kart")
+texture_margin_left = 38.0
+texture_margin_top = 38.0
+texture_margin_right = 38.0
+texture_margin_bottom = 38.0
+
+[sub_resource type="StyleBoxTexture" id="Bant"]
+content_margin_left = 30.0
+content_margin_top = 20.0
+content_margin_right = 30.0
+content_margin_bottom = 20.0
+texture = ExtResource("bant")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxFlat" id="Odak"]
+bg_color = Color(0, 0, 0, 0)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.88, 0.56, 1)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="CubukZemin"]
+bg_color = Color(0.025, 0.045, 0.07, 1)
+border_color = Color(0.62, 0.43, 0.18, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+
+[sub_resource type="StyleBoxFlat" id="CubukDolgu"]
+bg_color = Color(0.79, 0.57, 0.25, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_left = 2
+corner_radius_bottom_right = 2
+
+[sub_resource type="StyleBoxFlat" id="Menu"]
+bg_color = Color(0.025, 0.05, 0.08, 1)
+border_color = Color(0.79, 0.57, 0.25, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="MenuOdak"]
+bg_color = Color(0.3, 0.13, 0.08, 1)
+
+[sub_resource type="StyleBoxEmpty" id="Bos"]
+
+
+[sub_resource type="StyleBoxFlat" id="Kaydirma"]
+bg_color = Color(0.63, 0.45, 0.23, 0.75)
+content_margin_left = 4.0
+content_margin_right = 4.0
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+
+[resource]
+default_font = SubResource("Govde")
+default_font_size = 18
+Label/colors/font_color = Color(0.94, 0.89, 0.77, 1)
+Label/constants/line_spacing = 4
+Banner/base_type = &"Label"
+Banner/styles/normal = SubResource("Bant")
+Banner/fonts/font = SubResource("Baslik")
+Banner/colors/font_color = Color(0.95, 0.81, 0.5, 1)
+CardPanel/base_type = &"PanelContainer"
+CardPanel/styles/panel = SubResource("Kart")
+PrimaryButton/base_type = &"Button"
+ProgressBar/styles/background = SubResource("CubukZemin")
+ProgressBar/styles/fill = SubResource("CubukDolgu")
+PopupMenu/styles/panel = SubResource("Menu")
+PopupMenu/styles/hover = SubResource("MenuOdak")
+PopupMenu/colors/font_color = Color(0.94, 0.89, 0.77, 1)
+PopupMenu/colors/font_hover_color = Color(1, 0.91, 0.69, 1)
+PopupMenu/constants/v_separation = 16
+VScrollBar/styles/scroll = SubResource("Bos")
+VScrollBar/styles/grabber = SubResource("Kaydirma")
+VScrollBar/styles/grabber_highlight = SubResource("Kaydirma")
+VScrollBar/styles/grabber_pressed = SubResource("Kaydirma")
+Button/styles/normal = SubResource("Dugme")
+Button/styles/hover = SubResource("DugmeUzerinde")
+Button/styles/pressed = SubResource("DugmeBasili")
+Button/styles/disabled = SubResource("DugmePasif")
+Button/styles/focus = SubResource("Odak")
+Button/colors/font_color = Color(1, 0.94, 0.79, 1)
+Button/colors/font_hover_color = Color(1, 0.94, 0.79, 1)
+Button/colors/font_pressed_color = Color(1, 0.94, 0.79, 1)
+Button/colors/font_focus_color = Color(1, 0.94, 0.79, 1)
+Button/colors/font_disabled_color = Color(0.65, 0.65, 0.62, 1)
+Button/font_sizes/font_size = 18
+OptionButton/styles/normal = SubResource("Dugme")
+OptionButton/styles/hover = SubResource("DugmeUzerinde")
+OptionButton/styles/pressed = SubResource("DugmeBasili")
+OptionButton/styles/disabled = SubResource("DugmePasif")
+OptionButton/styles/focus = SubResource("Odak")
+OptionButton/colors/font_color = Color(1, 0.94, 0.79, 1)
+OptionButton/colors/font_hover_color = Color(1, 0.94, 0.79, 1)
+OptionButton/colors/font_pressed_color = Color(1, 0.94, 0.79, 1)
+OptionButton/colors/font_focus_color = Color(1, 0.94, 0.79, 1)
+OptionButton/colors/font_disabled_color = Color(0.65, 0.65, 0.62, 1)
+OptionButton/font_sizes/font_size = 18
+PrimaryButton/styles/normal = SubResource("Birincil")
+PrimaryButton/styles/hover = SubResource("BirincilUzerinde")
+PrimaryButton/styles/pressed = SubResource("BirincilBasili")
+ReadingHeading/base_type = &"Label"
+ReadingHeading/fonts/font = SubResource("Baslik")

@@ -1,6 +1,6 @@
 # H1 arayüz uygulama notları
 
-Bu belge, H1 oynanışının mevcut Godot yerel kontrolleriyle sunuluşunu kaydeder. Kaynaklar `game/Sahneler/Oyun.tscn`, `game/Betikler/Arayuz/OyunEkranlari.cs` ve `game/Betikler/Arayuz/KaydirmaKontrolu.cs` dosyalarıdır. Görsel kimlik veya yeni bir tasarım sistemi tanımlamaz; değerlerin asıl kaynağı uygulamadır.
+Bu belge, H1 aşamasındaki Godot yerel kontrollerini tarihsel olarak kaydeder. **2 Kasım Assets entegrasyonuyla görsel değerler değişti; güncel tema ve yerleşim için [Assets arayüz notuna](arayuz_assets.md) bakın.** Kaynaklar `game/Sahneler/Oyun.tscn`, `game/Betikler/Arayuz/OyunEkranlari.cs` ve `game/Betikler/Arayuz/KaydirmaKontrolu.cs` dosyalarıdır. Görsel kimlik veya yeni bir tasarım sistemi tanımlamaz; değerlerin asıl kaynağı uygulamadır.
 
 ## Yerleşim ve metin
 
