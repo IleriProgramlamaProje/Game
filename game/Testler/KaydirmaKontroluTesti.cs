@@ -3,15 +3,15 @@ using System;
 
 public partial class KaydirmaKontroluTesti : Node
 {
-    public override void _Ready()
+    public override async void _Ready()
     {
         try
         {
             var ekranlar = GD.Load<PackedScene>("res://Sahneler/Oyun.tscn").Instantiate<OyunEkranlari>();
             AddChild(ekranlar);
-            ekranlar.GetNode<Button>("%Baslat").EmitSignal(BaseButton.SignalName.Pressed);
+            ekranlar.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
             var kart = ekranlar.GetNode<KartGorunumu>("%KartAlani");
-            var metin = ekranlar.GetNode<Label>("%KartMetni");
+            var metin = ekranlar.GetNode<Label>("%KararOnizleme");
             string anlatim = metin.Text;
             kart.SuruklemeyiBaslat(200);
             kart.SuruklemeyiGuncelle(200 - kart.Esik / 2);
@@ -23,7 +23,9 @@ public partial class KaydirmaKontroluTesti : Node
             if (!metin.Text.Contains("▼") || !metin.Text.Contains("▲") || metin.Text.Contains("Para −10"))
                 throw new Exception("Önizleme sayılar yerine etki oklarını göstermeli.");
             if (ekranlar.Oyun.Durum.Gostergeler.Degerler["para"] != 50) throw new Exception("Önizleme değerleri değiştirmemeli.");
-            if (kart.SuruklemeyiBitir(200 - kart.Esik - 5) != KartTarafi.Sol || ekranlar.Oyun.Durum.KararSayisi != 1)
+            var taraf = kart.SuruklemeyiBitir(200 - kart.Esik - 5);
+            await ToSignal(GetTree().CreateTimer(0.3), SceneTreeTimer.SignalName.Timeout);
+            if (taraf != KartTarafi.Sol || ekranlar.Oyun.Durum.KararSayisi != 1)
                 throw new Exception("Eşik üstü hareket tek karar üretmeli.");
             if (kart.SuruklemeyiBitir(500) != null || ekranlar.Oyun.Durum.KararSayisi != 1)
                 throw new Exception("İkinci bırakma etkisiz olmalı.");

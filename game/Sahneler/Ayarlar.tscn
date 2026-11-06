@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Betikler/Arayuz/AltEkran.cs" id="1"]
+
+[node name="Ayarlar" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Zemin" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Merkez" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icerik" type="VBoxContainer" parent="Merkez"]
+layout_mode = 2
+custom_minimum_size = Vector2(480, 0)
+theme_override_constants/separation = 16
+
+[node name="Baslik" type="Label" parent="Merkez/Icerik" groups=["menu_metin"]]
+layout_mode = 2
+text = "AYARLAR"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 30
+
+[node name="SesBaslik" type="Label" parent="Merkez/Icerik" groups=["menu_metin"]]
+layout_mode = 2
+text = "Ses düzeyi"
+theme_override_font_sizes/font_size = 18
+
+[node name="Ses" type="HSlider" parent="Merkez/Icerik"]
+layout_mode = 2
+min_value = 0.0
+max_value = 100.0
+value = 70.0
+
+[node name="TamEkran" type="CheckButton" parent="Merkez/Icerik" groups=["menu_dugmesi"]]
+layout_mode = 2
+text = "Tam ekran"
+
+[node name="Geri" type="Button" parent="Merkez/Icerik" groups=["menu_dugmesi"]]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ANA MENÜYE DÖN"

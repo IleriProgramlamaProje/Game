@@ -10,13 +10,17 @@ public partial class KartGorunumuTesti : Node
         {
             var ekranlar = GD.Load<PackedScene>("res://Sahneler/Oyun.tscn").Instantiate<OyunEkranlari>();
             AddChild(ekranlar);
-            ekranlar.GetNode<Button>("%Baslat").EmitSignal(BaseButton.SignalName.Pressed);
+            ekranlar.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
             var kart = ekranlar.Oyun.AktifKart;
             string baslik = ekranlar.GetNode<Label>("%KartBasligi").Text;
             if (!baslik.StartsWith("Hazinedar ") || !ekranlar.GetNode<Label>("%KartMetni").Text.Contains("Beyim"))
                 throw new Exception("Unvan, oturum adı ve hitap görünmeli.");
-            if (ekranlar.GetNode<Button>("%SolKarar").Text != kart.Sol.Etiket || ekranlar.GetNode<Button>("%SagKarar").Text != kart.Sag.Etiket)
-                throw new Exception("İki seçenek de görünmeli.");
+            var cevrilenKart = ekranlar.GetNode<KartGorunumu>("%KartAlani");
+            cevrilenKart.SuruklemeyiBaslat(200);
+            cevrilenKart.SuruklemeyiGuncelle(200 - cevrilenKart.Esik);
+            if (!ekranlar.GetNode<Label>("%KararOnizleme").Text.Contains(kart.Sol.Etiket))
+                throw new Exception("Sola çevirirken sol seçenek görünmeli.");
+            cevrilenKart.Iptal();
             var metin = new MetinYerlestirici(Tema.Oku(FileAccess.GetFileAsString("res://Veri/tema.json")).Karakterler, Hukumdar.Hatun, new Random(7));
             var gorunum = ekranlar.GetNode<KartGorunumu>("%KartAlani");
             gorunum.KartiGoster(kart, metin);

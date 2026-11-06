@@ -3,17 +3,18 @@ using System;
 
 public partial class OyunAkisiTesti : Node
 {
-    public override void _Ready()
+    public override async void _Ready()
     {
         try
         {
             var oyun = GD.Load<PackedScene>("res://Sahneler/Oyun.tscn").Instantiate<OyunEkranlari>();
             AddChild(oyun);
-            oyun.GetNode<Button>("%Baslat").EmitSignal(BaseButton.SignalName.Pressed);
+            oyun.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
             var kart = oyun.GetNode<KartGorunumu>("%KartAlani");
             long kimlik = oyun.Oyun.KartKimligi;
             kart.SuruklemeyiBaslat(200);
             kart.SuruklemeyiBitir(200 - kart.Esik - 5);
+            await ToSignal(GetTree().CreateTimer(0.3), SceneTreeTimer.SignalName.Timeout);
             if (oyun.AktifEkran != OyunEkranlari.Ekran.Sonuc || oyun.Oyun.Durum.Gostergeler.Degerler["para"] != 40)
                 throw new Exception("Karar sonucu uygulanmadı.");
             kart.SuruklemeyiBitir(0);

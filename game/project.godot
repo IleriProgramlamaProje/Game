@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Game"
-run/main_scene="res://Sahneler/Oyun.tscn"
+config/name="BUYRUK"
+run/main_scene="res://Sahneler/AnaMenu.tscn"
 config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 

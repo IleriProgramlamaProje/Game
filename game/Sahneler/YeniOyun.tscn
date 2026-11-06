@@ -1,0 +1,59 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Betikler/Arayuz/AltEkran.cs" id="1"]
+
+[node name="YeniOyun" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+DevamSahnesi = "res://Sahneler/Oyun.tscn"
+
+[node name="Zemin" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Merkez" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icerik" type="VBoxContainer" parent="Merkez"]
+layout_mode = 2
+custom_minimum_size = Vector2(480, 0)
+theme_override_constants/separation = 18
+
+[node name="Baslik" type="Label" parent="Merkez/Icerik" groups=["menu_metin"]]
+layout_mode = 2
+text = "YENİ HÜKÜMDARLIK"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 30
+
+[node name="Aciklama" type="Label" parent="Merkez/Icerik" groups=["menu_metin"]]
+layout_mode = 2
+text = "Tahta çıkmaya hazır mısın? Her kararın halkın, hazinenin, ordunun ve yönetimin kaderini değiştirir."
+autowrap_mode = 3
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+
+[node name="Devam" type="Button" parent="Merkez/Icerik" groups=["menu_dugmesi"]]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 54)
+text = "TAHTA ÇIK"
+
+[node name="Geri" type="Button" parent="Merkez/Icerik" groups=["menu_dugmesi"]]
+unique_name_in_owner = true
+layout_mode = 2
+text = "GERİ DÖN"

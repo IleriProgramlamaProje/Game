@@ -135,8 +135,19 @@ public partial class H2OyunTesti : Node
         if (dosya == null) throw new InvalidOperationException("Test destesi yazılamadı.");
         dosya.StoreString(metin);
     }
-    private void Tikla(OyunEkranlari ekran, string ad) =>
-        ekran.GetNode<Button>("%" + ad).EmitSignal(BaseButton.SignalName.Pressed);
+    private async Task Tikla(OyunEkranlari ekran, string ad)
+    {
+        if (ad is "SolKarar" or "SagKarar")
+        {
+            var kart = ekran.GetNode<KartGorunumu>("%KartAlani");
+            int yon = ad == "SagKarar" ? 1 : -1;
+            kart.SuruklemeyiBaslat(200);
+            kart.SuruklemeyiGuncelle(200 + yon * kart.Esik * 1.4f);
+            kart.SuruklemeyiBitir(200 + yon * kart.Esik * 1.4f);
+            await ToSignal(GetTree().CreateTimer(0.3), SceneTreeTimer.SignalName.Timeout);
+        }
+        else ekran.GetNode<Button>("%" + ad).EmitSignal(BaseButton.SignalName.Pressed);
+    }
     private async Task SahneleriDene()
     {
         var sahne = GD.Load<PackedScene>("res://Sahneler/Oyun.tscn");
@@ -154,30 +165,29 @@ public partial class H2OyunTesti : Node
                 ekran.DesteYolu = _geciciYol;
                 AddChild(ekran);
                 await Bekle();
-                ekran.GetNode<OptionButton>("%Cinsiyet").Select(1);
-                Tikla(ekran, "Baslat");
+                await Tikla(ekran, "Hatunum");
                 string anahtar = $"{gosterge}_{sinir}";
                 for (int i = 1; i <= 4; i++)
                 {
-                    Tikla(ekran, "SagKarar");
+                    await Tikla(ekran, "SagKarar");
                     Dogrula(ekran.GetNode<Label>("%SonucMetni").Text == "Hatunum, sağ kararın ardından çarşı açıldı.",
                         "Yalnız seçilen kararın sonucu ve doğru hitap görünmeli.");
                     var etkiler = ekran.GetNode<Label>("%SonucEtkileri").Text;
                     Dogrula(etkiler.Contains(Gostergeler.Ad(gosterge) + (sinir == 0 ? " −15" : " +15")), "İşaretli sayılar yanlış.");
                     Dogrula(ekran.AktifEkran == OyunEkranlari.Ekran.Sonuc, "Son kararda dahi önce sonuç görünmeli.");
-                    Tikla(ekran, "SolKarar");
+                    await Tikla(ekran, "SolKarar");
                     Dogrula(ekran.Oyun.Durum.KararSayisi == i, "Sonuçta girdi sayacı artırmamalı.");
                     if (i == 4) await Goruntule(ekran, boyut, anahtar + "-Sonuc");
-                    Tikla(ekran, "Devam");
+                    await Tikla(ekran, "Devam");
                 }
                 Dogrula(ekran.AktifEkran == OyunEkranlari.Ekran.Son, "Son paneli açılmalı.");
                 Dogrula(ekran.GetNode<Label>("%SonBaslik").Text == _tema.Sonlar[anahtar].Baslik &&
                     ekran.GetNode<Label>("%SonMetni").Text == _tema.Sonlar[anahtar].Metin, "Tema anlatımı birebir gösterilmeli.");
                 Dogrula(ekran.GetNode<Label>("%SonOzet").Text == "0 yıl hüküm sürdün, 4 karar verdin.", "Son özeti yanlış.");
                 await Goruntule(ekran, boyut, anahtar);
-                Tikla(ekran, "Yeniden");
+                await Tikla(ekran, "Yeniden");
                 Dogrula(ekran.Oyun.Asama == Asama.Acilis && ekran.Oyun.Durum == null, "Yeniden Dene eski oyunu temizlemeli.");
-                Tikla(ekran, "Baslat");
+                await Tikla(ekran, "Beyim");
                 Dogrula(ekran.Oyun.Durum.KararSayisi == 0 && ekran.Oyun.Durum.Zaman.TamamlananYil == 0 &&
                     ekran.Oyun.Durum.Gostergeler.Degerler.Values.All(v => v == 50), "Arayüz yeni oyunu sıfırdan başlatmalı.");
                 ekran.Free();
@@ -189,13 +199,13 @@ public partial class H2OyunTesti : Node
             yilEkrani.DesteYolu = _geciciYol;
             AddChild(yilEkrani);
             await Bekle();
-            Tikla(yilEkrani, "Baslat");
+            await Tikla(yilEkrani, "Beyim");
             for (int i = 1; i <= 10; i++)
             {
-                Tikla(yilEkrani, i % 2 == 0 ? "SagKarar" : "SolKarar");
+                await Tikla(yilEkrani, i % 2 == 0 ? "SagKarar" : "SolKarar");
                 Dogrula(yilEkrani.GetNode<Label>("%KararSayisi").Text == $"Tahtta geçen yıl: {i / 5} · Karar: {i}",
                     "Yıl etiketi her beş onaylı kararda ilerlemeli.");
-                Tikla(yilEkrani, "Devam");
+                await Tikla(yilEkrani, "Devam");
             }
             yilEkrani.Free();
 
@@ -204,8 +214,8 @@ public partial class H2OyunTesti : Node
             ciftEkran.DesteYolu = _geciciYol;
             AddChild(ciftEkran);
             await Bekle();
-            Tikla(ciftEkran, "Baslat");
-            for (int i = 0; i < 4; i++) { Tikla(ciftEkran, "SolKarar"); Tikla(ciftEkran, "Devam"); }
+            await Tikla(ciftEkran, "Beyim");
+            for (int i = 0; i < 4; i++) { await Tikla(ciftEkran, "SolKarar"); await Tikla(ciftEkran, "Devam"); }
             Dogrula(ciftEkran.GetNode<Label>("%SonMetni").Text.Contains(_tema.Sonlar["halk_100"].Metin) &&
                 ciftEkran.GetNode<Label>("%SonMetni").Text.Contains(_tema.Sonlar["para_0"].Metin),
                 "Eşzamanlı iki son da ekranda okunabilmeli.");
@@ -218,10 +228,11 @@ public partial class H2OyunTesti : Node
             bozukEkran.DesteYolu = _geciciYol;
             AddChild(bozukEkran);
             await Bekle();
-            Dogrula(bozukEkran.Oyun == null && bozukEkran.GetNode<Button>("%Baslat").Disabled &&
+            Dogrula(bozukEkran.Oyun == null && bozukEkran.GetNode<Button>("%Beyim").Disabled &&
+                bozukEkran.GetNode<Button>("%Hatunum").Disabled &&
                 bozukEkran.GetNode<Control>("%HataAlani").Visible, "Bozuk deste oynanabilir görünmemeli.");
             Yaz(JsonSerializer.Serialize(new[] { _ornek }));
-            Tikla(bozukEkran, "TekrarYukle");
+            await Tikla(bozukEkran, "TekrarYukle");
             Dogrula(bozukEkran.Oyun != null && !bozukEkran.GetNode<Control>("%HataAlani").Visible, "Düzeltilen deste tekrar yüklenebilmeli.");
             bozukEkran.Free();
         }

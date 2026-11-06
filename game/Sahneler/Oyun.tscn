@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bbnsr6mo152jg"]
+[gd_scene load_steps=7 format=3 uid="uid://bbnsr6mo152jg"]
 
 [ext_resource type="Script" path="res://Betikler/Arayuz/OyunEkranlari.cs" id="1"]
 [ext_resource type="Script" path="res://Betikler/Arayuz/KartGorunumu.cs" id="2"]
@@ -6,6 +6,7 @@
 
 [ext_resource type="Script" path="res://Betikler/Arayuz/AcilisEkrani.cs" id="4"]
 [ext_resource type="Script" path="res://Betikler/Arayuz/Gostergeler.cs" id="5"]
+[ext_resource type="Script" path="res://Betikler/Arayuz/GostergeBileseni.cs" id="6"]
 
 [node name="Oyun" type="Control"]
 layout_mode = 3
@@ -23,7 +24,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.09, 0.105, 0.12, 1)
+color = Color(0.105, 0.082, 0.071, 1)
 mouse_filter = 2
 
 [node name="Icerik" type="ScrollContainer" parent="."]
@@ -53,7 +54,7 @@ theme_override_constants/separation = 20
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
-text = "Kaydır & Karar Ver"
+text = "BUYRUK"
 autowrap_mode = 3
 theme_override_font_sizes/font_size = 28
 
@@ -101,6 +102,10 @@ theme_override_constants/v_separation = 12
 [node name="yonetim" type="VBoxContainer" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar"]
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("6")
+Anahtar = "yonetim"
+EtiketYolu = NodePath("yonetimDeger")
+CubukYolu = NodePath("yonetimCubuk")
 
 [node name="yonetimDeger" type="Label" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar/yonetim"]
 unique_name_in_owner = true
@@ -121,6 +126,10 @@ mouse_filter = 2
 [node name="halk" type="VBoxContainer" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar"]
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("6")
+Anahtar = "halk"
+EtiketYolu = NodePath("halkDeger")
+CubukYolu = NodePath("halkCubuk")
 
 [node name="halkDeger" type="Label" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar/halk"]
 unique_name_in_owner = true
@@ -141,6 +150,10 @@ mouse_filter = 2
 [node name="para" type="VBoxContainer" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar"]
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("6")
+Anahtar = "para"
+EtiketYolu = NodePath("paraDeger")
+CubukYolu = NodePath("paraCubuk")
 
 [node name="paraDeger" type="Label" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar/para"]
 unique_name_in_owner = true
@@ -161,6 +174,10 @@ mouse_filter = 2
 [node name="ordu" type="VBoxContainer" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar"]
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("6")
+Anahtar = "ordu"
+EtiketYolu = NodePath("orduDeger")
+CubukYolu = NodePath("orduCubuk")
 
 [node name="orduDeger" type="Label" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar/ordu"]
 unique_name_in_owner = true
@@ -213,26 +230,28 @@ theme_override_font_sizes/font_size = 18
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
-text = "Hükümdarını seç"
+text = "Hükümdarını seç ve tahta çık"
 autowrap_mode = 3
 theme_override_font_sizes/font_size = 18
 
-[node name="Cinsiyet" type="OptionButton" parent="Icerik/Bosluk/Duzen/AcilisPaneli"]
-unique_name_in_owner = true
+[node name="HukumdarSecenekleri" type="HBoxContainer" parent="Icerik/Bosluk/Duzen/AcilisPaneli"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 48)
-item_count = 2
-selected = 0
-popup/item_0/text = "Bey — Beyim"
-popup/item_0/id = 0
-popup/item_1/text = "Hatun — Hatunum"
-popup/item_1/id = 1
+theme_override_constants/separation = 16
 
-[node name="Baslat" type="Button" parent="Icerik/Bosluk/Duzen/AcilisPaneli"]
+[node name="Beyim" type="Button" parent="Icerik/Bosluk/Duzen/AcilisPaneli/HukumdarSecenekleri"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(0, 48)
-text = "Tahta Çık"
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 72)
+text = "BEYİM\nTahta Çık"
+autowrap_mode = 3
+
+[node name="Hatunum" type="Button" parent="Icerik/Bosluk/Duzen/AcilisPaneli/HukumdarSecenekleri"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 72)
+text = "HATUNUM\nTahta Çık"
 autowrap_mode = 3
 
 [node name="OyunPaneli" type="VBoxContainer" parent="Icerik/Bosluk/Duzen"]
@@ -241,15 +260,20 @@ layout_mode = 2
 visible = false
 theme_override_constants/separation = 20
 
-[node name="KartAlani" type="PanelContainer" parent="Icerik/Bosluk/Duzen/OyunPaneli"]
-unique_name_in_owner = true
+[node name="KartYuvasi" type="Control" parent="Icerik/Bosluk/Duzen/OyunPaneli"]
 layout_mode = 2
+custom_minimum_size = Vector2(0, 360)
+mouse_filter = 2
+
+[node name="KartAlani" type="PanelContainer" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartYuvasi"]
+unique_name_in_owner = true
+layout_mode = 0
 custom_minimum_size = Vector2(0, 200)
 script = ExtResource("2")
 mouse_filter = 0
 focus_mode = 2
 
-[node name="KartBosluk" type="MarginContainer" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartAlani"]
+[node name="KartBosluk" type="MarginContainer" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartYuvasi/KartAlani"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 20
@@ -257,12 +281,12 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="KartIcerik" type="VBoxContainer" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartAlani/KartBosluk"]
+[node name="KartIcerik" type="VBoxContainer" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartYuvasi/KartAlani/KartBosluk"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 16
 
-[node name="KartBasligi" type="Label" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartAlani/KartBosluk/KartIcerik"]
+[node name="KartBasligi" type="Label" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartYuvasi/KartAlani/KartBosluk/KartIcerik"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -270,7 +294,7 @@ text = ""
 autowrap_mode = 3
 theme_override_font_sizes/font_size = 24
 
-[node name="KartMetni" type="Label" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartAlani/KartBosluk/KartIcerik"]
+[node name="KartMetni" type="Label" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartYuvasi/KartAlani/KartBosluk/KartIcerik"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -278,37 +302,21 @@ text = ""
 autowrap_mode = 3
 theme_override_font_sizes/font_size = 20
 
-[node name="Onizleme" type="Label" parent="Icerik/Bosluk/Duzen/OyunPaneli"]
+[node name="KararOnizleme" type="Label" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartYuvasi/KartAlani/KartBosluk/KartIcerik"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
-text = "Kararı görmek için kartı sola veya sağa sürükle."
+custom_minimum_size = Vector2(0, 90)
+text = "← Sola veya sağa sürükle →"
 autowrap_mode = 3
+horizontal_alignment = 1
 theme_override_font_sizes/font_size = 16
-
-[node name="Kararlar" type="VBoxContainer" parent="Icerik/Bosluk/Duzen/OyunPaneli"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="SolKarar" type="Button" parent="Icerik/Bosluk/Duzen/OyunPaneli/Kararlar"]
-unique_name_in_owner = true
-layout_mode = 2
-custom_minimum_size = Vector2(0, 48)
-text = "Sol karar"
-autowrap_mode = 3
-
-[node name="SagKarar" type="Button" parent="Icerik/Bosluk/Duzen/OyunPaneli/Kararlar"]
-unique_name_in_owner = true
-layout_mode = 2
-custom_minimum_size = Vector2(0, 48)
-text = "Sağ karar"
-autowrap_mode = 3
 
 [node name="Yardim" type="Label" parent="Icerik/Bosluk/Duzen/OyunPaneli"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
-text = "Kartı kaydırabilir veya karar düğmelerini kullanabilirsin."
+text = "Kartı sağa veya sola sürükle. Karar belirginleştiğinde bırak; vazgeçmek için ortaya geri getir."
 autowrap_mode = 3
 theme_override_font_sizes/font_size = 16
 
@@ -391,5 +399,12 @@ theme_override_font_sizes/font_size = 16
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 48)
-text = "Yeniden Dene"
+text = "Tekrar Oyna"
+autowrap_mode = 3
+
+[node name="AnaMenuyeDon" type="Button" parent="Icerik/Bosluk/Duzen/SonPaneli"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+text = "Giriş Sayfasına Dön"
 autowrap_mode = 3
