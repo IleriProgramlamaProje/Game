@@ -18,13 +18,13 @@ Godot .NET editörü ve dışa aktarma şablonları resmî sürüm arşivinden a
 1. .NET SDK'yı kurun: https://dotnet.microsoft.com/download/dotnet/10.0
 2. Godot **.NET** sürümünü indirip arşivden çıkarın; beraberindeki `GodotSharp` klasörünü koruyun.
 3. Godot proje yöneticisinde `game/project.godot` dosyasını içe aktarın.
-4. Projeyi derleyip **F5** ile oyunu çalıştırın; ana sahne `Sahneler/AnaMenu.tscn`'dir. **Yeni Oyun → Başla** ile oyun ekranı açılır. **Beyim** ya da **Hatunum** ile tahta çıkın.
+4. Projeyi derleyip **F5** ile oyunu çalıştırın; ana sahne `Sahneler/AnaMenu.tscn`'dir. Oyun **dikeydir**: telefonda dikeye kilitlenir, masaüstünde 450×800 pencereyle açılır (temel boyut 360×640, pencere büyütülebilir). **Yeni Oyun → Başla** ile oyun ekranı açılır. **Beyim** ya da **Hatunum** ile tahta çıkın.
 5. Kartı fare veya parmakla sağa/sola sürükleyin; eşik geçilince **bırakın**, vazgeçmek için ortaya geri getirin. Klavyede **← / →** kartı o yöne yatırıp kararı önizler; **Enter** ya da aynı ok onaylar, ters ok veya **Esc** vazgeçer.
-6. Sonuçtan **Devam Et** ile ilerleyin. Bir gösterge 0/100 olduğunda ilgili son açılır; **Tekrar Oyna** yeni hükümdar seçimine, **Ana Menüye Dön** menüye döner. Her beş kabul edilmiş karar bir yıldır.
+6. Sonuçtan **Devam Et** ile ilerleyin. Bir gösterge 0/100 olduğunda ilgili son açılır; **Tekrar Oyna** yeni hükümdar seçimine, **Ana Menüye Dön** menüye döner. Her beş kabul edilmiş karar bir yıldır. Telefonda **geri tuşu** alt ekranlarda ve hükümdar seçiminde/sonda ana menüye döner, ana menüde çıkar; oyun ortasında (kart/sonuç) ilerleme kaybolmasın diye etkisizdir.
 
 **F6 yalnız açık sahneyi çalıştırır**: `Oyun.tscn` açıkken menüsüz doğrudan oyun, eski `Baslangic.tscn` açıksa boş pencere ve `C# ortamı hazır` mesajı beklenir. Ayarlar (ses düzeyi, masaüstünde tam ekran) `user://ayarlar.cfg` dosyasında saklanır.
 
-Mevcut yerel sürüm on örnek kartla ağ bağlantısı olmadan oynanır. Bunlar çapraz okumadan geçmiş altın set değildir. [H2 durum ve devir notu](docs/h2_durum.md), kalan ekip/veri işlerini; [veri notu](game/Veri/README.md), deste biçimini ve tema kaynağını açıklar.
+Oyun, altın setten seçilmiş 600 kartlık yerel desteyle ağ bağlantısı olmadan oynanır. Deste `python3 araclar/deste_olustur.py` ile kardeş AI deposundaki altın setten yeniden üretilir. [H2 durum ve devir notu](docs/h2_durum.md), kalan ekip/veri işlerini; [veri notu](game/Veri/README.md), deste biçimini ve tema kaynağını açıklar.
 
 Repo kökünden derleme:
 
@@ -57,16 +57,16 @@ git lfs pull
 - `game/Baslangic.cs`: `_Ready()` içinde C# çalışma zamanı doğrulaması.
 - `game/Baslangic.tscn`: Scriptin bağlı olduğu başlangıç sahnesi.
 - `game/project.godot`: Ana sahne (`AnaMenu.tscn`), C# ve Compatibility ayarları.
-- `game/Sahneler/AnaMenu.tscn`, `YeniOyun.tscn`, `KayitliOyunlar.tscn`, `Ayarlar.tscn`, `Credits.tscn`: BUYRUK menüleri. `MenuSahnesi` ortak yaşam döngüsü ve geçişleri, `AltEkran` geri/Escape davranışını, `AyarlarEkrani` ve `OyunAyarlari` kalıcı ayarları yönetir.
+- `game/Sahneler/AnaMenu.tscn`, `YeniOyun.tscn`, `KayitliOyunlar.tscn`, `Ayarlar.tscn`, `Credits.tscn`: BUYRUK menüleri. `MenuSahnesi` ortak yaşam döngüsü ve geçişleri, `AltEkran` geri/Escape/Android geri tuşu davranışını, `GuvenliAlan` telefonun kamera deliği boşluğunu, `AyarlarEkrani` ve `OyunAyarlari` kalıcı ayarları yönetir.
 - `game/Sahneler/Oyun.tscn`: Açılış, kart (deste görünümüyle), sonuç ve son panelleri.
 - `game/Betikler/Arayuz/OyunEkranlari.cs`: Veri yükleme, gösterge/sonuç/son sunumu, giriş ve ekran odağı.
 - `game/Betikler/Oyun/OyunDurumu.cs`: Godot'tan bağımsız gösterge değerleri, değişim bildirimleri ve oyun akışı.
 - `game/Betikler/Cekirdek/`: Yıl sayacı ve sekiz son kontrolü.
 - `game/Betikler/Arayuz/AcilisEkrani.cs`, `Gostergeler.cs` + `GostergeBileseni.cs`, `KartGorunumu.cs` + `KaydirmaKontrolu.cs`: Oyun sahnesindeki açılış, gösterge ve kart bileşenleri; kaydırma, eğim, çıkış animasyonu ve klavye kararı.
 - `game/Betikler/Kartlar/`: Kart doğrulama, yerel deste, tema ve oturum boyunca sabit karakter adları/hitap.
-- `game/Testler/SahneIskeletiTesti.tscn`: H1 çekirdek, fare/dokunma/klavye ve üç boyutta yerleşim kontrolleri.
+- `game/Testler/SahneIskeletiTesti.tscn`: H1 çekirdek, fare/dokunma/klavye, telefondaki dokunma sırası, geri tuşu ve dört boyutta (dikey telefon 360×800 dahil) yerleşim kontrolleri.
 - `game/Testler/H2OyunTesti.tscn`: Sekiz son, sonuç ekranı, yıl sayacı, yeniden oyun ve bozuk desteden toparlanma.
-- `game/Testler/MenuTesti.tscn`: Menülerin teması, üç boyutta yerleşimi, düğme geçişleri, Escape ve ses ayarı.
+- `game/Testler/MenuTesti.tscn`: Menülerin teması, dört boyutta yerleşimi, düğme geçişleri, Escape, Android geri tuşu, dikey telefon ayarları, güvenli alan ve ses ayarı.
 - `game/Testler/KartCevirmeTesti.tscn`: Kartın iki yöne sürüklenmesi, eğimi, iptali ve tek karar.
 
 ## Sahne iskeleti testi
@@ -101,9 +101,9 @@ for t in game/Testler/*.tscn; do ../.tools/Godot_v4.7.2-stable_mono_linux_x86_64
 
 ## Android durumu
 
-**Henüz kurulup test edilmedi.** Masaüstü derleme başarısı APK üretildiği anlamına gelmez. Godot 4 C# Android desteği resmî belgelerde hâlâ deneysel olarak belirtiliyor. İlk oyun özelliklerinden önce gerçek cihaz üzerinde küçük bir APK denemesi yapılmalı.
+**G0 yapıldı (7 Kasım 2026):** debug APK gerçek telefonda (POCO X5 Pro 5G, Android 14, arm64) kuruldu; altın set destesiyle üç tam oyun dokunarak, modelsiz oynandı. Bulunan sekiz sorun düzeltildi ve testlere eklendi: Android'de C# derlenmiyordu (C# 13); oyun yatay açılıyordu (artık dikey); dokunmayla ses kaydırıcısı ve sayfa kaydırma çalışmıyordu; geri tuşu uygulamayı kapatıyordu; dikeyde oyun ekranı sığmıyordu; kamera deliği sayacın üstüne denk geliyordu; geri tuşu odak çerçevesi açıyordu; telefonda klavye ipucu görünüyordu. Ayrıntı, komutlar ve kalanlar: [Android G0 notu](docs/android_g0.md).
 
-Gerekenler: aynı Godot sürümünün **.NET export templates** paketi, OpenJDK 17 ve Godot Android rehberindeki SDK/NDK araçları. Unity araç sürümleri otomatik olarak devralınmamalı. Android için .NET 9 veya sonrası gerektiği belgelenmiştir; bu projedeki .NET 10 hedefiyle gerçek dışa aktarma ayrıca doğrulanacak.
+Gerekenler: aynı Godot sürümünün **.NET export templates** paketi, OpenJDK (bu bilgisayarda 21), Android SDK (build-tools 36) ve dışa aktarma ayarındaki **Android** hazır ayarı. Android derlemesi `net9.0` / **C# 13** ile yapılır (Godot şablonu böyle ister); `Game.csproj` dil sürümünü 13'e sabitler, böylece C# 14'e özgü yazım masaüstünde de hata verir. Release çıktısı için imza anahtarı ekip kararıdır; anahtar repoya girmez.
 
 - https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/index.html
 - https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html
@@ -115,4 +115,4 @@ Gerekenler: aynı Godot sürümünün **.NET export templates** paketi, OpenJDK 
 - Godot .NET ile headless import: başarılı.
 - Başlangıç sahnesi headless çalıştırıldı ve C# konsol çıktısı görüldü.
 - Grafik editör ve ilk C# sahnesi çalıştırıldı; 1.7 sahne iskeleti üç boyutta headless ve grafik testten geçti.
-- İkinci geliştiricinin bilgisayarı, gerçek dokunmatik/klavye etkileşimi ve Android APK henüz doğrulanmadı.
+- İkinci geliştiricinin bilgisayarı, gerçek dokunmatik/klavye etkileşimi ve Android APK henüz doğrulanmadı. (7 Kasım: Android APK ve gerçek dokunma doğrulandı, bkz. [G0 notu](docs/android_g0.md).)

@@ -8,6 +8,7 @@ public partial class KaydirmaKontroluTesti : Node
         try
         {
             var ekranlar = GD.Load<PackedScene>("res://Sahneler/Oyun.tscn").Instantiate<OyunEkranlari>();
+            ekranlar.DesteYolu = "res://Testler/Veri/ornek_deste.json"; // Etkileri bilinen örnek deste.
             AddChild(ekranlar);
             ekranlar.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
             var kart = ekranlar.GetNode<KartGorunumu>("%KartAlani");

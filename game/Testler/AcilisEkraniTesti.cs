@@ -11,6 +11,7 @@ public partial class AcilisEkraniTesti : Node
             foreach (int secim in new[] { 0, 1 })
             {
                 var ekranlar = GD.Load<PackedScene>("res://Sahneler/Oyun.tscn").Instantiate<OyunEkranlari>();
+                ekranlar.DesteYolu = "res://Testler/Veri/ornek_deste.json"; // İlk kartın hitap içerdiği bilinen örnek deste.
                 AddChild(ekranlar);
                 if (ekranlar.AktifEkran != OyunEkranlari.Ekran.Acilis) throw new Exception("Önce açılış görünmeli.");
                 ekranlar.GetNode<Button>(secim == 0 ? "%Beyim" : "%Hatunum").EmitSignal(BaseButton.SignalName.Pressed);

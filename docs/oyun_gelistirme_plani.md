@@ -67,7 +67,7 @@ Merkezî takvimde oynanabilir ilk APK `3.10`'dadır; o teslim korunur. **Küçü
 - Telefon modeli, Android sürümü, mimari, .NET/SDK araç sürümleri ve hata varsa tam çıktı issue'ya yazılır. Debug testi sonrası teslim için release çıktısı da ayrıca denenir.
 - Deneme başarısızsa önce bağımlılıklar/uyumluluk araştırılır; çözüm teslimi tehdit ediyorsa ekip motor kararını yeniden değerlendirir. Çalışmayan APK riski sonraki haftalara sessizce taşınmaz.
 
-Kaynak: [Godot Android dışa aktarma](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html). **Mevcut net10.0 hedefiyle Android dışa aktarımı henüz doğrulanmadı.**
+Kaynak: [Godot Android dışa aktarma](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html). **7 Kasım: G0 yapıldı.** Debug APK gerçek telefonda kuruldu ve tam oyun oynandı; Android derlemesi `net9.0`/C# 13 ile çalışır. Bulgular ve düzeltmeler [Android G0 notundadır](android_g0.md). Release çıktısı (imza anahtarı) 3.10'a kalır.
 
 ## 4. Ekip ve devir takvimi
 
@@ -234,7 +234,7 @@ Game/
 - Yerel veri **`res://Veri/`**, oyuncu kaydı **`user://`** üzerinden okunur/yazılır. Paketlenmiş `res://` içine kayıt yazılmaz. Export ayarlarında JSON dahil edildiği gerçek çıktıda kontrol edilir.
 - `tema.json` ve karakter verilerinin kaynakları Docs/AI depolarıdır. Oyunun çalışması için bu kardeş klasörlere çalışma zamanında bağımlılık kurulmaz; gerekli küçük veriler kaynak revizyonu not edilerek Game içine alınır.
 - Yeni ana sahne çalıştıktan sonra `project.godot` ana sahnesi değiştirilir. Mevcut başlangıç sahnesi rastgele silinmez.
-- Kaydırma mesafesi ve UI yerleşimi piksel sabitlerine bağlanmadan ölçeklenir; `Control` anchors/container yapıları kullanılır. Ekran yönü ve referans çözünürlük henüz ekip kararı değildir.
+- Kaydırma mesafesi ve UI yerleşimi piksel sabitlerine bağlanmadan ölçeklenir; `Control` anchors/container yapıları kullanılır. Ekran yönü **dikey**, temel boyut **360×640** (`canvas_items` + `expand`): 7 Kasım G0'da yatay telefonda kartın altı ekrandan taşınca Muhammed'in kararıyla seçildi; ekibe toplantıda duyurulur. Arayüz birimleri telefonda yaklaşık dp gibi okunur (48 birim dokunma hedefi).
 
 ### Unity terimlerinin Godot karşılığı
 
@@ -267,7 +267,8 @@ Ortak işler `1.0a–1.0d`: kart biçimini okuma, 23 rol için kör tahmin testi
 
 ### H2 · 2 – 8 Kasım — modelsiz tam oyun
 
-**2 Kasım yerel durum:** 2.5–2.7 uygulandı, 2.9 örnek desteyle doğrulandı. 2.8'in kod bağlantısı hazır; çapraz okunmuş veri bekleniyor. Kullanıcı talebiyle H1/H2 main için birleştirildi; eksik veri ve bağımsız ekip/cihaz doğrulaması nedeniyle kutular açık kalır; [test/devir notuna](h2_durum.md) bakın.
+**2 Kasım yerel durum:** 2.5–2.7 uygulandı, 2.9 örnek desteyle doğrulandı. 2.8'in kod bağlantısı hazır; çapraz okunmuş veri bekleniyor.
+**7 Kasım:** 2 Kasım kararıyla çapraz okuma kaldırıldığı için 2.8'in veri şartı karşılandı: oyun, altın setten seçilen 600 kartlık desteyle açılır ([veri notu](../game/Veri/README.md)). 2.9 bu desteyle H1 testinde uçtan uca (açılış → sonuç → son → yeniden oyun) doğrulandı. Kutular PR incelemesinden sonra işaretlenir. Kullanıcı talebiyle H1/H2 main için birleştirildi; eksik veri ve bağımsız ekip/cihaz doğrulaması nedeniyle kutular açık kalır; [test/devir notuna](h2_durum.md) bakın.
 
 | Durum | Kod | İş | Bitti sayılması için | Ön koşul |
 | --- | --- | --- | --- | --- |
@@ -412,9 +413,9 @@ Dönem sonunda başkanın kontrol listesi:
 Aşağıdakiler bu planla kendiliğinden kesinleşmez:
 
 - Merkezî belgelerde Godot geçişinin ve öğretmenin motor beklentisinin teyidi.
-- Gerçek cihazda Godot C# Android/net10.0 uyumluluğu; export araçlarının test edilmiş sürümleri.
+- ~~Gerçek cihazda Godot C# Android uyumluluğu~~ — 7 Kasım G0'da doğrulandı ([not](android_g0.md)); release imzası ve ikinci telefon 3.10'da.
 - 28 Ekim kurasıyla teslim sorumlusu.
-- Ekran yönü, referans çözünürlük ve desteklenecek telefonlar.
+- Desteklenecek telefonlar (ekran yönü ve referans çözünürlük 7 Kasım'da belirlendi: dikey, 360×640).
 - Rol/konu anahtarlarının yazımı, deste dosyası kapsayıcısı ve seçim/tekrar politikası.
 - Aynı kararda birden fazla sonun önceliği; kayıt alma anı ve bozuk kayıt davranışı.
 - Hedef yıl/oyun süresi, kart-yıl oranının son değeri ve oyun adı — H4 denge testi.

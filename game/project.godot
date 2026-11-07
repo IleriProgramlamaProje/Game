@@ -14,19 +14,21 @@ config/name="BUYRUK"
 run/main_scene="res://Sahneler/AnaMenu.tscn"
 config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
+config/quit_on_go_back=false
 
 [display]
 
+window/size/viewport_width=360
+window/size/viewport_height=640
+window/size/window_width_override=450
+window/size/window_height_override=800
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/handheld/orientation=1
 
 [dotnet]
 
 project/assembly_name="Game"
-
-[input_devices]
-
-pointing/emulate_mouse_from_touch=false
 
 [physics]
 

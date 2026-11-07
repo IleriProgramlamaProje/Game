@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 /// <summary>
 /// BUYRUK menüleri: ortak tema, üç ekran boyutunda yerleşim, düğme bağlantıları,
-/// Escape ile geri dönüş ve kalıcı ses ayarı.
+/// Escape ve Android geri tuşuyla geri dönüş, telefonda dikey ekran ve kalıcı ses ayarı.
 /// </summary>
 public partial class MenuTesti : Node
 {
@@ -29,7 +29,7 @@ public partial class MenuTesti : Node
         string eskiAyar = ayarVardi ? FileAccess.GetFileAsString(OyunAyarlari.Dosya) : null;
         try
         {
-            foreach (var boyut in new[] { new Vector2I(1152, 648), new Vector2I(360, 640), new Vector2I(640, 360) })
+            foreach (var boyut in new[] { new Vector2I(1152, 648), new Vector2I(360, 640), new Vector2I(360, 800), new Vector2I(640, 360) })
             {
                 GetWindow().Size = boyut;
                 GetWindow().ContentScaleSize = boyut;
@@ -37,9 +37,10 @@ public partial class MenuTesti : Node
                 GetWindow().ContentScaleAspect = Window.ContentScaleAspectEnum.Ignore;
                 foreach (string ad in Menuler) await YerlesimiDene(ad, boyut);
             }
+            TelefonAyarlariniDene();
             await GecisleriDene();
             await AyarlariDene();
-            GD.Print($"MENÜ TESTLERİ BAŞARILI: {_kontrol} kontrol; tema, 3 ekran boyutu, geçişler, Escape, ses ayarı.");
+            GD.Print($"MENÜ TESTLERİ BAŞARILI: {_kontrol} kontrol; tema, 4 ekran boyutu, dikey telefon, geçişler, Escape, geri tuşu, ses ayarı.");
             GetTree().Quit();
         }
         catch (Exception hata) { GD.PushError(hata.ToString()); GetTree().Quit(1); }
@@ -63,6 +64,7 @@ public partial class MenuTesti : Node
         var ekran = Ac(ad);
         await Bekle();
         Dogrula(ekran.Theme?.ResourcePath == "res://Assets/ui/krallik_tema.tres", $"{ad}: ortak tema atanmalı.");
+        Dogrula(ekran.GetNode<Control>("Kaydirma").OffsetTop == 0, $"{ad}: masaüstünde güvenli alan boşluğu eklenmemeli.");
         var kaydirma = ekran.GetNode<ScrollContainer>("Kaydirma");
         Dogrula(kaydirma.GetHScrollBar().MaxValue <= kaydirma.Size.X + 1, $"{ad} {boyut}: yatay taşma.");
         var icerik = ekran.GetNode<Control>("%Icerik").GetGlobalRect();
@@ -82,6 +84,25 @@ public partial class MenuTesti : Node
             Dogrula(hata == Error.Ok, "Ekran görüntüsü kaydedilemedi.");
         }
         ekran.Free();
+    }
+
+    private static void GeriTusu(Node ekran) => ekran.PropagateNotification((int)Node.NotificationWMGoBackRequest);
+
+    /// <summary>G0 (7 Kasım, POCO X5 Pro) bulguları: oyun telefonda dikey açılır, geri tuşu uygulamayı kapatmaz.</summary>
+    private void TelefonAyarlariniDene()
+    {
+        Dogrula((int)ProjectSettings.GetSetting("display/window/handheld/orientation") == (int)DisplayServer.ScreenOrientation.Portrait,
+            "Oyun telefonda dikey açılmalı.");
+        Dogrula((int)ProjectSettings.GetSetting("display/window/size/viewport_width") == 360 &&
+            (int)ProjectSettings.GetSetting("display/window/size/viewport_height") == 640,
+            "Temel boyut 360×640 olmalı; arayüz birimleri telefonda dp gibi okunur.");
+        Dogrula(!(bool)ProjectSettings.GetSetting("application/config/quit_on_go_back", true),
+            "Android geri tuşu uygulamayı doğrudan kapatmamalı; ekranlar kendisi karar verir.");
+        // POCO X5 Pro: 1080×2400 ekranda kamera deliği üstte 94 piksel; arayüz 360×800 birim.
+        Dogrula(Mathf.IsEqualApprox(GuvenliAlan.UstBosluk(new Rect2I(0, 94, 1080, 2306), new Vector2I(1080, 2400), 800), 94f / 3),
+            "Kamera deliğinin üst boşluğu arayüz birimine çevrilmeli.");
+        Dogrula(GuvenliAlan.UstBosluk(new Rect2I(0, 0, 1080, 2400), new Vector2I(1080, 2400), 800) == 0 &&
+            GuvenliAlan.UstBosluk(new Rect2I(), Vector2I.Zero, 800) == 0, "Deliksiz ekranda ya da bilinmeyen boyutta boşluk eklenmemeli.");
     }
 
     private void Bas(MenuSahnesi ekran, string dugme) =>
@@ -107,6 +128,13 @@ public partial class MenuTesti : Node
             Dogrula(gecisler.Count == 1 && gecisler[0] == yol, $"{dugme} doğru sahneyi açmalı.");
             Dogrula(ResourceLoader.Exists(yol), $"{yol} bulunmalı.");
         }
+        int cikis = 0;
+        ana.CikisGecisi = () => cikis++;
+        gecisler.Clear();
+        Bas(ana, "Cikis");
+        Dogrula(cikis == 1 && gecisler.Count == 0, "Çıkış düğmesi uygulamadan çıkmalı.");
+        GeriTusu(ana);
+        Dogrula(cikis == 2 && gecisler.Count == 0, "Ana menüde Android geri tuşu uygulamadan çıkmalı.");
         ana.Free();
 
         foreach (string ad in new[] { "YeniOyun", "KayitliOyunlar", "Ayarlar", "Credits" })
@@ -121,6 +149,9 @@ public partial class MenuTesti : Node
             GetViewport().PushInput(new InputEventKey { Keycode = Key.Escape, Pressed = false }, true);
             await Bekle();
             Dogrula(gecisler.Count == 1 && gecisler[0] == AnaMenuYolu, $"{ad}: Escape ana menüye dönmeli.");
+            gecisler.Clear();
+            GeriTusu(alt);
+            Dogrula(gecisler.Count == 1 && gecisler[0] == AnaMenuYolu, $"{ad}: Android geri tuşu ana menüye dönmeli.");
             if (ad == "YeniOyun")
             {
                 gecisler.Clear();
