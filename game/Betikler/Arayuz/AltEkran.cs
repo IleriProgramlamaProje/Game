@@ -9,7 +9,8 @@ public partial class AltEkran : MenuSahnesi
 
     protected override void BaglantilariKur()
     {
-        DugmeBul("Geri")?.Pressed += GeriDon;
+        var geri = DugmeBul("Geri");
+        if (geri != null) geri.Pressed += GeriDon;
         var devam = DugmeBul("Devam");
         if (devam != null && !string.IsNullOrWhiteSpace(DevamSahnesi))
             devam.Pressed += DevamEt;

@@ -15,7 +15,8 @@ public partial class AnaMenu : MenuSahnesi
         SahneGecisiBagla("KayitliOyun", KayitliOyunlarSahnesi);
         SahneGecisiBagla("Ayarlar", AyarlarSahnesi);
         SahneGecisiBagla("Credits", CreditsSahnesi);
-        DugmeBul("Cikis")?.Pressed += CikisYap;
+        var cikis = DugmeBul("Cikis");
+        if (cikis != null) cikis.Pressed += CikisYap;
     }
 
     private void SahneGecisiBagla(string dugmeAdi, string sahneYolu)
