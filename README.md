@@ -24,7 +24,7 @@ Godot .NET editörü ve dışa aktarma şablonları resmî sürüm arşivinden a
 
 **F6 yalnız açık sahneyi çalıştırır**: `Oyun.tscn` açıkken menüsüz doğrudan oyun, eski `Baslangic.tscn` açıksa boş pencere ve `C# ortamı hazır` mesajı beklenir. Ayarlar (ses düzeyi, masaüstünde tam ekran) `user://ayarlar.cfg` dosyasında saklanır.
 
-Mevcut yerel sürüm on örnek kartla ağ bağlantısı olmadan oynanır. Bunlar çapraz okumadan geçmiş altın set değildir. [H2 durum ve devir notu](docs/h2_durum.md), kalan ekip/veri işlerini; [veri notu](game/Veri/README.md), deste biçimini ve tema kaynağını açıklar.
+Oyun, altın setten seçilmiş 600 kartlık yerel desteyle ağ bağlantısı olmadan oynanır. Deste `python3 araclar/deste_olustur.py` ile kardeş AI deposundaki altın setten yeniden üretilir. [H2 durum ve devir notu](docs/h2_durum.md), kalan ekip/veri işlerini; [veri notu](game/Veri/README.md), deste biçimini ve tema kaynağını açıklar.
 
 Repo kökünden derleme:
 

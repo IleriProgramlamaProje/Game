@@ -35,7 +35,7 @@ public partial class SahneIskeletiTesti : Node
 	{
 		var tema = Tema.Oku(Oku("res://Veri/tema.json"));
 		var roller = tema.Karakterler.Select(r => r.Anahtar).ToHashSet();
-		string json = Oku("res://Veri/yedek_deste.json");
+		string json = Oku("res://Testler/Veri/ornek_deste.json");
 		var deste = new YedekDeste(json, roller);
 		Dogrula(deste.Adet == 10, "On örnek kart bulunmalı.");
 		var ilk = deste.Sonraki();
@@ -101,6 +101,7 @@ public partial class SahneIskeletiTesti : Node
 			GetWindow().ContentScaleMode = Window.ContentScaleModeEnum.CanvasItems;
 			GetWindow().ContentScaleAspect = Window.ContentScaleAspectEnum.Ignore;
 			var ekran = sahne.Instantiate<OyunEkranlari>();
+			ekran.DesteYolu = "res://Testler/Veri/ornek_deste.json"; // Sayımları ve metinleri bilinen örnek deste.
 			AddChild(ekran);
 			await Bekle();
 			Dogrula(ekran.Oyun != null && ekran.AktifEkran == OyunEkranlari.Ekran.Acilis, "Açılış/veri yükleme yanlış.");
@@ -139,7 +140,76 @@ public partial class SahneIskeletiTesti : Node
 			ekran.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
 			Dogrula(ekran.Oyun.Durum.KararSayisi == 0, "Yeniden başlama sayacı sıfırlamalı.");
 			ekran.Free();
+			await GercekDesteyiDene(sahne, boyut);
 		}
+	}
+	// Kart eğik olabilir; öğe, kartın kendi koordinatlarında kartın sınırları içinde mi?
+	private static bool KartinIcinde(Control kart, Control oge)
+	{
+		var konum = (kart.GetGlobalTransform().AffineInverse() * oge.GetGlobalTransform()).Origin;
+		return new Rect2(Vector2.Zero, kart.Size).Grow(1).Encloses(new Rect2(konum, oge.Size));
+	}
+	/// <summary>Altın set destesinin en uzun metinli ve en uzun kararlı kartları kartın içine sığar.</summary>
+	private async Task GercekDesteyiDene(PackedScene sahne, Vector2I boyut)
+	{
+		var ekran = sahne.Instantiate<OyunEkranlari>();
+		AddChild(ekran);
+		await Bekle();
+		Dogrula(ekran.Oyun != null, "Altın set destesi oyunda yüklenmeli.");
+		ekran.GetNode<Button>("%Hatunum").EmitSignal(BaseButton.SignalName.Pressed);
+		await Bekle();
+		var tema = Tema.Oku(Oku("res://Veri/tema.json"));
+		var kartlar = new YedekDeste(Oku(ekran.DesteYolu), tema.Karakterler.Select(r => r.Anahtar).ToHashSet()).KartlariYukle();
+		static int Kelime(string s) => s.Split((char[])null, StringSplitOptions.RemoveEmptyEntries).Length;
+		var zorlar = kartlar.OrderByDescending(k => Kelime(k.Metin)).Take(3)
+			.Concat(kartlar.OrderByDescending(k => Math.Max(k.Sol.Etiket.Length, k.Sag.Etiket.Length) + k.Sol.Etki.Count + k.Sag.Etki.Count).Take(2));
+		var metin = new MetinYerlestirici(tema.Karakterler, Hukumdar.Hatun, new Random(3));
+		var kart = ekran.GetNode<KartGorunumu>("%KartAlani");
+		foreach (var zor in zorlar)
+		{
+			kart.KartiGoster(zor, metin);
+			await Bekle();
+			foreach (int yon in new[] { -1, 1 })
+			{
+				kart.SuruklemeyiBaslat(200);
+				kart.SuruklemeyiGuncelle(200 + yon * kart.Esik);
+				await Bekle();
+				foreach (string ad in new[] { "KartBasligi", "KartMetni", "KararOnizleme" })
+					Dogrula(KartinIcinde(kart, ekran.GetNode<Control>("%" + ad)), $"{boyut}: {zor.Id} {ad} kartın dışına taşıyor.");
+				kart.Iptal();
+			}
+		}
+		ekran.Free();
+
+		// 2.9: Altın set destesiyle açılış → karar → sonuç → Devam Et → son → yeniden oyun; ağ gerekmez.
+		var oyun = sahne.Instantiate<OyunEkranlari>();
+		AddChild(oyun);
+		await Bekle();
+		oyun.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
+		await Bekle();
+		var oyunKarti = oyun.GetNode<KartGorunumu>("%KartAlani");
+		int karar = 0;
+		while (oyun.AktifEkran != OyunEkranlari.Ekran.Son && karar < 200)
+		{
+			Dogrula(oyun.AktifEkran == OyunEkranlari.Ekran.Oyun, "Sonuçtan sonra yeni kart gelmeli.");
+			oyunKarti.SuruklemeyiBaslat(200);
+			oyunKarti.SuruklemeyiGuncelle(200 + oyunKarti.Esik * 1.5f);
+			oyunKarti.SuruklemeyiBitir(200 + oyunKarti.Esik * 1.5f);
+			await Animasyon();
+			karar++;
+			Dogrula(oyun.AktifEkran == OyunEkranlari.Ekran.Sonuc && oyun.GetNode<Label>("%SonucMetni").Text.Length > 0,
+				"Her karardan sonra sonuç gösterilmeli.");
+			oyun.GetNode<Button>("%Devam").EmitSignal(BaseButton.SignalName.Pressed);
+			await Bekle();
+		}
+		Dogrula(oyun.AktifEkran == OyunEkranlari.Ekran.Son && oyun.GetNode<Label>("%SonMetni").Text.Length > 0 &&
+			oyun.GetNode<Label>("%SonOzet").Text.Contains($"{karar} karar"), "Altın set destesiyle oyun bir sona ulaşmalı.");
+		await YerlesimVeGoruntu(oyun, boyut, "-AltinSet");
+		oyun.GetNode<Button>("%Yeniden").EmitSignal(BaseButton.SignalName.Pressed);
+		Dogrula(oyun.AktifEkran == OyunEkranlari.Ekran.Acilis, "Tekrar Oyna hükümdar seçimine dönmeli.");
+		oyun.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
+		Dogrula(oyun.Oyun.Durum.KararSayisi == 0 && oyun.AktifEkran == OyunEkranlari.Ekran.Oyun, "Yeni oyun sıfırdan başlamalı.");
+		oyun.Free();
 	}
 	private async Task Animasyon() => await ToSignal(GetTree().CreateTimer(0.35), SceneTreeTimer.SignalName.Timeout);
 	private void Tus(Key tus)

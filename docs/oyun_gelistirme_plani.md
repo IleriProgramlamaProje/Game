@@ -267,7 +267,8 @@ Ortak işler `1.0a–1.0d`: kart biçimini okuma, 23 rol için kör tahmin testi
 
 ### H2 · 2 – 8 Kasım — modelsiz tam oyun
 
-**2 Kasım yerel durum:** 2.5–2.7 uygulandı, 2.9 örnek desteyle doğrulandı. 2.8'in kod bağlantısı hazır; çapraz okunmuş veri bekleniyor. Kullanıcı talebiyle H1/H2 main için birleştirildi; eksik veri ve bağımsız ekip/cihaz doğrulaması nedeniyle kutular açık kalır; [test/devir notuna](h2_durum.md) bakın.
+**2 Kasım yerel durum:** 2.5–2.7 uygulandı, 2.9 örnek desteyle doğrulandı. 2.8'in kod bağlantısı hazır; çapraz okunmuş veri bekleniyor.
+**7 Kasım:** 2 Kasım kararıyla çapraz okuma kaldırıldığı için 2.8'in veri şartı karşılandı: oyun, altın setten seçilen 600 kartlık desteyle açılır ([veri notu](../game/Veri/README.md)). 2.9 bu desteyle H1 testinde uçtan uca (açılış → sonuç → son → yeniden oyun) doğrulandı. Kutular PR incelemesinden sonra işaretlenir. Kullanıcı talebiyle H1/H2 main için birleştirildi; eksik veri ve bağımsız ekip/cihaz doğrulaması nedeniyle kutular açık kalır; [test/devir notuna](h2_durum.md) bakın.
 
 | Durum | Kod | İş | Bitti sayılması için | Ön koşul |
 | --- | --- | --- | --- | --- |

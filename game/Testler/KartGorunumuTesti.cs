@@ -9,6 +9,7 @@ public partial class KartGorunumuTesti : Node
         try
         {
             var ekranlar = GD.Load<PackedScene>("res://Sahneler/Oyun.tscn").Instantiate<OyunEkranlari>();
+            ekranlar.DesteYolu = "res://Testler/Veri/ornek_deste.json"; // İlk kartı hazinedar olan örnek deste.
             AddChild(ekranlar);
             ekranlar.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
             var kart = ekranlar.Oyun.AktifKart;

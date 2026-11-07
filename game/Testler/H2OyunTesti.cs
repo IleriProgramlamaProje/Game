@@ -44,7 +44,7 @@ public partial class H2OyunTesti : Node
         try
         {
             _tema = Tema.Oku(Oku("res://Veri/tema.json"));
-            _ornek = JsonSerializer.Deserialize<Kart[]>(Oku("res://Veri/yedek_deste.json"))[0];
+            _ornek = JsonSerializer.Deserialize<Kart[]>(Oku("res://Testler/Veri/ornek_deste.json"))[0];
             CekirdegiDene();
             await SahneleriDene();
             GD.Print($"H2 TESTLERİ BAŞARILI: {_kontrol} kontrol; sekiz son, yıl, sonuç, yeniden oyun, bozuk veri, üç boyut.");

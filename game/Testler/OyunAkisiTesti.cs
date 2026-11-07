@@ -8,6 +8,7 @@ public partial class OyunAkisiTesti : Node
         try
         {
             var oyun = GD.Load<PackedScene>("res://Sahneler/Oyun.tscn").Instantiate<OyunEkranlari>();
+            oyun.DesteYolu = "res://Testler/Veri/ornek_deste.json"; // İlk kartın sol kararı Para −10 olan örnek deste.
             AddChild(oyun);
             oyun.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
             var kart = oyun.GetNode<KartGorunumu>("%KartAlani");

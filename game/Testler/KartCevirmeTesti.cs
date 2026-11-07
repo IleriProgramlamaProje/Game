@@ -19,6 +19,7 @@ public partial class KartCevirmeTesti : Node
             {
                 GetWindow().Size = boyut;
                 var ekran = GD.Load<PackedScene>("res://Sahneler/Oyun.tscn").Instantiate<OyunEkranlari>();
+                ekran.DesteYolu = "res://Testler/Veri/ornek_deste.json";
                 AddChild(ekran);
                 ekran.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
                 await Bekle();
