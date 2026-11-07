@@ -26,7 +26,7 @@ public partial class SahneIskeletiTesti : Node
 		{
 			CekirdegiDene();
 			await SahneyiDene();
-			GD.Print($"H1 TESTLERİ BAŞARILI: {_kontrol} kontrol; çekirdek, deste, fare/dokunma/klavye, 3 ekran boyutu.");
+			GD.Print($"H1 TESTLERİ BAŞARILI: {_kontrol} kontrol; çekirdek, Altın Set, fare/dokunma/klavye, 4 ekran boyutu.");
 			GetTree().Quit();
 		}
 		catch (Exception hata) { GD.PushError(hata.ToString()); GetTree().Quit(1); }
@@ -94,7 +94,7 @@ public partial class SahneIskeletiTesti : Node
 	private async Task SahneyiDene()
 	{
 		var sahne = GD.Load<PackedScene>("res://Sahneler/Oyun.tscn");
-		foreach (var boyut in new[] { new Vector2I(1152, 648), new Vector2I(360, 640), new Vector2I(640, 360) })
+		foreach (var boyut in new[] { new Vector2I(1152, 648), new Vector2I(923, 520), new Vector2I(360, 640), new Vector2I(640, 360) })
 		{
 			GetWindow().Size = boyut;
 			GetWindow().ContentScaleSize = boyut;
@@ -109,7 +109,9 @@ public partial class SahneIskeletiTesti : Node
 			ekran.GetNode<Button>("%Hatunum").EmitSignal(BaseButton.SignalName.Pressed);
 			await Bekle();
 			Dogrula(ekran.Oyun.Durum.Cinsiyet == Hukumdar.Hatun && ekran.GetNode<Label>("%KartMetni").Text.Contains("Hatunum"), "Seçim karta yansımalı.");
+			Dogrula(ekran.GetNode<ScrollContainer>("%Icerik").ScrollVertical == 0, $"{boyut}: yeni kart odağı göstergeleri gizlememeli.");
 			await YerlesimVeGoruntu(ekran, boyut);
+			await UzunKartYerlesimi(ekran, boyut);
 			var kart = ekran.GetNode<KaydirmaKontrolu>("%KartAlani");
 			for (int karar = 0; karar < 3; karar++)
 			{
@@ -212,6 +214,27 @@ public partial class SahneIskeletiTesti : Node
 		oyun.Free();
 	}
 	private async Task Animasyon() => await ToSignal(GetTree().CreateTimer(0.35), SceneTreeTimer.SignalName.Timeout);
+	private async Task UzunKartYerlesimi(OyunEkranlari ekran, Vector2I boyut)
+	{
+		var kart = ekran.GetNode<KartGorunumu>("%KartAlani");
+		var orijinal = ekran.Oyun.AktifKart;
+		var tema = Tema.Oku(Oku("res://Veri/tema.json"));
+		var metin = new MetinYerlestirici(tema.Karakterler, Hukumdar.Hatun, new Random(7));
+		kart.KartiGoster(orijinal with { Metin = string.Join(" ", Enumerable.Repeat("Hükümdarlığımızın", 50)) }, metin);
+		await Bekle();
+		var etiket = ekran.GetNode<Label>("%KartMetni");
+		Dogrula(etiket.GetLineCount() > 1 && kart.GetGlobalRect().Grow(1).Encloses(etiket.GetGlobalRect()),
+			$"{boyut}: uzun Türkçe metin çerçeve içinde sarılmalı.");
+		var baslik = ekran.GetNode<Label>("%OyunAdi");
+		var konum = baslik.GlobalPosition;
+		ekran.GetNode<ScrollContainer>("%Icerik").ScrollVertical += 96;
+		await Bekle();
+		Dogrula(baslik.GlobalPosition.IsEqualApprox(konum), $"{boyut}: dikey kaydırma başlığı hareket ettirmemeli.");
+		kart.KartiGoster(orijinal, metin);
+		ekran.EkraniGoster(OyunEkranlari.Ekran.Oyun);
+		await Bekle();
+	}
+
 	private void Tus(Key tus)
 	{
 		Girdi(new InputEventKey { Keycode = tus, Pressed = true });
@@ -308,6 +331,9 @@ public partial class SahneIskeletiTesti : Node
 			Dogrula(ekran.GetNode<Control>("%" + e + "Paneli").IsVisibleInTree() == (e == ekran.AktifEkran), "Tek panel görünmeli.");
 		var scroll = ekran.GetNode<ScrollContainer>("%Icerik");
 		Dogrula(scroll.GetHScrollBar().MaxValue <= scroll.Size.X + 1, $"{boyut}: yatay taşma.");
+		var baslik = ekran.GetNode<Label>("%OyunAdi").GetGlobalRect();
+		Dogrula(baslik.Position.Y >= 0 && baslik.End.Y <= scroll.GetGlobalRect().Position.Y + 1,
+			$"{boyut}: başlık kaydırma alanı üstünde görünür kalmalı.");
 		foreach (string ad in new[] { "Beyim", "Hatunum", "Devam", "Yeniden", "AnaMenuyeDon" })
 		{
 			var dugme = ekran.GetNode<Button>("%" + ad);

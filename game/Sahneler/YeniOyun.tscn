@@ -86,7 +86,7 @@ mouse_filter = 2
 [node name="Aciklama" type="Label" parent="Kaydirma/Merkez/Icerik/Pano"]
 layout_mode = 2
 theme_type_variation = &"ParchmentLabel"
-text = "Tahta çıkmaya hazır mısın? Her kararın halkın, hazinenin, ordunun ve yönetimin kaderini değiştirir."
+text = "Tahta çıkmaya hazır mısın? Her kararın halkın, hazinenin, ordunun ve yönetimin kaderini değiştirir. Yeni hükümdarlık önceki kayıtlarını korur."
 horizontal_alignment = 1
 autowrap_mode = 3
 theme_override_font_sizes/font_size = 18

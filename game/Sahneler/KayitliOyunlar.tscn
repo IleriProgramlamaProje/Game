@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3]
 
-[ext_resource type="Script" path="res://Betikler/Arayuz/AltEkran.cs" id="1"]
+[ext_resource type="Script" path="res://Betikler/Arayuz/KayitliOyunlarEkrani.cs" id="1"]
 [ext_resource type="Theme" path="res://Assets/ui/krallik_tema.tres" id="2"]
 [ext_resource type="Texture2D" path="res://Assets/ui/backgrounds/bg_dark_fabric.png" id="3"]
 [ext_resource type="Texture2D" path="res://Assets/ui/icons/icon_08.png" id="4"]
@@ -69,8 +69,10 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 8)
 mouse_filter = 2
 
-[node name="Baslik" type="Label" parent="Kaydirma/Merkez/Icerik"]
+[node name="KayitBasligi" type="Label" parent="Kaydirma/Merkez/Icerik"]
+unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 2
 theme_type_variation = &"Banner"
 text = "KAYITLI OYUNLAR"
 horizontal_alignment = 1
@@ -96,6 +98,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="BosDurum" type="Label" parent="Kaydirma/Merkez/Icerik/Pano/Duzen"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"ParchmentLabel"
 text = "Henüz kayıtlı bir hükümdarlık yok.
@@ -103,6 +106,36 @@ Yeni bir oyun başlatarak hikâyeni yaz."
 horizontal_alignment = 1
 autowrap_mode = 3
 theme_override_font_sizes/font_size = 18
+
+[node name="KayitListesi" type="VBoxContainer" parent="Kaydirma/Merkez/Icerik"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="GecmisPanosu" type="PanelContainer" parent="Kaydirma/Merkez/Icerik"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"CardPanel"
+mouse_filter = 2
+
+[node name="GecmisListesi" type="VBoxContainer" parent="Kaydirma/Merkez/Icerik/GecmisPanosu"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+mouse_filter = 2
+
+[node name="GecmisBaslik" type="Label" parent="Kaydirma/Merkez/Icerik/GecmisPanosu/GecmisListesi"]
+layout_mode = 2
+theme_type_variation = &"ParchmentHeading"
+text = "Hükümdarlık geçmişi"
+autowrap_mode = 3
+
+[node name="RekorMetni" type="Label" parent="Kaydirma/Merkez/Icerik/GecmisPanosu/GecmisListesi"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ParchmentLabel"
+autowrap_mode = 3
 
 [node name="Geri" type="Button" parent="Kaydirma/Merkez/Icerik"]
 unique_name_in_owner = true

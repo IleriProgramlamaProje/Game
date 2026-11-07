@@ -1,7 +1,9 @@
 using Godot;
 using Krallik;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 
 public partial class YedekDesteTesti : Node
 {
@@ -20,7 +22,23 @@ public partial class YedekDesteTesti : Node
             try { YedekDeste.MetindenYukle("{ bozuk json }", roller); }
             catch (FormatException) { reddedildi = true; }
             if (!reddedildi) throw new Exception("Bozuk JSON reddedilmeli.");
-            GD.Print("YEDEK DESTE TESTİ BAŞARILI: iki deste biçimi, kimlik, etkiler, bozuk JSON ve altın set destesi.");
+            var ilk = kartlar[0] with { OlayGrubu = "elcilik" };
+            var varyant = ilk with { Id = "O001B" };
+            var diger = kartlar[1];
+            HataBekle(() => new YedekDeste(JsonSerializer.Serialize(new[] { ilk, ilk }), roller));
+            HataBekle(() => new YedekDeste(JsonSerializer.Serialize(new[] { ilk with { Id = " " } }), roller));
+            string tekrarAlan = JsonSerializer.Serialize(new[] { ilk }).Replace("\"etki\":{", "\"etki\":{\"para\":5,");
+            HataBekle(() => new YedekDeste(tekrarAlan, roller));
+            var gruplu = new YedekDeste(JsonSerializer.Serialize(new[] { ilk, varyant, diger }), roller);
+            string[] sira = Enumerable.Range(0, 5).Select(_ => gruplu.Sonraki().Id).ToArray();
+            if (gruplu.OlayGrubuSayisi != 2 || !sira.SequenceEqual(new[] { ilk.Id, diger.Id, varyant.Id, diger.Id, ilk.Id }))
+                throw new Exception("Bir turda aynı olay grubundan tek kart gelmeli; tükenince varyant dönmeli.");
+            gruplu.KonumaGit(2);
+            if (gruplu.Sonraki().Id != varyant.Id) throw new Exception("Kayıtlı kaynak konumu varyantı korumalı.");
+            if (yeni.KartlariYukle().Any(k => !k.OlayKimligi.StartsWith("yerel:", StringComparison.Ordinal)))
+                throw new Exception("Kimliksiz eski kartlara kararlı kimlik atanmalı.");
+            DisOlaylariDene(yeni, roller);
+            GD.Print("YEDEK DESTE TESTİ BAŞARILI: iki biçim, Altın Set, kimlik, bozuk JSON, varyant ve dış olay yedeği.");
             GetTree().Quit();
         }
         catch (Exception hata) { GD.PushError(hata.ToString()); GetTree().Quit(1); }
@@ -45,5 +63,43 @@ public partial class YedekDesteTesti : Node
             throw new Exception("Temadaki her rolün destede kartı olmalı.");
         if (Enumerable.Range(1, kartlar.Count - 1).Any(i => kartlar[i].Konusan == kartlar[i - 1].Konusan))
             throw new Exception("Aynı konuşmacı art arda gelmemeli.");
+        var deste = new YedekDeste(FileAccess.GetFileAsString(yol), roller);
+        foreach (var kart in kartlar)
+            if (deste.Sonraki().Id != kart.Id) throw new Exception("Altın Set sırası değişti.");
+        if (deste.Sonraki().Id != kartlar[0].Id) throw new Exception("Altın Set tükendiğinde yeni tur başlamalı.");
+    }
+
+    private static void HataBekle(Action islem)
+    {
+        try { islem(); }
+        catch (FormatException) { return; }
+        throw new Exception("Geçersiz deste reddedilmedi.");
+    }
+
+    private static void DisOlaylariDene(YedekDeste yerel, IReadOnlySet<string> roller)
+    {
+        var dis = yerel.KartlariYukle()[0] with { Id = "dis-001" };
+        string yanit = JsonSerializer.Serialize(dis);
+        var gecersiz = dis with { Sag = dis.Sag with { Etki = new() { ["ordu"] = 999 } } };
+        var cevaplar = new Queue<string>(new[]
+        {
+            yanit, yanit, JsonSerializer.Serialize(gecersiz),
+            yanit.Replace("\"id\":", "\"gostergeler\":{\"para\":100},\"id\":")
+        });
+        var kaynak = new YedekliKartKaynagi(yerel, () => cevaplar.TryDequeue(out var json) ? json : null, roller);
+        var oyun = new OyunYoneticisi(kaynak);
+        oyun.Baslat(Hukumdar.Bey);
+        if (oyun.AktifKart.Id != dis.Id || kaynak.Konum != 0 || oyun.Durum.Gostergeler.Degerler.Values.Any(v => v != 50))
+            throw new Exception("Dış olay yalnızca kart sağlamalı ve yerel sırayı tüketmemeli.");
+        var anlik = oyun.AnligiAl();
+        anlik.AktifOlay.Sag.Etki.Clear();
+        if (oyun.AktifKart.Sag.Etki.Count == 0) throw new Exception("Dışa aktarılan durum canlı kartı değiştirmemeli.");
+        for (int i = 0; i < 4; i++)
+        {
+            oyun.KararVer(true, oyun.KartKimligi);
+            oyun.DevamEt();
+            if (oyun.AktifKart.OlayKimligi != yerel.KartlariYukle()[i].OlayKimligi || kaynak.Konum != i + 1)
+                throw new Exception("Tekrarlı, geçersiz, alan enjekte eden veya boş yanıt yerel sıraya dönmeli.");
+        }
     }
 }

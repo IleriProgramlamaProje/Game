@@ -4,6 +4,8 @@
 
 **Geliştirmeye başlamadan:** [Oyun geliştirme planı](docs/oyun_gelistirme_plani.md) — haftalık görevler, Godot yapısı, kabul testleri ve devir kontrol listeleri.
 
+[Dönem 1 oyun raporu](docs/raporlar/donem-1-oyun.md) Altın Set teslimini ve testleri, [geliştirme raporu](docs/BUYRUK_DEVELOPMENT_REPORT.md) kayıt/yükleme ve rekor çalışmalarını açıklar.
+
 ## Sürümler
 
 - **Godot 4.7.2 stable · .NET sürümü** (standart/Steam sürümü C# içermez).
@@ -21,6 +23,8 @@ Godot .NET editörü ve dışa aktarma şablonları resmî sürüm arşivinden a
 4. Projeyi derleyip **F5** ile oyunu çalıştırın; ana sahne `Sahneler/AnaMenu.tscn`'dir. **Yeni Oyun → Başla** ile oyun ekranı açılır. **Beyim** ya da **Hatunum** ile tahta çıkın.
 5. Kartı fare veya parmakla sağa/sola sürükleyin; eşik geçilince **bırakın**, vazgeçmek için ortaya geri getirin. Klavyede **← / →** kartı o yöne yatırıp kararı önizler; **Enter** ya da aynı ok onaylar, ters ok veya **Esc** vazgeçer.
 6. Sonuçtan **Devam Et** ile ilerleyin. Bir gösterge 0/100 olduğunda ilgili son açılır; **Tekrar Oyna** yeni hükümdar seçimine, **Ana Menüye Dön** menüye döner. Her beş kabul edilmiş karar bir yıldır.
+
+İlerleme otomatik kaydedilir. **Kayıtlı Oyun** ekranından bekleyen karta veya karar sonucuna dönülebilir. Yeni hükümdarlık önceki kayıtları korur. Tamamlanan oyunlar aynı ekrandaki geçmiş ve rekor bölümüne eklenir.
 
 **F6 yalnız açık sahneyi çalıştırır**: `Oyun.tscn` açıkken menüsüz doğrudan oyun, eski `Baslangic.tscn` açıksa boş pencere ve `C# ortamı hazır` mesajı beklenir. Ayarlar (ses düzeyi, masaüstünde tam ekran) `user://ayarlar.cfg` dosyasında saklanır.
 
@@ -101,9 +105,9 @@ for t in game/Testler/*.tscn; do ../.tools/Godot_v4.7.2-stable_mono_linux_x86_64
 
 ## Android durumu
 
-**Henüz kurulup test edilmedi.** Masaüstü derleme başarısı APK üretildiği anlamına gelmez. Godot 4 C# Android desteği resmî belgelerde hâlâ deneysel olarak belirtiliyor. İlk oyun özelliklerinden önce gerçek cihaz üzerinde küçük bir APK denemesi yapılmalı.
+Android C# hedefi `net9.0` ve C# 13 ile derlendi. `Android` dışa aktarma profili korunuyor. Bu birleşik sürümün fiziksel cihaz testi bekliyor. [Dönem 1 oyun raporu](docs/raporlar/donem-1-oyun.md).
 
-Gerekenler: aynı Godot sürümünün **.NET export templates** paketi, OpenJDK 17 ve Godot Android rehberindeki SDK/NDK araçları. Unity araç sürümleri otomatik olarak devralınmamalı. Android için .NET 9 veya sonrası gerektiği belgelenmiştir; bu projedeki .NET 10 hedefiyle gerçek dışa aktarma ayrıca doğrulanacak.
+Gerekenler: aynı Godot sürümünün **.NET export templates** paketi, OpenJDK 17 ve Godot Android rehberindeki SDK/NDK araçları. Masaüstü hedefi `net10.0`, Android hedefi `net9.0` olarak ayrı derlenir.
 
 - https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/index.html
 - https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html

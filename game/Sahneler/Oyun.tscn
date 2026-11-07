@@ -50,6 +50,23 @@ expand_mode = 1
 stretch_mode = 1
 mouse_filter = 2
 
+[node name="UstAlan" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_right = 1.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="OyunAdi" type="Label" parent="UstAlan"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"Banner"
+horizontal_alignment = 1
+text = "BUYRUK"
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 26
+
 [node name="Icerik" type="ScrollContainer" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -65,7 +82,7 @@ follow_focus = true
 layout_mode = 2
 size_flags_horizontal = 3
 unique_name_in_owner = true
-theme_override_constants/margin_top = 16
+theme_override_constants/margin_top = 12
 theme_override_constants/margin_bottom = 16
 
 [node name="Duzen" type="VBoxContainer" parent="Icerik/Bosluk"]
@@ -73,15 +90,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 16
 
-[node name="OyunAdi" type="Label" parent="Icerik/Bosluk/Duzen"]
+[node name="KayitMesaji" type="Label" parent="Icerik/Bosluk/Duzen"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
-mouse_filter = 2
-theme_type_variation = &"Banner"
-horizontal_alignment = 1
-text = "BUYRUK"
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 26
 
 [node name="HataAlani" type="VBoxContainer" parent="Icerik/Bosluk/Duzen"]
 unique_name_in_owner = true
@@ -548,4 +561,12 @@ unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 48)
 text = "Ana Menüye Dön"
+autowrap_mode = 3
+
+[node name="KaydetVeDon" type="Button" parent="Icerik/Bosluk/Duzen"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+text = "Kaydet ve Ana Menüye Dön"
 autowrap_mode = 3
