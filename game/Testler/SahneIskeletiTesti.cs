@@ -85,6 +85,7 @@ public partial class SahneIskeletiTesti : Node
 	{
 		for (int i = 0; i < 4; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 	}
+	private static void GeriTusu(Node ekran) => ekran.PropagateNotification((int)Node.NotificationWMGoBackRequest);
 	private void Girdi(InputEvent olay) => GetViewport().PushInput(olay, true);
 	private void Fare(bool basili, Vector2 konum) => Girdi(new InputEventMouseButton
 	{ ButtonIndex = MouseButton.Left, Pressed = basili, Position = konum, GlobalPosition = konum });
@@ -105,10 +106,17 @@ public partial class SahneIskeletiTesti : Node
 			AddChild(ekran);
 			await Bekle();
 			Dogrula(ekran.Oyun != null && ekran.AktifEkran == OyunEkranlari.Ekran.Acilis, "Açılış/veri yükleme yanlış.");
+			var gecisler = new List<string>();
+			ekran.SahneGecisi = gecisler.Add;
+			GeriTusu(ekran);
+			Dogrula(gecisler.SequenceEqual(new[] { OyunEkranlari.AnaMenuYolu }), "Hükümdar seçiminde geri tuşu ana menüye dönmeli.");
 			await YerlesimVeGoruntu(ekran, boyut);
 			ekran.GetNode<Button>("%Hatunum").EmitSignal(BaseButton.SignalName.Pressed);
 			await Bekle();
 			Dogrula(ekran.Oyun.Durum.Cinsiyet == Hukumdar.Hatun && ekran.GetNode<Label>("%KartMetni").Text.Contains("Hatunum"), "Seçim karta yansımalı.");
+			gecisler.Clear();
+			GeriTusu(ekran);
+			Dogrula(gecisler.Count == 0 && ekran.AktifEkran == OyunEkranlari.Ekran.Oyun, "Oyun ortasında geri tuşu oyunu bırakmamalı.");
 			await YerlesimVeGoruntu(ekran, boyut);
 			var kart = ekran.GetNode<KaydirmaKontrolu>("%KartAlani");
 			for (int karar = 0; karar < 3; karar++)
@@ -118,6 +126,8 @@ public partial class SahneIskeletiTesti : Node
 				kart.SuruklemeyiBitir(200 + kart.Esik * 1.5f);
 				await ToSignal(GetTree().CreateTimer(0.3), SceneTreeTimer.SignalName.Timeout);
 				Dogrula(ekran.Oyun.Durum.KararSayisi == karar + 1, "Çevirme bir karar vermeli.");
+				GeriTusu(ekran);
+				Dogrula(gecisler.Count == 0 && ekran.AktifEkran == OyunEkranlari.Ekran.Sonuc, "Sonuç ekranında geri tuşu oyunu bırakmamalı.");
 				await YerlesimVeGoruntu(ekran, boyut);
 				ekran.GetNode<Button>("%Devam").EmitSignal(BaseButton.SignalName.Pressed);
 				await Bekle();
@@ -136,6 +146,11 @@ public partial class SahneIskeletiTesti : Node
 			}
 			Dogrula(ekran.AktifEkran == OyunEkranlari.Ekran.Son, "Oyun sınırda sona ermeli.");
 			await YerlesimVeGoruntu(ekran, boyut);
+			GeriTusu(ekran);
+			Dogrula(gecisler.SequenceEqual(new[] { OyunEkranlari.AnaMenuYolu }), "Sonda geri tuşu ana menüye dönmeli.");
+			gecisler.Clear();
+			ekran.GetNode<Button>("%AnaMenuyeDon").EmitSignal(BaseButton.SignalName.Pressed);
+			Dogrula(gecisler.SequenceEqual(new[] { OyunEkranlari.AnaMenuYolu }), "Sonda Ana Menüye Dön ana menüye dönmeli.");
 			ekran.GetNode<Button>("%Yeniden").EmitSignal(BaseButton.SignalName.Pressed);
 			ekran.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
 			Dogrula(ekran.Oyun.Durum.KararSayisi == 0, "Yeniden başlama sayacı sıfırlamalı.");
@@ -300,6 +315,37 @@ public partial class SahneIskeletiTesti : Node
 		await Animasyon();
 		Dogrula(ekran.Oyun.Durum.KararSayisi == sayi + 4, "Aynı ok iki kez karar vermeli.");
 		await DevamEt(ekran);
+		await TelefonDokunmasiniDene(ekran, kart, boyut);
+	}
+	private void TaklitFare(bool basili, Vector2 konum) => Girdi(new InputEventMouseButton
+	{ Device = KaydirmaKontrolu.TaklitAygit, ButtonIndex = MouseButton.Left, Pressed = basili, Position = konum, GlobalPosition = konum });
+	private void TaklitHareket(Vector2 konum) => Girdi(new InputEventMouseMotion
+	{ Device = KaydirmaKontrolu.TaklitAygit, Position = konum, GlobalPosition = konum, ButtonMask = MouseButtonMask.Left });
+	/// <summary>
+	/// G0 bulgusu: telefonda Godot her dokunmadan hemen önce taklit bir fare olayı gönderir; sayfa kaydırma ve
+	/// ses kaydırıcısı bu taklide dayanır. Kart dokunmanın kendisini izlemeli: tek karar, iptal edilen dokunma kararsız.
+	/// </summary>
+	private async Task TelefonDokunmasiniDene(OyunEkranlari ekran, KaydirmaKontrolu kart, Vector2I boyut)
+	{
+		Dogrula((bool)ProjectSettings.GetSetting("input_devices/pointing/emulate_mouse_from_touch", true),
+			"Telefonda sayfa kaydırma ve ses kaydırıcısı için dokunmadan fare taklidi açık olmalı.");
+		Dogrula(ekran.AktifEkran == OyunEkranlari.Ekran.Oyun, "Telefon dokunması testi kart ekranında başlamalı.");
+		int sayi = ekran.Oyun.Durum.KararSayisi;
+		var bas = await KartNoktasi(ekran, kart, boyut);
+		var sag = bas + new Vector2(kart.Esik + 6, 0);
+		void Dokun(bool iptal)
+		{
+			TaklitFare(true, bas); Girdi(new InputEventScreenTouch { Index = 0, Pressed = true, Position = bas });
+			TaklitHareket(sag); Girdi(new InputEventScreenDrag { Index = 0, Position = sag });
+			TaklitFare(false, sag); Girdi(new InputEventScreenTouch { Index = 0, Pressed = false, Position = sag, Canceled = iptal });
+		}
+		Dokun(iptal: true); // Ör. sürüklerken bildirim perdesi çekildi.
+		await Animasyon();
+		Dogrula(ekran.Oyun.Durum.KararSayisi == sayi && ekran.AktifEkran == OyunEkranlari.Ekran.Oyun, "İptal edilen dokunma karar vermemeli.");
+		Dokun(iptal: false);
+		await Animasyon();
+		Dogrula(ekran.Oyun.Durum.KararSayisi == sayi + 1 && ekran.AktifEkran != OyunEkranlari.Ekran.Oyun, "Telefondaki dokunma tek karar vermeli.");
+		if (ekran.AktifEkran == OyunEkranlari.Ekran.Sonuc) await DevamEt(ekran);
 	}
 	private async Task YerlesimVeGoruntu(OyunEkranlari ekran, Vector2I boyut, string ek = "")
 	{

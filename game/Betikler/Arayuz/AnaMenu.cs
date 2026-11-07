@@ -31,5 +31,8 @@ public partial class AnaMenu : MenuSahnesi
         dugme.Pressed += () => SahneyeGit(sahneYolu);
     }
 
-    private void CikisYap() => GetTree().Quit();
+    private void CikisYap() => UygulamadanCik();
+
+    // Telefonda ana menüdeki geri tuşu uygulamadan çıkar.
+    protected override void GeriTusu() => UygulamadanCik();
 }

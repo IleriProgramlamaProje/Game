@@ -19,6 +19,8 @@ public partial class KaydirmaKontrolu : PanelContainer
     private KartTarafi? _klavyeTarafi;
     private bool _klavyeOdagi;
     public const float AzamiEgim = 5;
+    /// <summary>Godot'nun dokunmadan taklit ettiği fare olaylarının aygıt kimliği.</summary>
+    public const int TaklitAygit = (int)InputEvent.DeviceIdEmulation;
     public float Esik => Mathf.Max(24, Size.X * 0.11f);
 
     public override void _Ready()
@@ -47,7 +49,9 @@ public partial class KaydirmaKontrolu : PanelContainer
             return;
         }
         if (_isaretci != null) return;
-        if (olay is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true } fare)
+        // Telefonda Godot her dokunmayı bir de fare olarak taklit eder (sayfa kaydırma ve kaydırıcılar buna dayanır).
+        // Kart taklidi değil, dokunmanın kendisini izler; böylece parmak kimliği ve dokunma iptali korunur.
+        if (olay is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true } fare && fare.Device != TaklitAygit)
             Basla(-1, GetGlobalTransformWithCanvas() * fare.Position);
         else if (olay is InputEventScreenTouch { Pressed: true } dokunma)
             Basla(dokunma.Index, GetGlobalTransformWithCanvas() * dokunma.Position);
@@ -114,6 +118,8 @@ public partial class KaydirmaKontrolu : PanelContainer
             else if (olay is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: false } birak)
                 Bitir(birak.Position, false);
         }
+        else if (_yatay && olay is InputEventMouseMotion { Device: TaklitAygit })
+            GetViewport().SetInputAsHandled(); // Kart yana kayarken taklit fare sayfayı aşağı yukarı oynatmasın.
         else if (olay is InputEventScreenDrag surukle && surukle.Index == _isaretci)
             Hareket(surukle.Position);
         else if (olay is InputEventScreenTouch dokunma && dokunma.Index == _isaretci && !dokunma.Pressed)

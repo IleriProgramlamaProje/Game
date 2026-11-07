@@ -25,6 +25,9 @@ public partial class AltEkran : MenuSahnesi
         }
     }
 
+    // Telefonda geri tuşu, Esc ve Geri düğmesiyle aynı yere götürür.
+    protected override void GeriTusu() => GeriDon();
+
     private void GeriDon() => SahneyeGit(GeriDonusSahnesi);
     private void DevamEt() => SahneyeGit(DevamSahnesi);
 }

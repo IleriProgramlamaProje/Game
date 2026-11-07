@@ -84,9 +84,23 @@ public partial class OyunEkranlari : Control
 		if (AktifEkran != Ekran.Oyun || Oyun == null) return;
 		if (Oyun.KararVer(sag, _gosterilenKart)) Guncelle();
 	}
+	public const string AnaMenuYolu = "res://Sahneler/AnaMenu.tscn";
+	/// <summary>Atanırsa sahne değiştirmek yerine çağrılır; testler için.</summary>
+	public Action<string> SahneGecisi { get; set; }
 	private void AnaMenuyeDon()
 	{
-		if (AktifEkran == Ekran.Son) GetTree().ChangeSceneToFile("res://Sahneler/AnaMenu.tscn");
+		if (AktifEkran == Ekran.Son) AnaMenuyeGit();
+	}
+	private void AnaMenuyeGit()
+	{
+		if (SahneGecisi != null) SahneGecisi(AnaMenuYolu);
+		else GetTree().ChangeSceneToFile(AnaMenuYolu);
+	}
+	// Android geri tuşu: hükümdar seçiminde ve sonda ana menüye döner. Oyun ortasında
+	// "Ana Menüye Dön" gibi etkisizdir; yanlışlıkla yapılan geri hareketi oyunu kaybettirmez.
+	public override void _Notification(int what)
+	{
+		if (what == NotificationWMGoBackRequest && AktifEkran is Ekran.Acilis or Ekran.Son) AnaMenuyeGit();
 	}
 	private void Guncelle()
 	{

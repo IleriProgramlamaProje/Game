@@ -42,6 +42,26 @@ public abstract partial class MenuSahnesi : Control
         else GetTree().ChangeSceneToFile(sahneYolu);
     }
 
+    /// <summary>Atanırsa uygulamadan çıkmak yerine çağrılır; testler için.</summary>
+    public System.Action CikisGecisi { get; set; }
+
+    protected void UygulamadanCik()
+    {
+        if (CikisGecisi != null) CikisGecisi();
+        else GetTree().Quit();
+    }
+
+    /// <summary>
+    /// Android geri tuşu ya da geri hareketi. <c>quit_on_go_back</c> kapalı olduğundan
+    /// uygulama kendiliğinden kapanmaz; her ekran kendi geri davranışını seçer.
+    /// </summary>
+    protected abstract void GeriTusu();
+
+    public override void _Notification(int what)
+    {
+        if (what == NotificationWMGoBackRequest) GeriTusu();
+    }
+
     // Projede nullable başvuru türleri etkin olmadığından bulunamama durumu null ile döner.
     protected Button DugmeBul(string benzersizAd) => GetNodeOrNull<Button>("%" + benzersizAd);
 
