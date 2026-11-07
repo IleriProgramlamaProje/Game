@@ -64,6 +64,7 @@ public partial class MenuTesti : Node
         var ekran = Ac(ad);
         await Bekle();
         Dogrula(ekran.Theme?.ResourcePath == "res://Assets/ui/krallik_tema.tres", $"{ad}: ortak tema atanmalı.");
+        Dogrula(ekran.GetNode<Control>("Kaydirma").OffsetTop == 0, $"{ad}: masaüstünde güvenli alan boşluğu eklenmemeli.");
         var kaydirma = ekran.GetNode<ScrollContainer>("Kaydirma");
         Dogrula(kaydirma.GetHScrollBar().MaxValue <= kaydirma.Size.X + 1, $"{ad} {boyut}: yatay taşma.");
         var icerik = ekran.GetNode<Control>("%Icerik").GetGlobalRect();
@@ -97,6 +98,11 @@ public partial class MenuTesti : Node
             "Temel boyut 360×640 olmalı; arayüz birimleri telefonda dp gibi okunur.");
         Dogrula(!(bool)ProjectSettings.GetSetting("application/config/quit_on_go_back", true),
             "Android geri tuşu uygulamayı doğrudan kapatmamalı; ekranlar kendisi karar verir.");
+        // POCO X5 Pro: 1080×2400 ekranda kamera deliği üstte 94 piksel; arayüz 360×800 birim.
+        Dogrula(Mathf.IsEqualApprox(GuvenliAlan.UstBosluk(new Rect2I(0, 94, 1080, 2306), new Vector2I(1080, 2400), 800), 94f / 3),
+            "Kamera deliğinin üst boşluğu arayüz birimine çevrilmeli.");
+        Dogrula(GuvenliAlan.UstBosluk(new Rect2I(0, 0, 1080, 2400), new Vector2I(1080, 2400), 800) == 0 &&
+            GuvenliAlan.UstBosluk(new Rect2I(), Vector2I.Zero, 800) == 0, "Deliksiz ekranda ya da bilinmeyen boyutta boşluk eklenmemeli.");
     }
 
     private void Bas(MenuSahnesi ekran, string dugme) =>

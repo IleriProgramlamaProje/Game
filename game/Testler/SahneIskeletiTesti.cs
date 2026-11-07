@@ -26,7 +26,7 @@ public partial class SahneIskeletiTesti : Node
 		{
 			CekirdegiDene();
 			await SahneyiDene();
-			GD.Print($"H1 TESTLERİ BAŞARILI: {_kontrol} kontrol; çekirdek, deste, fare/dokunma/klavye, 3 ekran boyutu.");
+			GD.Print($"H1 TESTLERİ BAŞARILI: {_kontrol} kontrol; çekirdek, deste, fare/dokunma/klavye, geri tuşu, 4 ekran boyutu.");
 			GetTree().Quit();
 		}
 		catch (Exception hata) { GD.PushError(hata.ToString()); GetTree().Quit(1); }
@@ -95,7 +95,8 @@ public partial class SahneIskeletiTesti : Node
 	private async Task SahneyiDene()
 	{
 		var sahne = GD.Load<PackedScene>("res://Sahneler/Oyun.tscn");
-		foreach (var boyut in new[] { new Vector2I(1152, 648), new Vector2I(360, 640), new Vector2I(640, 360) })
+		// 360×800: dikey telefonun mantıksal ekranı (G0, POCO X5 Pro 1080×2400).
+		foreach (var boyut in new[] { new Vector2I(1152, 648), new Vector2I(360, 640), new Vector2I(360, 800), new Vector2I(640, 360) })
 		{
 			GetWindow().Size = boyut;
 			GetWindow().ContentScaleSize = boyut;
@@ -184,6 +185,11 @@ public partial class SahneIskeletiTesti : Node
 		{
 			kart.KartiGoster(zor, metin);
 			await Bekle();
+			Dogrula(kart.Scale.X >= KartGorunumu.EnAzOlcek - 0.001f, $"{boyut}: {zor.Id} kart okunmayacak kadar küçüldü.");
+			if (boyut.X <= 400 && boyut.Y >= 800)
+				Dogrula(ekran.GetNode<ScrollContainer>("%Icerik").ScrollVertical == 0 &&
+					ekran.GetNode<Control>("%Gostergeler").GetGlobalRect().Position.Y >= 0 && kart.GetGlobalRect().End.Y <= boyut.Y,
+					$"{boyut}: {zor.Id} dikey telefonda göstergeler ve kart kaydırmadan birlikte görünmeli.");
 			foreach (int yon in new[] { -1, 1 })
 			{
 				kart.SuruklemeyiBaslat(200);
@@ -220,6 +226,12 @@ public partial class SahneIskeletiTesti : Node
 		Dogrula(oyun.AktifEkran == OyunEkranlari.Ekran.Son && oyun.GetNode<Label>("%SonMetni").Text.Length > 0 &&
 			oyun.GetNode<Label>("%SonOzet").Text.Contains($"{karar} karar"), "Altın set destesiyle oyun bir sona ulaşmalı.");
 		await YerlesimVeGoruntu(oyun, boyut, "-AltinSet");
+		if (boyut.X <= 400 && boyut.Y >= 800)
+			foreach (string ad in new[] { "Yeniden", "AnaMenuyeDon" })
+			{
+				var dugme = oyun.GetNode<Control>("%" + ad).GetGlobalRect();
+				Dogrula(dugme.Position.Y >= 0 && dugme.End.Y <= boyut.Y, $"{boyut}: sonda {ad} kaydırmadan görünmeli.");
+			}
 		oyun.GetNode<Button>("%Yeniden").EmitSignal(BaseButton.SignalName.Pressed);
 		Dogrula(oyun.AktifEkran == OyunEkranlari.Ekran.Acilis, "Tekrar Oyna hükümdar seçimine dönmeli.");
 		oyun.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
@@ -296,7 +308,11 @@ public partial class SahneIskeletiTesti : Node
 
 		// Klavye: ilk ok önizler, ters ok vazgeçer; ok + Enter ya da aynı ok iki kez onaylar.
 		Dogrula(kart.HasFocus(), "Kart ekranında odak kartta olmalı.");
+		Dogrula(!kart.KlavyeOdagiGorunur, "Dokunmadan sonra odak çerçevesi görünmemeli.");
+		Tus(Key.Back); Tus(Key.Volumeup);
+		Dogrula(!kart.KlavyeOdagiGorunur, "Telefonun geri/ses tuşu odak çerçevesini açmamalı (G0).");
 		Tus(Key.Left);
+		Dogrula(kart.KlavyeOdagiGorunur, "Ok tuşu odak çerçevesini göstermeli.");
 		await Animasyon();
 		Dogrula(kart.KlavyeOnizlemesi && onizleme.Text.Contains("Enter") && ekran.Oyun.Durum.KararSayisi == sayi + 2,
 			"Sol ok önizleme göstermeli, karar vermemeli.");
@@ -354,6 +370,8 @@ public partial class SahneIskeletiTesti : Node
 			Dogrula(ekran.GetNode<Control>("%" + e + "Paneli").IsVisibleInTree() == (e == ekran.AktifEkran), "Tek panel görünmeli.");
 		var scroll = ekran.GetNode<ScrollContainer>("%Icerik");
 		Dogrula(scroll.GetHScrollBar().MaxValue <= scroll.Size.X + 1, $"{boyut}: yatay taşma.");
+		Dogrula(ekran.GetNode<Control>("%OyunAdi").Visible == (ekran.AktifEkran == OyunEkranlari.Ekran.Acilis),
+			"Başlık bandı yalnız hükümdar seçiminde görünmeli; oyunda yer karta, sonda düğmelere kalır.");
 		foreach (string ad in new[] { "Beyim", "Hatunum", "Devam", "Yeniden", "AnaMenuyeDon" })
 		{
 			var dugme = ekran.GetNode<Button>("%" + ad);

@@ -14,7 +14,10 @@ public partial class KartGorunumu : KaydirmaKontrolu
     private Kart _kart;
     private MetinYerlestirici _yerlestirici;
     private Control _yuva;
+    private ScrollContainer _kaydirma;
     private Panel[] _arkaKartlar;
+    /// <summary>Kart sığmak için en fazla bu orana küçülür; daha uzun kartta sayfa kayar.</summary>
+    public const float EnAzOlcek = 0.75f;
     public override void _Ready()
     {
         base._Ready();
@@ -24,7 +27,9 @@ public partial class KartGorunumu : KaydirmaKontrolu
         _yuva = GetParent<Control>();
         // Deste hissi veren iki sabit kart sahnede tanımlıdır; girdi almaz ve gerçek kart verisi değildir.
         _arkaKartlar = new[] { _yuva.GetNode<Panel>("DesteKarti0"), _yuva.GetNode<Panel>("DesteKarti1") };
-        _yuva.Resized += Yerlesim;
+        for (var ata = _yuva.GetParent(); ata != null && _kaydirma == null; ata = ata.GetParent()) _kaydirma = ata as ScrollContainer;
+        // Konum değişimi de dinlenir: üstteki göstergeler görününce kartın sığacağı yükseklik değişir.
+        _yuva.ItemRectChanged += Yerlesim;
         // Etiketler yeni genişliğe göre ancak bir sonraki sıralamada yeniden sarılır. Bu yüzden yükseklik,
         // asgari boyut her değiştiğinde yeniden uyarlanır; aksi hâlde eski dar genişliğin dev yüksekliği kalır.
         MinimumSizeChanged += () => Callable.From(BoyutuUyarla).CallDeferred();
@@ -87,9 +92,12 @@ public partial class KartGorunumu : KaydirmaKontrolu
         float yukseklik = Mathf.Max(260, GetCombinedMinimumSize().Y);
         Size = new Vector2(_genislik, yukseklik);
         float olcek = Mathf.Min(1, (_yuva.Size.X - 8) / _genislik);
+        // Telefonda göstergeler ve kart kaydırmadan birlikte görünsün; okunurluk için EnAzOlcek'in altına inilmez.
+        olcek = Mathf.Min(olcek, Mathf.Max(EnAzOlcek, SiganYukseklik() / yukseklik));
         Scale = Vector2.One * olcek;
         _yuva.CustomMinimumSize = new Vector2(0, yukseklik * olcek + 30);
-        var merkez = new Vector2((_yuva.Size.X - _genislik) / 2, 6);
+        // Ölçek kartın ortasına göre uygulanır; küçülen kartın görünen üst kenarı yine yuvanın 6 birim altında kalır.
+        var merkez = new Vector2((_yuva.Size.X - _genislik) / 2, 6 - (1 - olcek) * yukseklik / 2);
         MerkezeYerlestir(merkez);
         PivotOffset = Size / 2;
         for (int i = 0; i < _arkaKartlar.Length; i++)
@@ -101,5 +109,14 @@ public partial class KartGorunumu : KaydirmaKontrolu
             arka.Position = merkez + new Vector2(i == 0 ? -6 : 6, i == 0 ? 18 : 9);
             arka.RotationDegrees = i == 0 ? -3 : 2;
         }
+    }
+
+    /// <summary>Kaydırma alanında, yuvanın üstünden ekranın altına kadar kart için kalan yükseklik.</summary>
+    private float SiganYukseklik()
+    {
+        if (_kaydirma == null || _kaydirma.GetChildCount() == 0 || _kaydirma.Size.Y <= 0) return float.PositiveInfinity;
+        // Kaydırmadan bağımsız olsun diye içeriğin üstüne göre ölçülür; 30 birim arka kartlara kalır.
+        float ust = _yuva.GlobalPosition.Y - _kaydirma.GetChild<Control>(0).GlobalPosition.Y;
+        return Mathf.Max(1, _kaydirma.Size.Y - ust - 30);
     }
 }

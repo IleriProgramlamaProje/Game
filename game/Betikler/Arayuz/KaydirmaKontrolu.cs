@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public enum KartTarafi { Sol, Sag }
 
@@ -18,6 +19,11 @@ public partial class KaydirmaKontrolu : PanelContainer
     private bool _onaylaniyor;
     private KartTarafi? _klavyeTarafi;
     private bool _klavyeOdagi;
+    /// <summary>Odak çerçevesi yalnız klavyeyle gezinirken görünür.</summary>
+    public bool KlavyeOdagiGorunur => _klavyeOdagi;
+    // Telefonun geri ve ses tuşları da tuş olayı gönderir; bunlar klavyeyle gezinme sayılmaz.
+    private static readonly string[] GezinmeEylemleri =
+        { "ui_left", "ui_right", "ui_up", "ui_down", "ui_accept", "ui_cancel", "ui_focus_next", "ui_focus_prev" };
     public const float AzamiEgim = 5;
     /// <summary>Godot'nun dokunmadan taklit ettiği fare olaylarının aygıt kimliği.</summary>
     public const int TaklitAygit = (int)InputEvent.DeviceIdEmulation;
@@ -40,7 +46,7 @@ public partial class KaydirmaKontrolu : PanelContainer
 
     public override void _GuiInput(InputEvent olay)
     {
-        if (olay is InputEventKey { Pressed: true }) KlavyeOdaginiAyarla(true);
+        if (olay is InputEventKey { Pressed: true } && GezinmeEylemleri.Any(e => olay.IsAction(e))) KlavyeOdaginiAyarla(true);
         else if (olay is InputEventMouseButton or InputEventScreenTouch) KlavyeOdaginiAyarla(false);
         if (!Etkin || _onaylaniyor) return;
         if (olay is InputEventKey { Pressed: true })

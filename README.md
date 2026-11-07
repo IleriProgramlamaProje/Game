@@ -57,16 +57,16 @@ git lfs pull
 - `game/Baslangic.cs`: `_Ready()` içinde C# çalışma zamanı doğrulaması.
 - `game/Baslangic.tscn`: Scriptin bağlı olduğu başlangıç sahnesi.
 - `game/project.godot`: Ana sahne (`AnaMenu.tscn`), C# ve Compatibility ayarları.
-- `game/Sahneler/AnaMenu.tscn`, `YeniOyun.tscn`, `KayitliOyunlar.tscn`, `Ayarlar.tscn`, `Credits.tscn`: BUYRUK menüleri. `MenuSahnesi` ortak yaşam döngüsü ve geçişleri, `AltEkran` geri/Escape davranışını, `AyarlarEkrani` ve `OyunAyarlari` kalıcı ayarları yönetir.
+- `game/Sahneler/AnaMenu.tscn`, `YeniOyun.tscn`, `KayitliOyunlar.tscn`, `Ayarlar.tscn`, `Credits.tscn`: BUYRUK menüleri. `MenuSahnesi` ortak yaşam döngüsü ve geçişleri, `AltEkran` geri/Escape/Android geri tuşu davranışını, `GuvenliAlan` telefonun kamera deliği boşluğunu, `AyarlarEkrani` ve `OyunAyarlari` kalıcı ayarları yönetir.
 - `game/Sahneler/Oyun.tscn`: Açılış, kart (deste görünümüyle), sonuç ve son panelleri.
 - `game/Betikler/Arayuz/OyunEkranlari.cs`: Veri yükleme, gösterge/sonuç/son sunumu, giriş ve ekran odağı.
 - `game/Betikler/Oyun/OyunDurumu.cs`: Godot'tan bağımsız gösterge değerleri, değişim bildirimleri ve oyun akışı.
 - `game/Betikler/Cekirdek/`: Yıl sayacı ve sekiz son kontrolü.
 - `game/Betikler/Arayuz/AcilisEkrani.cs`, `Gostergeler.cs` + `GostergeBileseni.cs`, `KartGorunumu.cs` + `KaydirmaKontrolu.cs`: Oyun sahnesindeki açılış, gösterge ve kart bileşenleri; kaydırma, eğim, çıkış animasyonu ve klavye kararı.
 - `game/Betikler/Kartlar/`: Kart doğrulama, yerel deste, tema ve oturum boyunca sabit karakter adları/hitap.
-- `game/Testler/SahneIskeletiTesti.tscn`: H1 çekirdek, fare/dokunma/klavye ve üç boyutta yerleşim kontrolleri.
+- `game/Testler/SahneIskeletiTesti.tscn`: H1 çekirdek, fare/dokunma/klavye, telefondaki dokunma sırası, geri tuşu ve dört boyutta (dikey telefon 360×800 dahil) yerleşim kontrolleri.
 - `game/Testler/H2OyunTesti.tscn`: Sekiz son, sonuç ekranı, yıl sayacı, yeniden oyun ve bozuk desteden toparlanma.
-- `game/Testler/MenuTesti.tscn`: Menülerin teması, üç boyutta yerleşimi, düğme geçişleri, Escape ve ses ayarı.
+- `game/Testler/MenuTesti.tscn`: Menülerin teması, dört boyutta yerleşimi, düğme geçişleri, Escape, Android geri tuşu, dikey telefon ayarları, güvenli alan ve ses ayarı.
 - `game/Testler/KartCevirmeTesti.tscn`: Kartın iki yöne sürüklenmesi, eğimi, iptali ve tek karar.
 
 ## Sahne iskeleti testi
@@ -101,7 +101,7 @@ for t in game/Testler/*.tscn; do ../.tools/Godot_v4.7.2-stable_mono_linux_x86_64
 
 ## Android durumu
 
-**G0 yapıldı (7 Kasım 2026):** debug APK gerçek telefonda (POCO X5 Pro 5G, Android 14, arm64) kuruldu; altın set destesiyle tam oyun modelsiz oynandı. Bulunan dört sorun düzeltildi: Android'de C# derlenmiyordu (C# 13), oyun yatay açılıyordu (artık dikey), dokunmayla ses kaydırıcısı ve sayfa kaydırma çalışmıyordu, geri tuşu her ekranda uygulamayı kapatıyordu. Ayrıntı, komutlar ve kalanlar: [Android G0 notu](docs/android_g0.md).
+**G0 yapıldı (7 Kasım 2026):** debug APK gerçek telefonda (POCO X5 Pro 5G, Android 14, arm64) kuruldu; altın set destesiyle üç tam oyun dokunarak, modelsiz oynandı. Bulunan sekiz sorun düzeltildi ve testlere eklendi: Android'de C# derlenmiyordu (C# 13); oyun yatay açılıyordu (artık dikey); dokunmayla ses kaydırıcısı ve sayfa kaydırma çalışmıyordu; geri tuşu uygulamayı kapatıyordu; dikeyde oyun ekranı sığmıyordu; kamera deliği sayacın üstüne denk geliyordu; geri tuşu odak çerçevesi açıyordu; telefonda klavye ipucu görünüyordu. Ayrıntı, komutlar ve kalanlar: [Android G0 notu](docs/android_g0.md).
 
 Gerekenler: aynı Godot sürümünün **.NET export templates** paketi, OpenJDK (bu bilgisayarda 21), Android SDK (build-tools 36) ve dışa aktarma ayarındaki **Android** hazır ayarı. Android derlemesi `net9.0` / **C# 13** ile yapılır (Godot şablonu böyle ister); `Game.csproj` dil sürümünü 13'e sabitler, böylece C# 14'e özgü yazım masaüstünde de hata verir. Release çıktısı için imza anahtarı ekip kararıdır; anahtar repoya girmez.
 

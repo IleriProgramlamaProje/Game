@@ -33,12 +33,15 @@ public partial class OyunEkranlari : Control
 		};
 		Bul<Button>("AnaMenuyeDon").Pressed += AnaMenuyeDon;
 		Bul<Button>("TekrarYukle").Pressed += Yukle;
+		// Telefonda kartın üstündeki "← Sola veya sağa sürükle →" yeterlidir; klavye ipucu anlamsızdır.
+		Bul<Control>("Yardim").Visible = !OS.HasFeature("mobile");
 		Resized += Yerlesim;
 		Yerlesim();
 		Yukle();
 	}
 	private void Yerlesim()
 	{
+		GuvenliAlan.Uygula(Bul<ScrollContainer>("Icerik"));
 		int kenar = (int)Mathf.Max(16, (Size.X - 640) / 2);
 		var bosluk = Bul<MarginContainer>("Bosluk");
 		bosluk.AddThemeConstantOverride("margin_left", kenar);
@@ -138,6 +141,8 @@ public partial class OyunEkranlari : Control
 		AktifEkran = ekran;
 		foreach (var e in Enum.GetValues<Ekran>()) Bul<Control>(e + "Paneli").Visible = e == ekran;
 		Bul<Control>("Gostergeler").Visible = ekran != Ekran.Acilis;
+		// Başlık bandı yalnız hükümdar seçimindedir: dikey telefonda göstergeler ile kart, sonda da iki düğme birlikte sığar.
+		Bul<Control>("OyunAdi").Visible = ekran == Ekran.Acilis;
 		_kart.Iptal();
 		_kart.Etkin = ekran == Ekran.Oyun;
 		Bul<Button>("Devam").Disabled = ekran != Ekran.Sonuc;

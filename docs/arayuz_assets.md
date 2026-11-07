@@ -39,3 +39,14 @@ Bu çalışma arayüzün ilk görsel entegrasyonudur. Karakter portreleri, sonla
 | Menü başlığı / ikincil metin | `MenuTitle`, `MutedLabel` |
 
 Dikkat: kart çerçevesi dosya numaraları atlastaki sırayla aynı değildir; `card_frame_05` bordo, `card_frame_06` laciverttir. İki dosyanın içe aktarma ayarında, ana kartla aynı nine-patch kalınlığı için `process/size_limit=256` kullanılır.
+
+## 7 Kasım · G0 sonrası dikey telefon düzeni
+
+Oyun dikeydir, temel boyut 360×640 (telefonda mantıksal ekran ~360×800). Gerçek telefon denemesinden sonra:
+
+- Oyun ekranında başlık bandı yalnız hükümdar seçiminde görünür. Oyunda yer karta, son ekranında iki düğmeye kalır.
+- Kart, sayaç ve göstergelerle birlikte sığacak kadar küçülür; en fazla %75'e iner, daha uzun kartta sayfa kayar.
+- Telefonda kaydırma alanları kamera deliğinin altından başlar; zemin tam ekrandır.
+- Kartın altındaki klavye ipucu telefonda gizlenir.
+
+Ayrıntı ve ekran ölçüleri: [Android G0 notu](android_g0.md).

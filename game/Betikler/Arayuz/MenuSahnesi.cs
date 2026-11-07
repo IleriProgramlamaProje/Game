@@ -68,6 +68,7 @@ public abstract partial class MenuSahnesi : Control
     // Dar telefonda iki yanda 16 birim kalır; geniş ekranda sütun okunur genişlikte durur.
     private void Yerlesim()
     {
+        GuvenliAlan.Uygula(GetNodeOrNull<Control>("Kaydirma"));
         var icerik = GetNodeOrNull<Control>("%Icerik");
         if (icerik != null && Size.X > 0)
             icerik.CustomMinimumSize = new Vector2(Mathf.Min(IcerikGenisligi, Size.X - 32), 0);
