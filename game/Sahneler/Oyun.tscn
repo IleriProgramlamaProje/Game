@@ -1,18 +1,17 @@
-[gd_scene load_steps=13 format=3 uid="uid://bbnsr6mo152jg"]
+[gd_scene load_steps=14 format=3 uid="uid://bbnsr6mo152jg"]
 
 [ext_resource type="Script" path="res://Betikler/Arayuz/OyunEkranlari.cs" id="1"]
 [ext_resource type="Script" path="res://Betikler/Arayuz/KartGorunumu.cs" id="2"]
 [ext_resource type="Texture2D" path="res://Assets/ui/icons/icon_01.png" id="3"]
-
 [ext_resource type="Script" path="res://Betikler/Arayuz/AcilisEkrani.cs" id="4"]
 [ext_resource type="Script" path="res://Betikler/Arayuz/Gostergeler.cs" id="5"]
-
 [ext_resource type="Theme" path="res://Assets/ui/krallik_tema.tres" id="6"]
 [ext_resource type="Texture2D" path="res://Assets/ui/backgrounds/bg_dark_fabric.png" id="7"]
 [ext_resource type="Texture2D" path="res://Assets/ui/icons/icon_02.png" id="8"]
 [ext_resource type="Texture2D" path="res://Assets/ui/icons/icon_03.png" id="9"]
 [ext_resource type="Texture2D" path="res://Assets/ui/icons/icon_04.png" id="10"]
 [ext_resource type="Texture2D" path="res://Assets/ui/icons/icon_05.png" id="11"]
+[ext_resource type="Script" path="res://Betikler/Arayuz/GostergeBileseni.cs" id="12"]
 
 [sub_resource type="AtlasTexture" id="Kumas"]
 atlas = ExtResource("7")
@@ -80,9 +79,9 @@ layout_mode = 2
 mouse_filter = 2
 theme_type_variation = &"Banner"
 horizontal_alignment = 1
-text = "Kaydır & Karar Ver"
+text = "BUYRUK"
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 26
 
 [node name="HataAlani" type="VBoxContainer" parent="Icerik/Bosluk/Duzen"]
 unique_name_in_owner = true
@@ -115,6 +114,8 @@ theme_override_constants/separation = 12
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
+theme_type_variation = &"MutedLabel"
+horizontal_alignment = 1
 text = "Tahtta geçen yıl: 0 · Karar: 0"
 autowrap_mode = 3
 theme_override_font_sizes/font_size = 16
@@ -128,6 +129,10 @@ theme_override_constants/v_separation = 12
 [node name="yonetim" type="VBoxContainer" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar"]
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("12")
+Anahtar = "yonetim"
+EtiketYolu = NodePath("Baslik/yonetimDeger")
+CubukYolu = NodePath("yonetimCubuk")
 
 [node name="Baslik" type="HBoxContainer" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar/yonetim"]
 layout_mode = 2
@@ -161,6 +166,10 @@ mouse_filter = 2
 [node name="halk" type="VBoxContainer" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar"]
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("12")
+Anahtar = "halk"
+EtiketYolu = NodePath("Baslik/halkDeger")
+CubukYolu = NodePath("halkCubuk")
 
 [node name="Baslik" type="HBoxContainer" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar/halk"]
 layout_mode = 2
@@ -194,6 +203,10 @@ mouse_filter = 2
 [node name="para" type="VBoxContainer" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar"]
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("12")
+Anahtar = "para"
+EtiketYolu = NodePath("Baslik/paraDeger")
+CubukYolu = NodePath("paraCubuk")
 
 [node name="Baslik" type="HBoxContainer" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar/para"]
 layout_mode = 2
@@ -227,6 +240,10 @@ mouse_filter = 2
 [node name="ordu" type="VBoxContainer" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar"]
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("12")
+Anahtar = "ordu"
+EtiketYolu = NodePath("Baslik/orduDeger")
+CubukYolu = NodePath("orduCubuk")
 
 [node name="Baslik" type="HBoxContainer" parent="Icerik/Bosluk/Duzen/Gostergeler/Cubuklar/ordu"]
 layout_mode = 2
@@ -275,8 +292,7 @@ theme_override_constants/separation = 16
 mouse_filter = 2
 
 [node name="AcilisBaslik" type="Label" parent="Icerik/Bosluk/Duzen/AcilisPaneli/AcilisAnlati/MetinDuzeni"]
-theme_type_variation = &"ReadingHeading"
-theme_override_colors/font_color = Color(0.17, 0.105, 0.055, 1)
+theme_type_variation = &"ParchmentHeading"
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -285,7 +301,7 @@ autowrap_mode = 3
 theme_override_font_sizes/font_size = 24
 
 [node name="AcilisMetni" type="Label" parent="Icerik/Bosluk/Duzen/AcilisPaneli/AcilisAnlati/MetinDuzeni"]
-theme_override_colors/font_color = Color(0.17, 0.105, 0.055, 1)
+theme_type_variation = &"ParchmentLabel"
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -294,7 +310,7 @@ autowrap_mode = 3
 theme_override_font_sizes/font_size = 18
 
 [node name="Kural" type="Label" parent="Icerik/Bosluk/Duzen/AcilisPaneli/AcilisAnlati/MetinDuzeni"]
-theme_override_colors/font_color = Color(0.17, 0.105, 0.055, 1)
+theme_type_variation = &"ParchmentLabel"
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -306,45 +322,65 @@ theme_override_font_sizes/font_size = 18
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
-text = "Hükümdarını seç"
+horizontal_alignment = 1
+text = "Hükümdarını seç ve tahta çık"
 autowrap_mode = 3
 theme_override_font_sizes/font_size = 18
 
-[node name="Cinsiyet" type="OptionButton" parent="Icerik/Bosluk/Duzen/AcilisPaneli"]
-unique_name_in_owner = true
+[node name="HukumdarSecenekleri" type="HBoxContainer" parent="Icerik/Bosluk/Duzen/AcilisPaneli"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 48)
-item_count = 2
-selected = 0
-popup/item_0/text = "Bey — Beyim"
-popup/item_0/id = 0
-popup/item_1/text = "Hatun — Hatunum"
-popup/item_1/id = 1
+theme_override_constants/separation = 12
 
-[node name="Baslat" type="Button" parent="Icerik/Bosluk/Duzen/AcilisPaneli"]
+[node name="Beyim" type="Button" parent="Icerik/Bosluk/Duzen/AcilisPaneli/HukumdarSecenekleri"]
 theme_type_variation = &"PrimaryButton"
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(0, 48)
-text = "Tahta Çık"
-autowrap_mode = 3
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 72)
+text = "BEYİM
+Tahta Çık"
+
+[node name="Hatunum" type="Button" parent="Icerik/Bosluk/Duzen/AcilisPaneli/HukumdarSecenekleri"]
+theme_type_variation = &"PrimaryButton"
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 72)
+text = "HATUNUM
+Tahta Çık"
 
 [node name="OyunPaneli" type="VBoxContainer" parent="Icerik/Bosluk/Duzen"]
 unique_name_in_owner = true
 layout_mode = 2
 visible = false
-theme_override_constants/separation = 16
+theme_override_constants/separation = 12
 
-[node name="KartAlani" type="PanelContainer" parent="Icerik/Bosluk/Duzen/OyunPaneli"]
+[node name="KartYuvasi" type="Control" parent="Icerik/Bosluk/Duzen/OyunPaneli"]
 unique_name_in_owner = true
 layout_mode = 2
+custom_minimum_size = Vector2(0, 360)
+mouse_filter = 2
+
+[node name="DesteKarti0" type="Panel" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartYuvasi"]
+layout_mode = 0
+theme_type_variation = &"DeckBackNavy"
+mouse_filter = 2
+
+[node name="DesteKarti1" type="Panel" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartYuvasi"]
+layout_mode = 0
+theme_type_variation = &"DeckBackCrimson"
+mouse_filter = 2
+
+[node name="KartAlani" type="PanelContainer" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartYuvasi"]
+unique_name_in_owner = true
+layout_mode = 0
 custom_minimum_size = Vector2(0, 200)
 script = ExtResource("2")
 theme_type_variation = &"CardPanel"
 mouse_filter = 0
 focus_mode = 2
 
-[node name="KartBosluk" type="MarginContainer" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartAlani"]
+[node name="KartBosluk" type="MarginContainer" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartYuvasi/KartAlani"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 0
@@ -352,14 +388,13 @@ theme_override_constants/margin_right = 0
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="KartIcerik" type="VBoxContainer" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartAlani/KartBosluk"]
+[node name="KartIcerik" type="VBoxContainer" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartYuvasi/KartAlani/KartBosluk"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 14
 
-[node name="KartBasligi" type="Label" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartAlani/KartBosluk/KartIcerik"]
-theme_type_variation = &"ReadingHeading"
-theme_override_colors/font_color = Color(0.17, 0.105, 0.055, 1)
+[node name="KartBasligi" type="Label" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartYuvasi/KartAlani/KartBosluk/KartIcerik"]
+theme_type_variation = &"ParchmentHeading"
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -367,8 +402,8 @@ text = ""
 autowrap_mode = 3
 theme_override_font_sizes/font_size = 24
 
-[node name="KartMetni" type="Label" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartAlani/KartBosluk/KartIcerik"]
-theme_override_colors/font_color = Color(0.17, 0.105, 0.055, 1)
+[node name="KartMetni" type="Label" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartYuvasi/KartAlani/KartBosluk/KartIcerik"]
+theme_type_variation = &"ParchmentLabel"
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -376,31 +411,27 @@ text = ""
 autowrap_mode = 3
 theme_override_font_sizes/font_size = 20
 
-[node name="Onizleme" type="Label" parent="Icerik/Bosluk/Duzen/OyunPaneli"]
+[node name="KararOnizleme" type="Label" parent="Icerik/Bosluk/Duzen/OyunPaneli/KartYuvasi/KartAlani/KartBosluk/KartIcerik"]
+theme_type_variation = &"ParchmentLabel"
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
-text = "Kartı kaydır veya aşağıdan bir karar seç."
+custom_minimum_size = Vector2(0, 112)
+text = "← Sola veya sağa sürükle →"
 autowrap_mode = 3
+horizontal_alignment = 1
+vertical_alignment = 1
 theme_override_font_sizes/font_size = 16
 
-[node name="Kararlar" type="VBoxContainer" parent="Icerik/Bosluk/Duzen/OyunPaneli"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="SolKarar" type="Button" parent="Icerik/Bosluk/Duzen/OyunPaneli/Kararlar"]
+[node name="Yardim" type="Label" parent="Icerik/Bosluk/Duzen/OyunPaneli"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(0, 48)
-text = "Sol karar"
+mouse_filter = 2
+theme_type_variation = &"MutedLabel"
+horizontal_alignment = 1
+text = "Kartı sağa veya sola sürükle; karar belirince bırak. Klavyede ← → ile seç, Enter ile onayla."
 autowrap_mode = 3
-
-[node name="SagKarar" type="Button" parent="Icerik/Bosluk/Duzen/OyunPaneli/Kararlar"]
-unique_name_in_owner = true
-layout_mode = 2
-custom_minimum_size = Vector2(0, 48)
-text = "Sağ karar"
-autowrap_mode = 3
+theme_override_font_sizes/font_size = 15
 
 [node name="SonucPaneli" type="VBoxContainer" parent="Icerik/Bosluk/Duzen"]
 unique_name_in_owner = true
@@ -419,8 +450,7 @@ theme_override_constants/separation = 16
 mouse_filter = 2
 
 [node name="SonucBaslik" type="Label" parent="Icerik/Bosluk/Duzen/SonucPaneli/SonucAnlati/MetinDuzeni"]
-theme_type_variation = &"ReadingHeading"
-theme_override_colors/font_color = Color(0.17, 0.105, 0.055, 1)
+theme_type_variation = &"ParchmentHeading"
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -429,7 +459,7 @@ autowrap_mode = 3
 theme_override_font_sizes/font_size = 24
 
 [node name="SonucMetni" type="Label" parent="Icerik/Bosluk/Duzen/SonucPaneli/SonucAnlati/MetinDuzeni"]
-theme_override_colors/font_color = Color(0.17, 0.105, 0.055, 1)
+theme_type_variation = &"ParchmentLabel"
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -438,7 +468,7 @@ autowrap_mode = 3
 theme_override_font_sizes/font_size = 18
 
 [node name="SonucEtkileri" type="Label" parent="Icerik/Bosluk/Duzen/SonucPaneli/SonucAnlati/MetinDuzeni"]
-theme_override_colors/font_color = Color(0.17, 0.105, 0.055, 1)
+theme_type_variation = &"ParchmentLabel"
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -471,8 +501,7 @@ theme_override_constants/separation = 16
 mouse_filter = 2
 
 [node name="SonBaslik" type="Label" parent="Icerik/Bosluk/Duzen/SonPaneli/SonAnlati/MetinDuzeni"]
-theme_type_variation = &"ReadingHeading"
-theme_override_colors/font_color = Color(0.17, 0.105, 0.055, 1)
+theme_type_variation = &"ParchmentHeading"
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -489,7 +518,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="SonMetni" type="Label" parent="Icerik/Bosluk/Duzen/SonPaneli/SonAnlati/MetinDuzeni"]
-theme_override_colors/font_color = Color(0.17, 0.105, 0.055, 1)
+theme_type_variation = &"ParchmentLabel"
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -498,7 +527,7 @@ autowrap_mode = 3
 theme_override_font_sizes/font_size = 18
 
 [node name="SonOzet" type="Label" parent="Icerik/Bosluk/Duzen/SonPaneli/SonAnlati/MetinDuzeni"]
-theme_override_colors/font_color = Color(0.17, 0.105, 0.055, 1)
+theme_type_variation = &"ParchmentLabel"
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -511,5 +540,12 @@ theme_type_variation = &"PrimaryButton"
 unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 48)
-text = "Yeniden Dene"
+text = "Tekrar Oyna"
+autowrap_mode = 3
+
+[node name="AnaMenuyeDon" type="Button" parent="Icerik/Bosluk/Duzen/SonPaneli"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+text = "Ana Menüye Dön"
 autowrap_mode = 3

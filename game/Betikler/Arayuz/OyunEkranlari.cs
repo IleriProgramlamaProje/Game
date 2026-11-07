@@ -20,11 +20,8 @@ public partial class OyunEkranlari : Control
 	public override void _Ready()
 	{
 		_kart = Bul<KartGorunumu>("KartAlani");
-		_kart.Onizleme += Onizle;
 		_kart.KararOnaylandi += taraf => KararVer(taraf == KartTarafi.Sag);
 		Bul<AcilisEkrani>("AcilisPaneli").TahtaCikildi += Baslat;
-		Bul<Button>("SolKarar").Pressed += () => KararVer(false);
-		Bul<Button>("SagKarar").Pressed += () => KararVer(true);
 		Bul<Button>("Devam").Pressed += () => { if (Oyun?.DevamEt() == true) Guncelle(); };
 		Bul<Button>("Yeniden").Pressed += () =>
 		{
@@ -32,9 +29,9 @@ public partial class OyunEkranlari : Control
 			Oyun?.AcilisaDon();
 			_metin = null;
 			_gosterilenKart = 0;
-			Bul<AcilisEkrani>("AcilisPaneli").Sifirla();
 			EkraniGoster(Ekran.Acilis);
 		};
+		Bul<Button>("AnaMenuyeDon").Pressed += AnaMenuyeDon;
 		Bul<Button>("TekrarYukle").Pressed += Yukle;
 		Resized += Yerlesim;
 		Yerlesim();
@@ -62,14 +59,14 @@ public partial class OyunEkranlari : Control
 			Oyun = new OyunYoneticisi(deste, _tema.Yil.KacKarttaBirYil);
 			Bul<Label>("AcilisMetni").Text = _tema.Acilis;
 			Bul<Control>("HataAlani").Hide();
-			Bul<Button>("Baslat").Disabled = false;
+			Bul<AcilisEkrani>("AcilisPaneli").EtkinligiAyarla(true);
 			EkraniGoster(Ekran.Acilis);
 		}
 		catch (Exception hata) when (hata is FormatException or InvalidOperationException)
 		{
 			GD.PushWarning(hata.Message);
 			Oyun = null;
-			Bul<Button>("Baslat").Disabled = true;
+			Bul<AcilisEkrani>("AcilisPaneli").EtkinligiAyarla(false);
 			EkraniGoster(Ekran.Acilis);
 			Bul<Control>("HataAlani").Show();
 			Bul<Label>("HataMetni").Text = "Oyun verisi okunamadı. Tema ve deste dosyalarını kontrol edip yeniden deneyin.";
@@ -87,25 +84,9 @@ public partial class OyunEkranlari : Control
 		if (AktifEkran != Ekran.Oyun || Oyun == null) return;
 		if (Oyun.KararVer(sag, _gosterilenKart)) Guncelle();
 	}
-	private void Onizle(float oran)
+	private void AnaMenuyeDon()
 	{
-		if (Oyun?.AktifKart == null || _metin == null) return;
-		var metin = Bul<Label>("KartMetni");
-		if (AktifEkran != Ekran.Oyun || oran == 0)
-		{
-			_kart.CustomMinimumSize = new Vector2(0, 200);
-			metin.AddThemeFontSizeOverride("font_size", 20);
-			metin.Text = _metin.Yerlestir(Oyun.AktifKart.Metin);
-			return;
-		}
-		// Önizleme kartın içinde kalır: yatay telefonda aşağıda kaybolmaz.
-		_kart.CustomMinimumSize = new Vector2(0, _kart.Size.Y);
-		var karar = oran > 0 ? Oyun.AktifKart.Sag : Oyun.AktifKart.Sol;
-		string etkiler = string.Join("   ", Gostergeler.Siralama.Where(karar.Etki.ContainsKey)
-			.Select(k => $"{Gostergeler.Ad(k)} {(karar.Etki[k] > 0 ? "▲" : "▼")}"));
-		metin.AddThemeFontSizeOverride("font_size", 16);
-		metin.Text = $"{_metin.Yerlestir(karar.Etiket)}\n\n{etkiler}\n\n" +
-			(Mathf.Abs(oran) >= 1 ? "Karar vermek için bırak." : "Vazgeçmek için ortaya geri getir.");
+		if (AktifEkran == Ekran.Son) GetTree().ChangeSceneToFile("res://Sahneler/AnaMenu.tscn");
 	}
 	private void Guncelle()
 	{
@@ -143,15 +124,15 @@ public partial class OyunEkranlari : Control
 		AktifEkran = ekran;
 		foreach (var e in Enum.GetValues<Ekran>()) Bul<Control>(e + "Paneli").Visible = e == ekran;
 		Bul<Control>("Gostergeler").Visible = ekran != Ekran.Acilis;
-		_kart.Etkin = ekran == Ekran.Oyun;
 		_kart.Iptal();
-		Bul<Button>("SolKarar").Disabled = ekran != Ekran.Oyun;
-		Bul<Button>("SagKarar").Disabled = ekran != Ekran.Oyun;
+		_kart.Etkin = ekran == Ekran.Oyun;
 		Bul<Button>("Devam").Disabled = ekran != Ekran.Sonuc;
 		Bul<Button>("Yeniden").Disabled = ekran != Ekran.Son;
+		Bul<Button>("AnaMenuyeDon").Disabled = ekran != Ekran.Son;
 		Bul<ScrollContainer>("Icerik").ScrollVertical = 0;
-		string odak = ekran switch { Ekran.Acilis => "Cinsiyet", Ekran.Oyun => "KartAlani", Ekran.Sonuc => "Devam", _ => "Yeniden" };
-		Bul<Control>(odak).GrabFocus();
+		string odak = ekran switch { Ekran.Acilis => "Beyim", Ekran.Oyun => "KartAlani", Ekran.Sonuc => "Devam", _ => "Yeniden" };
+		// Odak klavye için hazırdır; çerçevesi yalnız klavyeyle gezinince görünür.
+		Bul<Control>(odak).GrabFocus(true);
 		OdagaKaydir(Bul<Control>(odak), ekran);
 	}
 	private async void OdagaKaydir(Control odak, Ekran ekran)

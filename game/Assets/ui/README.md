@@ -35,11 +35,13 @@ Paketin üzerine `krallik_tema.tres` eklenerek mevcut `Sahneler/Oyun.tscn` sahne
 | Zemin | `backgrounds/bg_dark_fabric.png` — sahnede `AtlasTexture` ile süslü kenarların içi seçilir, düşük opaklıkta döşenir |
 | Oyun adı | `panels_frames/panel_frame_03.png` |
 | Kart ve anlatı alanları | `cards/card_frame_07.png` |
-| Karar düğmeleri, hükümdar seçicisi | `buttons/button_04.png` |
-| Tahta Çık / Devam Et / Yeniden Dene | `buttons/button_10.png` |
+| Normal düğmeler (menü, geri, ana menüye dön) | `buttons/button_04.png` |
+| Beyim / Hatunum / Devam Et / Tekrar Oyna / Yeni Oyun | `buttons/button_10.png` |
+| Arka deste kartları, Ayarlar paneli | `cards/card_frame_06.png` (lacivert), `cards/card_frame_05.png` (bordo) |
+| Menü arması ve düğme ikonları | `icons/icon_01`, `06`, `08`, `10`–`13` |
 | Yönetim / Halk / Para / Ordu | `icons/icon_02.png` / `03` / `04` / `05` |
 | Son ekranındaki geçici hükümdarlık simgesi | `icons/icon_01.png` |
 
-Seçilen iki düğme, kart ve başlık görselinin import ayarında `process/size_limit=256` kullanılır. Bu, süslerin nine-patch kenar kalınlığını ekrana uyarlar; kaynak PNG çözünürlükleri değişmez. Diğer resimler özgün import boyutunda durur. Tema hover, basılı, pasif ve klavye odağı stillerini içerir. Sayılar gerçek `ProgressBar` değerleridir; hazır widget'lardaki doluluk oyunun durumu yerine kullanılmaz.
+Seçilen iki düğme, üç kart çerçevesi ve başlık görselinin import ayarında `process/size_limit=256` kullanılır. Bu, süslerin nine-patch kenar kalınlığını ekrana uyarlar; kaynak PNG çözünürlükleri değişmez. Diğer resimler özgün import boyutunda durur. Tema hover, basılı, pasif ve klavye odağı stillerini içerir. Sayılar gerçek `ProgressBar` değerleridir; hazır widget'lardaki doluluk oyunun durumu yerine kullanılmaz.
 
 Paketin README ve manifest dosyası kullanıcıdan gelen varlıkların kaynağıdır; ayrı bir görsel lisans belgesi eklenmemiştir. H4'ün portre/son illüstrasyonları ve sesleri bu entegrasyonun kapsamı değildir.

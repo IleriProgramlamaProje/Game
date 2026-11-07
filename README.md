@@ -1,6 +1,6 @@
-# Game · Godot + C#
+# Game · BUYRUK · Godot + C#
 
-İleri Programlama okul projesinin oyun istemcisi. Önceki Unity iskeleti yerine Godot kullanılır. Python/AI ve belgeler kardeş depolardadır.
+İleri Programlama okul projesinin oyun istemcisi. Oyunun adı **BUYRUK**. Önceki Unity iskeleti yerine Godot kullanılır. Python/AI ve belgeler kardeş depolardadır.
 
 **Geliştirmeye başlamadan:** [Oyun geliştirme planı](docs/oyun_gelistirme_plani.md) — haftalık görevler, Godot yapısı, kabul testleri ve devir kontrol listeleri.
 
@@ -18,7 +18,11 @@ Godot .NET editörü ve dışa aktarma şablonları resmî sürüm arşivinden a
 1. .NET SDK'yı kurun: https://dotnet.microsoft.com/download/dotnet/10.0
 2. Godot **.NET** sürümünü indirip arşivden çıkarın; beraberindeki `GodotSharp` klasörünü koruyun.
 3. Godot proje yöneticisinde `game/project.godot` dosyasını içe aktarın.
-4. Projeyi derleyip **F5** ile `Sahneler/Oyun.tscn` ana sahnesini çalıştırın. Hükümdarını seçip **Tahta Çık** düğmesine basın; kartı kaydırın veya karar düğmelerini kullanın. Sonuçtan **Devam Et** ile ilerleyin. Bir gösterge 0/100 olduğunda ilgili son açılır; **Yeniden Dene** yeni hükümdar seçimine döner. Her beş kabul edilmiş karar bir yıldır. **F6 yalnız açık sahneyi çalıştırır**: eski `Baslangic.tscn` açıksa boş pencere ve `C# ortamı hazır` mesajı beklenir.
+4. Projeyi derleyip **F5** ile oyunu çalıştırın; ana sahne `Sahneler/AnaMenu.tscn`'dir. **Yeni Oyun → Başla** ile oyun ekranı açılır. **Beyim** ya da **Hatunum** ile tahta çıkın.
+5. Kartı fare veya parmakla sağa/sola sürükleyin; eşik geçilince **bırakın**, vazgeçmek için ortaya geri getirin. Klavyede **← / →** kartı o yöne yatırıp kararı önizler; **Enter** ya da aynı ok onaylar, ters ok veya **Esc** vazgeçer.
+6. Sonuçtan **Devam Et** ile ilerleyin. Bir gösterge 0/100 olduğunda ilgili son açılır; **Tekrar Oyna** yeni hükümdar seçimine, **Ana Menüye Dön** menüye döner. Her beş kabul edilmiş karar bir yıldır.
+
+**F6 yalnız açık sahneyi çalıştırır**: `Oyun.tscn` açıkken menüsüz doğrudan oyun, eski `Baslangic.tscn` açıksa boş pencere ve `C# ortamı hazır` mesajı beklenir. Ayarlar (ses düzeyi, masaüstünde tam ekran) `user://ayarlar.cfg` dosyasında saklanır.
 
 Mevcut yerel sürüm on örnek kartla ağ bağlantısı olmadan oynanır. Bunlar çapraz okumadan geçmiş altın set değildir. [H2 durum ve devir notu](docs/h2_durum.md), kalan ekip/veri işlerini; [veri notu](game/Veri/README.md), deste biçimini ve tema kaynağını açıklar.
 
@@ -38,7 +42,7 @@ Muhammed'in mevcut çalışma alanına .NET editörü, repoya dahil edilmeden `.
 
 ## Arayüz görselleri
 
-Kullanıcının sağladığı paket `game/Assets/ui/` altındadır. Açılış, kart, sonuç ve son ekranları lacivert kumaş zemin, altın çerçeveler ve parşömen okuma alanlarıyla ortak `krallik_tema.tres` temasını kullanır. Türkçe Noto Serif ve sembol yedeği lisanslarıyla paketlenmiştir. [Arayüz notu](docs/arayuz_assets.md) görsel eşleşmeleri ve kapsamı açıklar.
+Kullanıcının sağladığı paket `game/Assets/ui/` altındadır. Ana menü, alt menüler ve oyunun açılış, kart, sonuç ve son ekranları lacivert kumaş zemin, altın çerçeveler ve parşömen okuma alanlarıyla ortak `krallik_tema.tres` temasını kullanır. Türkçe Noto Serif ve sembol yedeği lisanslarıyla paketlenmiştir. [Arayüz notu](docs/arayuz_assets.md) görsel eşleşmeleri ve kapsamı açıklar.
 
 PNG kaynakları **Git LFS** ile saklanır. Git LFS kurulu bir bilgisayarda klonlama/güncelleme sonrasında:
 
@@ -52,15 +56,18 @@ git lfs pull
 - `game/Game.csproj`: Godot .NET SDK ve hedef framework.
 - `game/Baslangic.cs`: `_Ready()` içinde C# çalışma zamanı doğrulaması.
 - `game/Baslangic.tscn`: Scriptin bağlı olduğu başlangıç sahnesi.
-- `game/project.godot`: Ana sahne, C# ve Compatibility ayarları.
-- `game/Sahneler/Oyun.tscn`: Açılış, kart, sonuç ve son panelleri.
+- `game/project.godot`: Ana sahne (`AnaMenu.tscn`), C# ve Compatibility ayarları.
+- `game/Sahneler/AnaMenu.tscn`, `YeniOyun.tscn`, `KayitliOyunlar.tscn`, `Ayarlar.tscn`, `Credits.tscn`: BUYRUK menüleri. `MenuSahnesi` ortak yaşam döngüsü ve geçişleri, `AltEkran` geri/Escape davranışını, `AyarlarEkrani` ve `OyunAyarlari` kalıcı ayarları yönetir.
+- `game/Sahneler/Oyun.tscn`: Açılış, kart (deste görünümüyle), sonuç ve son panelleri.
 - `game/Betikler/Arayuz/OyunEkranlari.cs`: Veri yükleme, gösterge/sonuç/son sunumu, giriş ve ekran odağı.
 - `game/Betikler/Oyun/OyunDurumu.cs`: Godot'tan bağımsız gösterge değerleri, değişim bildirimleri ve oyun akışı.
 - `game/Betikler/Cekirdek/`: Yıl sayacı ve sekiz son kontrolü.
-- `game/Betikler/Arayuz/AcilisEkrani.cs`, `Gostergeler.cs`, `KartGorunumu.cs`: Ana sahnede kullanılan açılış, gösterge ve kart bileşenleri.
+- `game/Betikler/Arayuz/AcilisEkrani.cs`, `Gostergeler.cs` + `GostergeBileseni.cs`, `KartGorunumu.cs` + `KaydirmaKontrolu.cs`: Oyun sahnesindeki açılış, gösterge ve kart bileşenleri; kaydırma, eğim, çıkış animasyonu ve klavye kararı.
 - `game/Betikler/Kartlar/`: Kart doğrulama, yerel deste, tema ve oturum boyunca sabit karakter adları/hitap.
 - `game/Testler/SahneIskeletiTesti.tscn`: H1 çekirdek, fare/dokunma/klavye ve üç boyutta yerleşim kontrolleri.
 - `game/Testler/H2OyunTesti.tscn`: Sekiz son, sonuç ekranı, yıl sayacı, yeniden oyun ve bozuk desteden toparlanma.
+- `game/Testler/MenuTesti.tscn`: Menülerin teması, üç boyutta yerleşimi, düğme geçişleri, Escape ve ses ayarı.
+- `game/Testler/KartCevirmeTesti.tscn`: Kartın iki yöne sürüklenmesi, eğimi, iptali ve tek karar.
 
 ## Sahne iskeleti testi
 
@@ -72,7 +79,7 @@ git lfs pull
 
 Diğer bilgisayarlarda aynı argümanları kurulu Godot .NET çalıştırılabilir dosyasına verin. Test başarıda `H1 TESTLERİ BAŞARILI` yazar ve 0 koduyla çıkar; başarısızlıkta hata ve 1 koduyla çıkar. `--headless` olmadan çalıştırıldığında ayrıca `.godot/testler/` altında yerel ekran görüntüleri oluşturur. Bu çıktılar Git'e girmez.
 
-Kontroller: kart/deste doğrulama, başlangıç ve sınırlar, hitap/isimler, eski/çift girişin reddi; Godot viewport'una sentetik fare, çoklu dokunma ve Enter girdisi; 1152×648, 360×640, 640×360 yerleşimleri. Fiziksel dokunmatik, ikinci bilgisayar ve APK doğrulaması ayrıca gerekir.
+Kontroller: kart/deste doğrulama, başlangıç ve sınırlar, hitap/isimler, eski/çift girişin reddi; Godot viewport'una sentetik fare sürüklemesi, çoklu dokunma ve klavye (← → Enter) girdisi; kart metninin kartın içinde kalması; 1152×648, 360×640, 640×360 yerleşimleri. Fiziksel dokunmatik, ikinci bilgisayar ve APK doğrulaması ayrıca gerekir.
 
 H2 testi için aynı derlemeden sonra:
 
@@ -82,7 +89,13 @@ H2 testi için aynı derlemeden sonra:
 
 Başarı çıktısı `H2 TESTLERİ BAŞARILI` ve çıkış kodu 0'dır. Bu test kontrollü desteleri geçici `user://` dosyasına yazar ve temizler; proje destesini değiştirmez. Boş deste testi sırasında üç adet `Deste boş olamaz` uyarısı beklenir. Grafik modunda `.godot/testler/h2/` altına sekiz son ve sonuç ekranları kaydedilir. Linux'ta ekransız grafik kontrolü için komutun başına `xvfb-run -a` eklenebilir ve `--headless` kaldırılır.
 
-Ömer'in H1 bileşen testleri de birleşik sahneye uyarlanmıştır. Aynı Godot komutunda son argüman olarak sırasıyla `res://Testler/OyunDurumuTesti.tscn`, `YedekDesteTesti.tscn`, `KartGorunumuTesti.tscn`, `KaydirmaKontroluTesti.tscn`, `AcilisEkraniTesti.tscn` ve `OyunAkisiTesti.tscn` kullanın (her dosya `res://Testler/` altındadır). Yedek deste testi hem JSON dizi destesini hem Ömer'in `kartlar` kapsayıcılı, kimlik içeren destesini doğrular.
+Ömer'in bileşen testleri de birleşik sahneye uyarlanmıştır. Aynı Godot komutunda son argüman olarak sırasıyla `res://Testler/OyunDurumuTesti.tscn`, `YedekDesteTesti.tscn`, `KartGorunumuTesti.tscn`, `KaydirmaKontroluTesti.tscn`, `KartCevirmeTesti.tscn`, `AcilisEkraniTesti.tscn`, `OyunAkisiTesti.tscn` ve `MenuTesti.tscn` kullanın (her dosya `res://Testler/` altındadır). Menü testi gerçek `user://ayarlar.cfg` dosyasını değiştirirse sonunda eski hâline döndürür.
+
+Tüm testleri tek seferde, Game repo kökünden:
+
+```sh
+for t in game/Testler/*.tscn; do ../.tools/Godot_v4.7.2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux.x86_64 --headless --path game "res://Testler/$(basename "$t")" || echo "BAŞARISIZ: $t"; done
+``` Yedek deste testi hem JSON dizi destesini hem Ömer'in `kartlar` kapsayıcılı, kimlik içeren destesini doğrular.
 
 `.godot/`, derleme çıktıları, APK/AAB ve imzalama anahtarları Git dışında tutulur. `.cs.uid`, `.tscn`, `.csproj` ve kaynak `.import` tanımları kaynaklarla birlikte saklanır.
 
