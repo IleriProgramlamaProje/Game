@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -18,6 +19,9 @@ public sealed record Kart
     [JsonPropertyName("id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string Id { get; init; }
+    [JsonPropertyName("olay_grubu")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string OlayGrubu { get; init; }
     [JsonPropertyName("konusan")] public string Konusan { get; init; }
     [JsonPropertyName("konu")] public string Konu { get; init; }
     [JsonPropertyName("metin")] public string Metin { get; init; }
@@ -26,8 +30,30 @@ public sealed record Kart
     [JsonPropertyName("kaynak")] public string Kaynak { get; init; }
     [JsonPropertyName("lisans")] public string Lisans { get; init; }
 
+    [JsonIgnore]
+    public string OlayKimligi => Id ?? "yerel:" + Convert.ToHexString(SHA256.HashData(
+        JsonSerializer.SerializeToUtf8Bytes(new
+        {
+            Konusan, Konu, Metin,
+            Sol = KimlikIcin(Sol), Sag = KimlikIcin(Sag)
+        })));
+
+    private static object KimlikIcin(Secenek secenek) => new
+    {
+        secenek.Etiket, secenek.Sonuc,
+        Etki = secenek.Etki.OrderBy(p => p.Key, StringComparer.Ordinal).ToArray()
+    };
+
+    internal Kart Kopyala() => this with
+    {
+        Sol = Sol with { Etki = new(Sol.Etki) },
+        Sag = Sag with { Etki = new(Sag.Etki) }
+    };
+
     public void Dogrula(IReadOnlySet<string> roller)
     {
+        if (Id != null && !GecerliKimlik(Id)) throw new FormatException("Kart kimliği geçersiz.");
+        if (OlayGrubu != null && !GecerliKimlik(OlayGrubu)) throw new FormatException("Olay grubu geçersiz.");
         if (string.IsNullOrWhiteSpace(Konusan) || !roller.Contains(Konusan) ||
             string.IsNullOrWhiteSpace(Konu) || string.IsNullOrWhiteSpace(Metin) ||
             string.IsNullOrWhiteSpace(Lisans) || !new[] { "model", "altin_set", "ogretmen" }.Contains(Kaynak))
@@ -43,5 +69,11 @@ public sealed record Kart
             if (uzunluk < 2 || uzunluk > 5) throw new FormatException("Kararlar 2–5 kelime olmalı.");
             Gostergeler.EtkiyiDogrula(secenek.Etki);
         }
+        if (string.Equals(Sol.Etiket.Trim(), Sag.Etiket.Trim(), StringComparison.OrdinalIgnoreCase))
+            throw new FormatException("İki seçenek ayrı kararlar olmalı.");
     }
+
+    internal static bool GecerliKimlik(string kimlik) =>
+        !string.IsNullOrWhiteSpace(kimlik) && kimlik.Length <= 128 &&
+        kimlik == kimlik.Trim() && !kimlik.Any(char.IsControl);
 }

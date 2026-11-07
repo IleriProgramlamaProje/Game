@@ -52,6 +52,7 @@ public sealed class OyunYoneticisi
 {
     private readonly IKartKaynagi _kaynak;
     private readonly int _kacKarardaBirYil;
+    private readonly List<KararKaydi> _kararlar = new();
     public Asama Asama { get; private set; } = Asama.Acilis;
     public OyunDurumu Durum { get; private set; }
     public Kart AktifKart { get; private set; }
@@ -64,10 +65,13 @@ public sealed class OyunYoneticisi
         if (kacKarardaBirYil <= 0) throw new ArgumentOutOfRangeException(nameof(kacKarardaBirYil));
         _kacKarardaBirYil = kacKarardaBirYil;
     }
-    public void Baslat(Hukumdar cinsiyet)
+    /// <param name="baslangic">Destede başlanacak konum; her hükümdarlık aynı kartla açılmasın diye arayüz rastgele seçer.</param>
+    public void Baslat(Hukumdar cinsiyet, int baslangic = 0)
     {
         if (!Enum.IsDefined(cinsiyet)) throw new ArgumentOutOfRangeException(nameof(cinsiyet));
         _kaynak.Sifirla();
+        if (baslangic > 0) _kaynak.KonumaGit(baslangic);
+        _kararlar.Clear();
         Durum = new OyunDurumu(cinsiyet, _kacKarardaBirYil);
         SonKarar = null;
         SonAnahtarlari = Array.Empty<string>();
@@ -76,6 +80,7 @@ public sealed class OyunYoneticisi
     public void AcilisaDon()
     {
         _kaynak.Sifirla();
+        _kararlar.Clear();
         Durum = null;
         AktifKart = null;
         SonKarar = null;
@@ -84,7 +89,7 @@ public sealed class OyunYoneticisi
     }
     private void YeniKart()
     {
-        AktifKart = _kaynak.Sonraki();
+        AktifKart = _kaynak.Sonraki(_kararlar.Select(k => k.OlayId));
         KartKimligi++;
         Asama = Asama.Kart;
     }
@@ -94,6 +99,7 @@ public sealed class OyunYoneticisi
         if (Asama != Asama.Kart || kartKimligi != KartKimligi) return false;
         var secenek = sag ? AktifKart.Sag : AktifKart.Sol;
         Durum.Gostergeler.Uygula(secenek.Etki);
+        _kararlar.Add(new KararKaydi { OlayId = AktifKart.OlayKimligi, Sag = sag, Etki = new(secenek.Etki) });
         SonKarar = secenek;
         Durum.Zaman.KarariSay();
         Asama = Asama.Sonuc;
@@ -106,5 +112,32 @@ public sealed class OyunYoneticisi
         if (SonAnahtarlari.Count > 0) Asama = Asama.Son;
         else YeniKart();
         return true;
+    }
+
+    public OyunAnligi AnligiAl()
+    {
+        if (Durum == null) throw new InvalidOperationException("Henüz bir oturum başlamadı.");
+        return new OyunAnligi
+        {
+            Hukumdar = Durum.Cinsiyet, Asama = Asama, AktifOlay = AktifKart.Kopyala(),
+            KararSayisi = Durum.KararSayisi, Yil = Durum.Zaman.TamamlananYil,
+            YilOrani = Durum.Zaman.KacKarardaBirYil, KaynakKonumu = _kaynak.Konum,
+            Gostergeler = new(Durum.Gostergeler.Degerler),
+            Kararlar = _kararlar.Select(k => k with { Etki = new(k.Etki) }).ToArray()
+        };
+    }
+
+    public void GeriYukle(OyunAnligi kayit, IReadOnlySet<string> roller)
+    {
+        var durum = kayit.Dogrula(roller);
+        _kaynak.KonumaGit(kayit.KaynakKonumu);
+        Durum = durum;
+        AktifKart = kayit.AktifOlay.Kopyala();
+        Asama = kayit.Asama;
+        KartKimligi++;
+        _kararlar.Clear();
+        _kararlar.AddRange(kayit.Kararlar.Select(k => k with { Etki = new(k.Etki) }));
+        SonKarar = Asama is Asama.Sonuc or Asama.Son ? (_kararlar[^1].Sag ? AktifKart.Sag : AktifKart.Sol) : null;
+        SonAnahtarlari = Asama == Asama.Son ? SonKontrolu.Bul(Durum.Gostergeler) : Array.Empty<string>();
     }
 }

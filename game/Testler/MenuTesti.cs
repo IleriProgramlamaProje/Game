@@ -98,11 +98,16 @@ public partial class MenuTesti : Node
             "Temel boyut 360×640 olmalı; arayüz birimleri telefonda dp gibi okunur.");
         Dogrula(!(bool)ProjectSettings.GetSetting("application/config/quit_on_go_back", true),
             "Android geri tuşu uygulamayı doğrudan kapatmamalı; ekranlar kendisi karar verir.");
-        // POCO X5 Pro: 1080×2400 ekranda kamera deliği üstte 94 piksel; arayüz 360×800 birim.
-        Dogrula(Mathf.IsEqualApprox(GuvenliAlan.UstBosluk(new Rect2I(0, 94, 1080, 2306), new Vector2I(1080, 2400), 800), 94f / 3),
+        // POCO X5 Pro: 1080×2400 ekranda kamera deliği üstte 94 piksel; arayüz 360×800 birim → üstte 32 birim.
+        var ekran = new Rect2I(0, 0, 1080, 2400);
+        Dogrula(GuvenliAlan.Kenarlar(ekran, new Rect2I(0, 94, 1080, 2306), new Vector2(360, 800)) == new Vector4(0, 32, 0, 0),
             "Kamera deliğinin üst boşluğu arayüz birimine çevrilmeli.");
-        Dogrula(GuvenliAlan.UstBosluk(new Rect2I(0, 0, 1080, 2400), new Vector2I(1080, 2400), 800) == 0 &&
-            GuvenliAlan.UstBosluk(new Rect2I(), Vector2I.Zero, 800) == 0, "Deliksiz ekranda ya da bilinmeyen boyutta boşluk eklenmemeli.");
+        // Yatay çentik ve alttaki hareket çubuğu da dört kenar olarak çevrilir.
+        Dogrula(GuvenliAlan.Kenarlar(ekran, new Rect2I(30, 0, 1020, 2340), new Vector2(360, 800)) == new Vector4(10, 0, 10, 20),
+            "Dört kenarın boşluğu ayrı ayrı çevrilmeli.");
+        Dogrula(GuvenliAlan.Kenarlar(ekran, ekran, new Vector2(360, 800)) == Vector4.Zero &&
+            GuvenliAlan.Kenarlar(new Rect2I(), new Rect2I(), new Vector2(360, 800)) == Vector4.Zero,
+            "Deliksiz ekranda ya da bilinmeyen boyutta boşluk eklenmemeli.");
     }
 
     private void Bas(MenuSahnesi ekran, string dugme) =>

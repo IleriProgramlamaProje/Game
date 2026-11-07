@@ -1,32 +1,34 @@
 using Godot;
 
 /// <summary>
-/// Telefonun kamera deliği ya da çentiği için üst güvenli boşluk. Android oyunu tam ekran ve
-/// deliğin çevresine de çizer (<c>shortEdges</c>); kaydırma alanları bu boşluk kadar aşağıdan
-/// başlar, zemin yine tam ekrandır. G0: POCO X5 Pro'da delik üst ortada 94 piksel (≈31 birim).
+/// Telefonun kamera deliği, çentiği ve sistem çubukları için güvenli kenar boşlukları.
+/// Android oyunu tam ekran ve deliğin çevresine de çizer (<c>shortEdges</c>); menü ve oyun
+/// içeriği bu boşlukların içinde kalır, zemin yine tam ekrandır.
+/// G0: POCO X5 Pro'da (1080×2400) delik üst ortada 94 piksel, yani 360×800 arayüzde 32 birim.
 /// </summary>
 public static class GuvenliAlan
 {
-    /// <summary>Ekran pikselindeki güvenli alanın üst boşluğunu arayüz birimine çevirir.</summary>
-    public static float UstBosluk(Rect2I guvenliAlan, Vector2I pencere, float arayuzYuksekligi)
+    /// <summary>
+    /// Ekran pikselindeki güvenli alanı pencerenin arayüz birimine çevirir.
+    /// Dönen değer: (sol, üst, sağ, alt) kenar boşlukları; güvenli alan bilinmiyorsa sıfır.
+    /// </summary>
+    public static Vector4 Kenarlar(Rect2I pencere, Rect2I guvenliAlan, Vector2 arayuz)
     {
-        if (pencere.Y <= 0 || guvenliAlan.Size.Y <= 0) return 0;
-        return Mathf.Max(0, guvenliAlan.Position.Y) * arayuzYuksekligi / pencere.Y;
+        var guvenli = pencere.Intersection(guvenliAlan);
+        if (!guvenli.HasArea() || !pencere.HasArea()) return Vector4.Zero;
+        var olcek = arayuz / (Vector2)pencere.Size;
+        var bas = (Vector2)(guvenli.Position - pencere.Position) * olcek;
+        var son = (Vector2)(pencere.End - guvenli.End) * olcek;
+        return new Vector4(Mathf.Ceil(bas.X), Mathf.Ceil(bas.Y), Mathf.Ceil(son.X), Mathf.Ceil(son.Y));
     }
 
     /// <summary>
     /// Yalnız telefonda uygulanır. Masaüstünde Godot ekranın görev çubuğu hariç alanını verir;
     /// bu pencereyle ilgili olmadığından orada boşluk eklenmez.
     /// </summary>
-    public static float UstBosluk(Control dugum)
+    public static Vector4 Kenarlar(Window pencere)
     {
-        if (!OS.HasFeature("mobile")) return 0;
-        return UstBosluk(DisplayServer.GetDisplaySafeArea(), DisplayServer.WindowGetSize(), dugum.GetViewportRect().Size.Y);
-    }
-
-    /// <summary>Tam ekrana yayılmış kaydırma alanının üst kenarını güvenli alana indirir.</summary>
-    public static void Uygula(Control kaydirma)
-    {
-        if (kaydirma != null) kaydirma.OffsetTop = UstBosluk(kaydirma);
+        if (!OS.HasFeature("mobile")) return Vector4.Zero;
+        return Kenarlar(new Rect2I(pencere.Position, pencere.Size), DisplayServer.GetDisplaySafeArea(), pencere.GetVisibleRect().Size);
     }
 }

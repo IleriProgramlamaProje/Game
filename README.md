@@ -4,6 +4,8 @@
 
 **Geliştirmeye başlamadan:** [Oyun geliştirme planı](docs/oyun_gelistirme_plani.md) — haftalık görevler, Godot yapısı, kabul testleri ve devir kontrol listeleri.
 
+[Dönem 1 oyun raporu](docs/raporlar/donem-1-oyun.md) Altın Set teslimini ve testleri, [geliştirme raporu](docs/BUYRUK_DEVELOPMENT_REPORT.md) kayıt/yükleme ve rekor çalışmalarını açıklar.
+
 ## Sürümler
 
 - **Godot 4.7.2 stable · .NET sürümü** (standart/Steam sürümü C# içermez).
@@ -20,7 +22,9 @@ Godot .NET editörü ve dışa aktarma şablonları resmî sürüm arşivinden a
 3. Godot proje yöneticisinde `game/project.godot` dosyasını içe aktarın.
 4. Projeyi derleyip **F5** ile oyunu çalıştırın; ana sahne `Sahneler/AnaMenu.tscn`'dir. Oyun **dikeydir**: telefonda dikeye kilitlenir, masaüstünde 450×800 pencereyle açılır (temel boyut 360×640, pencere büyütülebilir). **Yeni Oyun → Başla** ile oyun ekranı açılır. **Beyim** ya da **Hatunum** ile tahta çıkın.
 5. Kartı fare veya parmakla sağa/sola sürükleyin; eşik geçilince **bırakın**, vazgeçmek için ortaya geri getirin. Klavyede **← / →** kartı o yöne yatırıp kararı önizler; **Enter** ya da aynı ok onaylar, ters ok veya **Esc** vazgeçer.
-6. Sonuçtan **Devam Et** ile ilerleyin. Bir gösterge 0/100 olduğunda ilgili son açılır; **Tekrar Oyna** yeni hükümdar seçimine, **Ana Menüye Dön** menüye döner. Her beş kabul edilmiş karar bir yıldır. Telefonda **geri tuşu** alt ekranlarda ve hükümdar seçiminde/sonda ana menüye döner, ana menüde çıkar; oyun ortasında (kart/sonuç) ilerleme kaybolmasın diye etkisizdir.
+6. Sonuçtan **Devam Et** ile ilerleyin. Bir gösterge 0/100 olduğunda ilgili son açılır; **Tekrar Oyna** yeni hükümdar seçimine, **Ana Menüye Dön** menüye döner. Her beş kabul edilmiş karar bir yıldır. Telefonda **geri tuşu** ekrandaki düğmelerle aynı işi yapar: alt ekranlarda ve hükümdar seçiminde ana menüye döner, oyun ortasında **Kaydet ve Ana Menüye Dön** gibi ilerlemeyi kaydedip menüye döner, sonda ana menüye döner, ana menüde uygulamadan çıkar.
+
+İlerleme otomatik kaydedilir. **Kayıtlı Oyun** ekranından bekleyen karta veya karar sonucuna dönülebilir. Yeni hükümdarlık önceki kayıtları korur ve destenin rastgele bir olayından başlar; her oyun aynı kartla açılmaz. Tamamlanan oyunlar aynı ekrandaki geçmiş ve rekor bölümüne eklenir; son ekranı yeni rekoru ya da en iyi hükümdarlığı gösterir.
 
 **F6 yalnız açık sahneyi çalıştırır**: `Oyun.tscn` açıkken menüsüz doğrudan oyun, eski `Baslangic.tscn` açıksa boş pencere ve `C# ortamı hazır` mesajı beklenir. Ayarlar (ses düzeyi, masaüstünde tam ekran) `user://ayarlar.cfg` dosyasında saklanır.
 
@@ -101,9 +105,9 @@ for t in game/Testler/*.tscn; do ../.tools/Godot_v4.7.2-stable_mono_linux_x86_64
 
 ## Android durumu
 
-**G0 yapıldı (7 Kasım 2026):** debug APK gerçek telefonda (POCO X5 Pro 5G, Android 14, arm64) kuruldu; altın set destesiyle üç tam oyun dokunarak, modelsiz oynandı. Bulunan sekiz sorun düzeltildi ve testlere eklendi: Android'de C# derlenmiyordu (C# 13); oyun yatay açılıyordu (artık dikey); dokunmayla ses kaydırıcısı ve sayfa kaydırma çalışmıyordu; geri tuşu uygulamayı kapatıyordu; dikeyde oyun ekranı sığmıyordu; kamera deliği sayacın üstüne denk geliyordu; geri tuşu odak çerçevesi açıyordu; telefonda klavye ipucu görünüyordu. Ayrıntı, komutlar ve kalanlar: [Android G0 notu](docs/android_g0.md).
+**G0 yapıldı (7 Kasım 2026):** debug APK gerçek telefonda (POCO X5 Pro 5G, Android 14, arm64) kuruldu; altın set destesiyle üç tam oyun dokunarak, modelsiz oynandı. Bulunan sekiz sorun düzeltildi ve testlere eklendi: Android'de C# derlenmiyordu (C# 13); oyun yatay açılıyordu (artık dikey); dokunmayla ses kaydırıcısı ve sayfa kaydırma çalışmıyordu; geri tuşu uygulamayı kapatıyordu; dikeyde oyun ekranı sığmıyordu; kamera deliği sayacın üstüne denk geliyordu; geri tuşu odak çerçevesi açıyordu; telefonda klavye ipucu görünüyordu. Ayrıntı, komutlar ve kalanlar: [Android G0 notu](docs/android_g0.md). Kayıt/rekor çalışmasıyla birleşik sürümün telefon denemesi: `TELEFON_SONUCU`.
 
-Gerekenler: aynı Godot sürümünün **.NET export templates** paketi, OpenJDK (bu bilgisayarda 21), Android SDK (build-tools 36) ve dışa aktarma ayarındaki **Android** hazır ayarı. Android derlemesi `net9.0` / **C# 13** ile yapılır (Godot şablonu böyle ister); `Game.csproj` dil sürümünü 13'e sabitler, böylece C# 14'e özgü yazım masaüstünde de hata verir. Release çıktısı için imza anahtarı ekip kararıdır; anahtar repoya girmez.
+Gerekenler: aynı Godot sürümünün **.NET export templates** paketi, OpenJDK (bu bilgisayarda 21), Android SDK (build-tools 36) ve dışa aktarma ayarındaki **Android** hazır ayarı. Masaüstü `net10.0`, Android `net9.0` / **C# 13** ile ayrı derlenir (Godot şablonu böyle ister); `Game.csproj` dil sürümünü 13'e sabitler, böylece C# 14'e özgü yazım masaüstünde de hata verir. Release çıktısı için imza anahtarı ekip kararıdır; anahtar repoya girmez.
 
 - https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/index.html
 - https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html

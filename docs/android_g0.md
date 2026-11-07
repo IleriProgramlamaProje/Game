@@ -70,7 +70,7 @@ Sağ üst kenardaki ince dikey çubuk oyunun değil, MIUI'nin oyunlar için gös
    | Ana menü | Uygulamadan çıkar |
    | Alt ekranlar | Ana menüye döner (Esc ve Geri düğmesi gibi) |
    | Hükümdar seçimi, son ekranı | Ana menüye döner |
-   | Oyun ortası (kart/sonuç) | Etkisizdir; "Ana Menüye Dön" de yalnız sonda açıktır, kazara yapılan geri hareketi oyunu kaybettirmez |
+   | Oyun ortası (kart/sonuç) | Etkisizdir; "Ana Menüye Dön" de yalnız sonda açıktır, kazara yapılan geri hareketi oyunu kaybettirmez. **Güncelleme:** Ömer'in kayıt sistemiyle birleşince "Kaydet ve Ana Menüye Dön" ile aynı işi yapar; ilerleme kaybolmaz |
 
 5. **Dikey telefonda oyun ekranı sığmıyordu.** Kart tek başına ~640 birim tutuyor; başlık bandı ve göstergelerle 800 birimi aşıyordu. Oyun, kartı göstermek için göstergeleri ekranın dışına itiyordu.
    - Kart, kaydırma alanında kendisine kalan yüksekliğe sığacak kadar küçülür; okunurluk için en fazla %75'e iner (`KartGorunumu.EnAzOlcek`). Daha uzun kartta sayfa kayar.
@@ -91,6 +91,6 @@ Düzeltme 3, 4, 5 ve 7 geçici olarak geri alındığında ilgili test başarıs
 - **Release çıktısı:** İmza anahtarı (keystore) ekip kararıdır. Anahtar ve parolası repoya girmez. 3.10'da denenecek.
 - **APK boyutu:** Debug APK ~124 MB; .NET çalışma zamanı ve görseller. Release ve kırpma ile 3.10'da yeniden ölçülecek.
 - **İkinci telefon:** Farklı Android sürümü ve ekran oranıyla 3.10'da.
-- **Oyun ortasında çıkış:** Geri tuşuyla onaylı çıkış istenirse küçük bir onay penceresi gerekir; kayıt (3.9) gelince yeniden düşünülür.
+- ~~**Oyun ortasında çıkış**~~ — kayıt sistemiyle çözüldü: geri tuşu ilerlemeyi kaydedip ana menüye döner.
 - **Denge:** Üç farklı oynayışın üçü de "Para İsyanı" ile bitti; hazine çok hızlı tükeniyor. 4.9 denge testine not.
-- **Kart sırası:** Her oyun aynı kartla başlar (deste dosya sırasıyla dolaşır); 3.7 kart seçicide ele alınacak.
+- ~~**Kart sırası**~~ — her hükümdarlık artık destenin rastgele bir olayından başlar; konum kayda yazılır. Rol–konu seçimi 3.7'de.

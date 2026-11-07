@@ -30,6 +30,8 @@ public partial class KartGorunumu : KaydirmaKontrolu
         for (var ata = _yuva.GetParent(); ata != null && _kaydirma == null; ata = ata.GetParent()) _kaydirma = ata as ScrollContainer;
         // Konum değişimi de dinlenir: üstteki göstergeler görününce kartın sığacağı yükseklik değişir.
         _yuva.ItemRectChanged += Yerlesim;
+        // Başlık bandı gizlenip kaydırma alanı büyüyünce de kart yeniden sığdırılır.
+        if (_kaydirma != null) _kaydirma.Resized += Yerlesim;
         // Etiketler yeni genişliğe göre ancak bir sonraki sıralamada yeniden sarılır. Bu yüzden yükseklik,
         // asgari boyut her değiştiğinde yeniden uyarlanır; aksi hâlde eski dar genişliğin dev yüksekliği kalır.
         MinimumSizeChanged += () => Callable.From(BoyutuUyarla).CallDeferred();

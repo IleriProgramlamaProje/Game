@@ -68,13 +68,20 @@ public abstract partial class MenuSahnesi : Control
     // Dar telefonda iki yanda 16 birim kalır; geniş ekranda sütun okunur genişlikte durur.
     private void Yerlesim()
     {
-        GuvenliAlan.Uygula(GetNodeOrNull<Control>("Kaydirma"));
         var icerik = GetNodeOrNull<Control>("%Icerik");
+        var guvenli = GuvenliAlan.Kenarlar(GetWindow());
+        if (GetNodeOrNull<ScrollContainer>("Kaydirma") is { } kaydirma)
+        {
+            kaydirma.OffsetLeft = guvenli.X;
+            kaydirma.OffsetTop = guvenli.Y;
+            kaydirma.OffsetRight = -guvenli.Z;
+            kaydirma.OffsetBottom = -guvenli.W;
+        }
         if (icerik != null && Size.X > 0)
-            icerik.CustomMinimumSize = new Vector2(Mathf.Min(IcerikGenisligi, Size.X - 32), 0);
+            icerik.CustomMinimumSize = new Vector2(Mathf.Clamp(Size.X - guvenli.X - guvenli.Z - 32, 0, IcerikGenisligi), 0);
     }
 
-    private void VarsayilanOdagaGec()
+    protected virtual void VarsayilanOdagaGec()
     {
         if (!string.IsNullOrWhiteSpace(VarsayilanOdak))
             DugmeBul(VarsayilanOdak)?.GrabFocus(true);

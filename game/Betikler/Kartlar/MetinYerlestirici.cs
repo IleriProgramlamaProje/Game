@@ -59,6 +59,13 @@ public sealed class MetinYerlestirici
         _karakterler = new OturumKarakterleri(roller, rastgele);
         _hukumdar = hukumdar;
     }
+    public MetinYerlestirici(IEnumerable<Rol> roller, Hukumdar hukumdar,
+        IReadOnlyDictionary<string, KarakterKimligi> kimlikler)
+    {
+        _karakterler = new OturumKarakterleri(roller, kimlikler);
+        _hukumdar = hukumdar;
+    }
+    public Dictionary<string, KarakterKimligi> KarakterKaydi() => _karakterler.KaydiAl();
     public KarakterKimligi Kimlik(string rol) => _karakterler.Kimlik(rol);
     public string Baslik(string rol) => _karakterler.Baslik(rol);
     public static string Yerlestir(string metin, string hitap) => metin.Replace("{hitap}", hitap);
