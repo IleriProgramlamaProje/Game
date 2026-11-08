@@ -4,7 +4,7 @@
 
 **Geliştirmeye başlamadan:** [Oyun geliştirme planı](docs/oyun_gelistirme_plani.md) — haftalık görevler, Godot yapısı, kabul testleri ve devir kontrol listeleri.
 
-[Dönem 1 oyun raporu](docs/raporlar/donem-1-oyun.md) Altın Set teslimini ve testleri, [geliştirme raporu](docs/BUYRUK_DEVELOPMENT_REPORT.md) kayıt/yükleme ve rekor çalışmalarını açıklar.
+[Dönem 1 oyun raporu](https://github.com/IleriProgramlamaProje/Docs/blob/main/raporlar/donem-1-oyun.md) (Docs) dönemin işlerini, testleri ve devri, [geliştirme raporu](docs/BUYRUK_DEVELOPMENT_REPORT.md) kayıt/yükleme ve rekor çalışmalarını açıklar.
 
 ## Sürümler
 
