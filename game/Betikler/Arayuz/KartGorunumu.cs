@@ -11,6 +11,8 @@ public partial class KartGorunumu : KaydirmaKontrolu
     private Label _baslik;
     private Label _metin;
     private Label _onizleme;
+    private TextureRect _mekan;
+    private TextureRect _portre;
     private Kart _kart;
     private MetinYerlestirici _yerlestirici;
     private Control _yuva;
@@ -18,12 +20,18 @@ public partial class KartGorunumu : KaydirmaKontrolu
     private Panel[] _arkaKartlar;
     /// <summary>Kart sığmak için en fazla bu orana küçülür; daha uzun kartta sayfa kayar.</summary>
     public const float EnAzOlcek = 0.75f;
+    /// <summary>Portre/mekân sahnesinin olağan yüksekliği ve gizlenmeden önce inebileceği en az yükseklik.</summary>
+    public const float SahneYuksekligi = 112, SahneEnAz = 56;
+    private Control _sahne;
     public override void _Ready()
     {
         base._Ready();
         _baslik = GetNode<Label>("%KartBasligi");
         _metin = GetNode<Label>("%KartMetni");
         _onizleme = GetNode<Label>("%KararOnizleme");
+        _sahne = GetNode<Control>("%KartSahnesi");
+        _mekan = GetNode<TextureRect>("%KartMekani");
+        _portre = GetNode<TextureRect>("%KartPortresi");
         _yuva = GetParent<Control>();
         // Deste hissi veren iki sabit kart sahnede tanımlıdır; girdi almaz ve gerçek kart verisi değildir.
         _arkaKartlar = new[] { _yuva.GetNode<Panel>("DesteKarti0"), _yuva.GetNode<Panel>("DesteKarti1") };
@@ -46,9 +54,18 @@ public partial class KartGorunumu : KaydirmaKontrolu
         _yerlestirici = metin;
         _baslik.Text = metin.Baslik(kart.Konusan);
         _metin.Text = metin.Yerlestir(kart.Metin);
+        SahneyiGoster(kart.Konusan, metin.Kimlik(kart.Konusan).PortreAnahtari);
         BeklemeyiGoster();
         Yerlesim();
         Callable.From(Yerlesim).CallDeferred();
+    }
+
+    /// <summary>Konuşanı kendi mekânının önünde gösterir; çizimi olmayan rolde yalnız mekân görünür.</summary>
+    private void SahneyiGoster(string rol, string portreAnahtari)
+    {
+        _mekan.Texture = GD.Load<Texture2D>(KarakterGorselleri.MekanYolu(rol));
+        string portre = KarakterGorselleri.PortreYolu(rol, portreAnahtari);
+        _portre.Texture = portre == null ? null : GD.Load<Texture2D>(portre);
     }
 
     private void BeklemeyiGoster()
@@ -91,6 +108,7 @@ public partial class KartGorunumu : KaydirmaKontrolu
     {
         if (_genislik <= 0 || !IsInsideTree()) return;
         Size = new Vector2(_genislik, 0);
+        SahneyiSigdir();
         float yukseklik = Mathf.Max(260, GetCombinedMinimumSize().Y);
         Size = new Vector2(_genislik, yukseklik);
         float olcek = Mathf.Min(1, (_yuva.Size.X - 8) / _genislik);
@@ -111,6 +129,20 @@ public partial class KartGorunumu : KaydirmaKontrolu
             arka.Position = merkez + new Vector2(i == 0 ? -6 : 6, i == 0 ? 18 : 9);
             arka.RotationDegrees = i == 0 ? -3 : 2;
         }
+    }
+
+    /// <summary>
+    /// Kart en küçük ölçekte bile ekrana sığmıyorsa metin daha da küçülmez; önce portre/mekân sahnesi kısalır,
+    /// <see cref="SahneEnAz"/> altına inecekse gizlenir. Sonuç kartın kendi yüksekliğine bağlı değildir, döngü kurmaz.
+    /// </summary>
+    private void SahneyiSigdir()
+    {
+        float ayrim = _sahne.GetParent<Container>().GetThemeConstant("separation");
+        float sahnesiz = GetCombinedMinimumSize().Y - (_sahne.Visible ? _sahne.CustomMinimumSize.Y + ayrim : 0);
+        float sahne = Mathf.Min(SahneYuksekligi, Mathf.Floor(SiganYukseklik() / EnAzOlcek - sahnesiz - ayrim));
+        bool goster = sahne >= SahneEnAz;
+        if (goster) _sahne.CustomMinimumSize = new Vector2(0, sahne);
+        _sahne.Visible = goster;
     }
 
     /// <summary>Kaydırma alanında, yuvanın üstünden ekranın altına kadar kart için kalan yükseklik.</summary>

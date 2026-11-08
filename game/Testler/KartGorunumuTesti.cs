@@ -1,6 +1,7 @@
 using Godot;
 using Krallik;
 using System;
+using System.Linq;
 
 public partial class KartGorunumuTesti : Node
 {
@@ -16,6 +17,12 @@ public partial class KartGorunumuTesti : Node
             string baslik = ekranlar.GetNode<Label>("%KartBasligi").Text;
             if (!baslik.StartsWith("Hazinedar ") || !ekranlar.GetNode<Label>("%KartMetni").Text.Contains("Beyim"))
                 throw new Exception("Unvan, oturum adı ve hitap görünmeli.");
+            var mekan = ekranlar.GetNode<TextureRect>("%KartMekani");
+            var portre = ekranlar.GetNode<TextureRect>("%KartPortresi");
+            if (mekan.Texture?.ResourcePath != "res://Assets/mekanlar/hazine_odasi.svg" ||
+                portre.Texture?.ResourcePath != "res://Assets/karakterler/defterdar.svg")
+                throw new Exception("Hazinedar kartında hazine odası ve defterdar çizimi görünmeli.");
+            GorselleriDogrula();
             var cevrilenKart = ekranlar.GetNode<KartGorunumu>("%KartAlani");
             cevrilenKart.SuruklemeyiBaslat(200);
             cevrilenKart.SuruklemeyiGuncelle(200 - cevrilenKart.Esik);
@@ -30,9 +37,29 @@ public partial class KartGorunumuTesti : Node
             if (ekranlar.GetNode<Label>("%KartBasligi").Text != hatunBasligi ||
                 !ekranlar.GetNode<Label>("%KartMetni").Text.Contains("Hatunum"))
                 throw new Exception("Tekrar gösterimde oturum kimliği ve yeni hitap korunmalı.");
-            GD.Print("KART GÖRÜNÜMÜ TESTİ BAŞARILI: başlık, hitap ve iki seçenek.");
+            // Çizimi olmayan rolde önceki konuşanın portresi kalmamalı; mekân yine görünür.
+            gorunum.KartiGoster(kart with { Konusan = "soytari" }, metin);
+            if (portre.Texture != null || mekan.Texture?.ResourcePath != "res://Assets/mekanlar/taht_salonu.svg")
+                throw new Exception("Portresiz rol taht salonunda, portresiz görünmeli.");
+            GD.Print("KART GÖRÜNÜMÜ TESTİ BAŞARILI: başlık, hitap, portre/mekân ve iki seçenek.");
             GetTree().Quit();
         }
         catch (Exception hata) { GD.PushError(hata.ToString()); GetTree().Quit(1); }
+    }
+
+    /// <summary>Her rolün mekânı vardır; eşlemedeki her çizim dosyası projede bulunur ve geçerli bir role aittir.</summary>
+    private static void GorselleriDogrula()
+    {
+        var roller = Tema.Oku(FileAccess.GetFileAsString("res://Veri/tema.json")).Karakterler;
+        var anahtarlar = roller.Select(r => r.Anahtar).ToHashSet();
+        foreach (var rol in roller)
+            if (!KarakterGorselleri.Mekanlar.ContainsKey(rol.Anahtar) || !ResourceLoader.Exists(KarakterGorselleri.MekanYolu(rol.Anahtar)))
+                throw new Exception($"{rol.Anahtar} rolünün mekân çizimi yok.");
+        foreach (var (anahtar, _) in KarakterGorselleri.Portreler)
+        {
+            string rol = anahtar.EndsWith("_erkek") || anahtar.EndsWith("_kadin") ? anahtar[..anahtar.LastIndexOf('_')] : anahtar;
+            if (!anahtarlar.Contains(rol) || !ResourceLoader.Exists(KarakterGorselleri.PortreYolu(rol, anahtar)))
+                throw new Exception($"Portre eşlemesi geçersiz: {anahtar}");
+        }
     }
 }

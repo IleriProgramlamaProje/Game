@@ -184,9 +184,14 @@ public partial class H2OyunTesti : Node
                 Dogrula(ekran.GetNode<Label>("%SonBaslik").Text == _tema.Sonlar[anahtar].Baslik &&
                     ekran.GetNode<Label>("%SonMetni").Text == _tema.Sonlar[anahtar].Metin, "Tema anlatımı birebir gösterilmeli.");
                 Dogrula(ekran.GetNode<Label>("%SonOzet").Text == "0 yıl hüküm sürdün, 4 karar verdin.", "Son özeti yanlış.");
+                string simge = ekran.GetNode<TextureRect>("%SonGorseli").Texture?.ResourcePath;
+                Dogrula(simge == $"res://Assets/ui/icons/icon_0{2 + Gostergeler.Siralama.ToList().IndexOf(gosterge)}.png",
+                    $"{anahtar}: sonda sebep olan göstergenin simgesi görünmeli.");
+                Dogrula(ekran.GetNode<NinePatchRect>("Zemin").Texture?.ResourcePath == OyunEkranlari.SonZemini, "Son ekranı bordo zeminde olmalı.");
                 await Goruntule(ekran, boyut, anahtar);
                 await Tikla(ekran, "Yeniden");
                 Dogrula(ekran.Oyun.Asama == Asama.Acilis && ekran.Oyun.Durum == null, "Yeniden Dene eski oyunu temizlemeli.");
+                Dogrula(ekran.GetNode<NinePatchRect>("Zemin").Texture?.ResourcePath == OyunEkranlari.OyunZemini, "Yeni oyunda zemin laciverte dönmeli.");
                 await Tikla(ekran, "Beyim");
                 Dogrula(ekran.Oyun.Durum.KararSayisi == 0 && ekran.Oyun.Durum.Zaman.TamamlananYil == 0 &&
                     ekran.Oyun.Durum.Gostergeler.Degerler.Values.All(v => v == 50), "Arayüz yeni oyunu sıfırdan başlatmalı.");
@@ -219,6 +224,8 @@ public partial class H2OyunTesti : Node
             Dogrula(ciftEkran.GetNode<Label>("%SonMetni").Text.Contains(_tema.Sonlar["halk_100"].Metin) &&
                 ciftEkran.GetNode<Label>("%SonMetni").Text.Contains(_tema.Sonlar["para_0"].Metin),
                 "Eşzamanlı iki son da ekranda okunabilmeli.");
+            Dogrula(ciftEkran.GetNode<TextureRect>("%SonGorseli").Texture?.ResourcePath == OyunEkranlari.GenelSonSimgesi,
+                "Birden çok sebepte genel taç simgesi görünmeli.");
             await Goruntule(ciftEkran, boyut, "cift-son");
             ciftEkran.Free();
 

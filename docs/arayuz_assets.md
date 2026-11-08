@@ -50,3 +50,38 @@ Oyun dikeydir, temel boyut 360×640 (telefonda mantıksal ekran ~360×800). Ger�
 - Kartın altındaki klavye ipucu telefonda gizlenir.
 
 Ayrıntı ve ekran ölçüleri: [Android G0 notu](android_g0.md).
+
+## 8 Kasım · Karakter ve mekân çizimleri
+
+Yeni SVG çizimler kartın üstünde bir sahne olarak gösterilir: konuşan karakter, kendi mekânının önünde durur. Dosyalar `game/Assets/karakterler/` (12 portre) ve `game/Assets/mekanlar/` (6 mekân) altındadır; rol → çizim eşlemesi `game/Betikler/Kartlar/KarakterGorselleri.cs` dosyasındadır.
+
+| Rol (tema.json) | Portre | Mekân |
+| --- | --- | --- |
+| vezir, kadi, elci, akinci_beyi, kervan_basi | aynı adlı çizim | Yönetim → taht salonu, Ordu → kale surları, kervan başı → kervansaray |
+| saray_hatun | `valide_hatun` | taht salonu |
+| gozcu_basi | `casusbasi` | kale surları |
+| koy_kethudasi | `koy_yaslisi` | köy/tarla |
+| dervis | `kam_ata` | köy/tarla |
+| hekim | `bas_hekim` | köy/tarla |
+| hazinedar | `defterdar` | hazine odası |
+| ahi_ustasi | `ahi_babasi` | çarşı |
+| Diğer 11 rol | yok (yalnız mekân) | alanına göre; hancı → kervansaray, tüccar ve demirci → çarşı |
+
+- Portre önce portre anahtarıyla (ör. `hekim_kadin`), sonra rol anahtarıyla aranır; "Çift" rollere ileride kadın/erkek ayrı çizim eklemek için eşlemeye bir satır yeterlidir. Şimdiki üç "Çift" çizim (elçi, hekim, casusbaşı) iki cinsiyette de kullanılır.
+- Sahne 112 birim yüksekliğindedir. Kart en küçük ölçekte (%75) bile ekrana sığmıyorsa metin küçülmez; önce sahne kısalır, 56 birimin altına inecekse gizlenir. 360×800 telefonda en uzun Altın Set kartları sahneyle birlikte kaydırmadan sığar; 360×640 gibi kısa ekranda sahne kısalır ya da gizlenir.
+- `KartGorunumuTesti` her rolün mekânı olduğunu, eşlemedeki her dosyanın bulunduğunu ve portresiz rolde önceki portrenin kalmadığını denetler.
+
+## 8 Kasım · Zeminler ve kullanılmayan parçalar
+
+Zemin her ekranda neredeyse siyah görünüyordu: koyu kumaş, siyaha yakın rengin üstünde %32 opaklıkla döşeniyordu. Artık zemin tam opak bir `NinePatchRect`; arka plan görsellerinin altın köşeleri ekranın köşelerinde kalır. Menüler lacivert desenli, oyun lacivert fırçalı, son ekranı bordo kadife zemindedir (eşleşmeler [paket README'sinde](../game/Assets/ui/README.md)). Son ekranında taç yerine sona sebep olan göstergenin simgesi görünür; son ekranı ve sonuç düğmeleri menülerdeki gibi simgelidir; ana menüde başlığın altında hilalli ayraç vardır.
+
+Paketin 97 parçasından hâlâ kullanılmayanlar, sonraki işler için:
+
+| Grup | Kullanılmayan | Olası yer |
+| --- | --- | --- |
+| Zemin | `bg_charcoal_stone`, `bg_crimson_pattern`, `bg_gold_brushed`, `bg_parchment`, `bg_dark_fabric` | Kazanma sonu (altın), ekran çeşitliliği |
+| Simge | `icon_07` ev, `14` duraklat, `15` onay, `16` iptal, `17`/`18` oklar (18 kullanılıyor), `19` uyarı, `20` kupa, `21` yıldız, `22` kartlar, `23`/`24` artı/eksi | Rekor (kupa), tehlikedeki gösterge (uyarı), ses ayarı (artı/eksi), onay pencereleri |
+| Ayraç/rozet | `widget_05` ayraç, `widget_13`/`14` madalyon ve kalkan, `widget_15` parşömen rozet, `widget_16` yıldız | Son başlığı altı, rekor rozeti |
+| Çubuk | `widget_01`–`04`, `07`, `08` | Gösterge çubuklarının çerçevesi |
+| Perde/bant | `widget_10`, `tab_label_15` | Ana menü başlığı |
+| Diğer | `buttons/` 8 parça, `cards/` 7 çerçeve, `panels_frames/` 11 bant, `tab_label` 16 parça, `atlases/` 7 atlas | Atlaslar ayrı PNG'lerin kaynağıdır; oyunda gerekmez |

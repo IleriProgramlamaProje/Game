@@ -2,17 +2,14 @@
 
 [ext_resource type="Script" path="res://Betikler/Arayuz/AnaMenu.cs" id="1"]
 [ext_resource type="Theme" path="res://Assets/ui/krallik_tema.tres" id="2"]
-[ext_resource type="Texture2D" path="res://Assets/ui/backgrounds/bg_dark_fabric.png" id="3"]
+[ext_resource type="Texture2D" path="res://Assets/ui/backgrounds/bg_navy_pattern.png" id="3"]
 [ext_resource type="Texture2D" path="res://Assets/ui/icons/icon_01.png" id="4"]
 [ext_resource type="Texture2D" path="res://Assets/ui/icons/icon_13.png" id="5"]
 [ext_resource type="Texture2D" path="res://Assets/ui/icons/icon_06.png" id="6"]
 [ext_resource type="Texture2D" path="res://Assets/ui/icons/icon_10.png" id="7"]
 [ext_resource type="Texture2D" path="res://Assets/ui/icons/icon_11.png" id="8"]
 [ext_resource type="Texture2D" path="res://Assets/ui/icons/icon_12.png" id="9"]
-
-[sub_resource type="AtlasTexture" id="Kumas"]
-atlas = ExtResource("3")
-region = Rect2(24, 24, 238, 506)
+[ext_resource type="Texture2D" path="res://Assets/ui/widgets/widget_06.png" id="ayrac"]
 
 [node name="AnaMenu" type="Control"]
 theme = ExtResource("2")
@@ -34,8 +31,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.015, 0.03, 0.05, 1)
 
-[node name="Zemin" type="TextureRect" parent="."]
-self_modulate = Color(1, 1, 1, 0.32)
+[node name="Zemin" type="NinePatchRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -43,9 +39,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = SubResource("Kumas")
-expand_mode = 1
-stretch_mode = 1
+texture = ExtResource("3")
+patch_margin_left = 42
+patch_margin_top = 42
+patch_margin_right = 42
+patch_margin_bottom = 42
+axis_stretch_horizontal = 2
 
 [node name="Kaydirma" type="ScrollContainer" parent="."]
 layout_mode = 1
@@ -94,6 +93,14 @@ theme_type_variation = &"MenuTitle"
 text = "BUYRUK"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 56
+
+[node name="Ayrac" type="TextureRect" parent="Kaydirma/Merkez/Icerik"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 40)
+mouse_filter = 2
+texture = ExtResource("ayrac")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="AltBaslik" type="Label" parent="Kaydirma/Merkez/Icerik"]
 layout_mode = 2

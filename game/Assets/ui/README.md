@@ -32,7 +32,10 @@ Paketin üzerine `krallik_tema.tres` eklenerek mevcut `Sahneler/Oyun.tscn` sahne
 
 | Kullanım | Dosya |
 | --- | --- |
-| Zemin | `backgrounds/bg_dark_fabric.png` — sahnede `AtlasTexture` ile süslü kenarların içi seçilir, düşük opaklıkta döşenir |
+| Menü zeminleri (Ana Menü, Yeni Oyun, Kayıtlı Oyunlar, Ayarlar, Emeği Geçenler) | `backgrounds/bg_navy_pattern.png` — tam ekran `NinePatchRect`, 42 px altın köşeler korunur; geniş ekranda desen yatayda döşenir |
+| Oyun zemini (açılış, kart, sonuç) | `backgrounds/bg_navy_brushed.png` — aynı nine-patch, esnetilir |
+| Son ekranı zemini | `backgrounds/bg_crimson_cloth.png` — son ekranı açılınca kodla değişir |
+| Ana menüde başlık altı ayraç | `widgets/widget_06.png` |
 | Oyun adı | `panels_frames/panel_frame_03.png` |
 | Kart ve anlatı alanları | `cards/card_frame_07.png` |
 | Normal düğmeler (menü, geri, ana menüye dön) | `buttons/button_04.png` |
@@ -40,7 +43,8 @@ Paketin üzerine `krallik_tema.tres` eklenerek mevcut `Sahneler/Oyun.tscn` sahne
 | Arka deste kartları, Ayarlar paneli | `cards/card_frame_06.png` (lacivert), `cards/card_frame_05.png` (bordo) |
 | Menü arması ve düğme ikonları | `icons/icon_01`, `06`, `08`, `10`–`13` |
 | Yönetim / Halk / Para / Ordu | `icons/icon_02.png` / `03` / `04` / `05` |
-| Son ekranındaki geçici hükümdarlık simgesi | `icons/icon_01.png` |
+| Son ekranı simgesi | Sebep olan göstergenin simgesi (`icon_02`–`05`); birden çok sebepte `icon_01` |
+| Devam Et / Tekrar Oyna ve Veriyi yeniden yükle / Ana Menüye Dön / Kaydet ve Ana Menüye Dön | `icons/icon_18` / `icon_09` / `icon_08` / `icon_06` |
 
 Seçilen iki düğme, üç kart çerçevesi ve başlık görselinin import ayarında `process/size_limit=256` kullanılır. Bu, süslerin nine-patch kenar kalınlığını ekrana uyarlar; kaynak PNG çözünürlükleri değişmez. Diğer resimler özgün import boyutunda durur. Tema hover, basılı, pasif ve klavye odağı stillerini içerir. Sayılar gerçek `ProgressBar` değerleridir; hazır widget'lardaki doluluk oyunun durumu yerine kullanılmaz.
 

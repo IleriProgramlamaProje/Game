@@ -29,6 +29,21 @@ public partial class OyunEkranlari : Control
 	public Random BaslangicRastgele { get; set; }
 	private T Bul<T>(string ad) where T : Node => GetNode<T>("%" + ad);
 
+	/// <summary>Oyun boyunca lacivert fırçalı zemin; hükümdarlık bitince bordo kadife.</summary>
+	public const string OyunZemini = "res://Assets/ui/backgrounds/bg_navy_brushed.png";
+	public const string SonZemini = "res://Assets/ui/backgrounds/bg_crimson_cloth.png";
+	/// <summary>Tek sebepli sonda o göstergenin simgesi görünür; birden çok sebepte taç kalır.</summary>
+	private static readonly Dictionary<string, string> SonSimgeleri = new()
+	{
+		["yonetim"] = "res://Assets/ui/icons/icon_02.png",
+		["halk"] = "res://Assets/ui/icons/icon_03.png",
+		["para"] = "res://Assets/ui/icons/icon_04.png",
+		["ordu"] = "res://Assets/ui/icons/icon_05.png",
+	};
+	public const string GenelSonSimgesi = "res://Assets/ui/icons/icon_01.png";
+	internal static string SonSimgesi(IReadOnlyList<string> sonAnahtarlari) =>
+		sonAnahtarlari.Count == 1 && SonSimgeleri.TryGetValue(sonAnahtarlari[0].Split('_')[0], out var yol) ? yol : GenelSonSimgesi;
+
 	public override void _Ready()
 	{
 		if (GetParent() == GetTree().Root)
@@ -242,6 +257,7 @@ public partial class OyunEkranlari : Control
 					var son = _tema.Sonlar[k];
 					return (tekSon ? "" : son.Baslik + "\n") + _metin.Yerlestir(son.Metin);
 				}));
+				Bul<TextureRect>("SonGorseli").Texture = GD.Load<Texture2D>(SonSimgesi(Oyun.SonAnahtarlari));
 				Bul<Label>("SonOzet").Text = $"{Oyun.Durum.Zaman.TamamlananYil} yıl hüküm sürdün, {Oyun.Durum.KararSayisi} karar verdin.";
 				RekoruGoster();
 				EkraniGoster(Ekran.Son);
@@ -256,6 +272,7 @@ public partial class OyunEkranlari : Control
 		Bul<Control>("Gostergeler").Visible = ekran != Ekran.Acilis;
 		// Başlık bandı yalnız hükümdar seçimindedir: dikey telefonda göstergeler ile kart, sonda da iki düğme birlikte sığar.
 		Bul<Control>("OyunAdi").Visible = ekran == Ekran.Acilis;
+		GetNode<NinePatchRect>("Zemin").Texture = GD.Load<Texture2D>(ekran == Ekran.Son ? SonZemini : OyunZemini);
 		_kart.Iptal();
 		_kart.Etkin = ekran == Ekran.Oyun;
 		Bul<Button>("Devam").Disabled = ekran != Ekran.Sonuc;
