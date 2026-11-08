@@ -21,8 +21,8 @@ Godot .NET editörü ve dışa aktarma şablonları resmî sürüm arşivinden a
 2. Godot **.NET** sürümünü indirip arşivden çıkarın; beraberindeki `GodotSharp` klasörünü koruyun.
 3. Godot proje yöneticisinde `game/project.godot` dosyasını içe aktarın.
 4. Projeyi derleyip **F5** ile oyunu çalıştırın; ana sahne `Sahneler/AnaMenu.tscn`'dir. Oyun **dikeydir**: telefonda dikeye kilitlenir, masaüstünde 450×800 pencereyle açılır (temel boyut 360×640, pencere büyütülebilir). **Yeni Oyun → Başla** ile oyun ekranı açılır. **Beyim** ya da **Hatunum** ile tahta çıkın.
-5. Kartı fare veya parmakla sağa/sola sürükleyin; eşik geçilince **bırakın**, vazgeçmek için ortaya geri getirin. Klavyede **← / →** kartı o yöne yatırıp kararı önizler; **Enter** ya da aynı ok onaylar, ters ok veya **Esc** vazgeçer.
-6. Sonuçtan **Devam Et** ile ilerleyin. Bir gösterge 0/100 olduğunda ilgili son açılır; **Tekrar Oyna** yeni hükümdar seçimine, **Ana Menüye Dön** menüye döner. Her beş kabul edilmiş karar bir yıldır. Telefonda **geri tuşu** ekrandaki düğmelerle aynı işi yapar: alt ekranlarda ve hükümdar seçiminde ana menüye döner, oyun ortasında **Kaydet ve Ana Menüye Dön** gibi ilerlemeyi kaydedip menüye döner, sonda ana menüye döner, ana menüde uygulamadan çıkar.
+5. Taht salonu bütün ekranı kaplar: hükümdar tahtta oturur, kartın konuşanı yürüyerek gelir ve sözü alttaki kartta harf harf akar. Karta dokunmak, tıklamak ya da **Enter** yazıyı tamamlar, uzun sözde sonraki sayfaya geçer. Söz bitince kartı fare veya parmakla **sağa/sola kaydırın**; kart yattıkça o yöndeki seçenek ve etkilediği göstergeler (▲ ▼) görünür, eşik geçilince **bırakın**, vazgeçmek için ortaya geri getirin. Klavyede **← / →** kartı o yöne yatırıp önizler; **Enter** ya da aynı ok onaylar, ters ok vazgeçer. Üstteki istatistik çubuğu dört göstergeyi ve yılı özetler; dokununca ayrıntılı çubuklar açılır, yine dokununca kapanır.
+6. Sonuç aynı kartta anlatılır; **Devam Et** ile sıradaki konuşan gelir. Sahnenin köşesindeki **Harita** üstten bakışlı krallık haritasını açar: ok tuşları mekândan mekâna atlar, **Enter** ya da dokunma içeri girer. Çarşı, kale, köy, kervansaray ve hazine odasında o yerin sözcüsü krallığın o alandaki durumunu anlatır (göstergesi uçtaysa haritada adı kırmızıdır); kartlar yalnız taht salonunda gelir. **Esc** ya da geri tuşu mekândan haritaya, haritadan taht salonuna döner. Bir gösterge 0/100 olduğunda ilgili son açılır; **Tekrar Oyna** yeni hükümdar seçimine, **Ana Menüye Dön** menüye döner. Her beş kabul edilmiş karar bir yıldır. Telefonda **geri tuşu** ekrandaki düğmelerle aynı işi yapar: alt ekranlarda ve hükümdar seçiminde ana menüye döner, taht salonunda **Kaydet ve Çık** gibi ilerlemeyi kaydedip menüye döner, sonda ana menüye döner, ana menüde uygulamadan çıkar.
 
 İlerleme otomatik kaydedilir. **Kayıtlı Oyun** ekranından bekleyen karta veya karar sonucuna dönülebilir. Yeni hükümdarlık önceki kayıtları korur ve destenin rastgele bir olayından başlar; her oyun aynı kartla açılmaz. Tamamlanan oyunlar aynı ekrandaki geçmiş ve rekor bölümüne eklenir; son ekranı yeni rekoru ya da en iyi hükümdarlığı gösterir.
 
@@ -62,16 +62,18 @@ git lfs pull
 - `game/Baslangic.tscn`: Scriptin bağlı olduğu başlangıç sahnesi.
 - `game/project.godot`: Ana sahne (`AnaMenu.tscn`), C# ve Compatibility ayarları.
 - `game/Sahneler/AnaMenu.tscn`, `YeniOyun.tscn`, `KayitliOyunlar.tscn`, `Ayarlar.tscn`, `Credits.tscn`: BUYRUK menüleri. `MenuSahnesi` ortak yaşam döngüsü ve geçişleri, `AltEkran` geri/Escape/Android geri tuşu davranışını, `GuvenliAlan` telefonun kamera deliği boşluğunu, `AyarlarEkrani` ve `OyunAyarlari` kalıcı ayarları yönetir.
-- `game/Sahneler/Oyun.tscn`: Açılış, kart (deste görünümüyle), sonuç ve son panelleri.
+- `game/Sahneler/Oyun.tscn`: Açılış, tam ekran sahne (taht salonu / mekân) üstünde istatistik çubuğu ve kaydırılan konuşma kartı, harita ve son panelleri.
 - `game/Betikler/Arayuz/OyunEkranlari.cs`: Veri yükleme, gösterge/sonuç/son sunumu, giriş ve ekran odağı.
 - `game/Betikler/Oyun/OyunDurumu.cs`: Godot'tan bağımsız gösterge değerleri, değişim bildirimleri ve oyun akışı.
 - `game/Betikler/Cekirdek/`: Yıl sayacı ve sekiz son kontrolü.
-- `game/Betikler/Arayuz/AcilisEkrani.cs`, `Gostergeler.cs` + `GostergeBileseni.cs`, `KartGorunumu.cs` + `KaydirmaKontrolu.cs`: Oyun sahnesindeki açılış, gösterge ve kart bileşenleri; kaydırma, eğim, çıkış animasyonu ve klavye kararı.
+- `game/Betikler/Arayuz/AcilisEkrani.cs`, `Gostergeler.cs` + `GostergeBileseni.cs`: açılış ve gösterge bileşenleri. `SahneGorunumu.cs`: tam ekran mekân çizimi, tahtta oturan hükümdar, yürüyerek gelen konuşan ve mekân sakinleri. `DiyalogKutusu.cs` (`KaydirmaKontrolu.cs` üstüne): harf harf akan, sayfalanan konuşma kartı; söz bitince sağa/sola kaydırma, eğim, çıkış animasyonu ve klavye kararı. `KrallikHaritasi.cs`: üstten bakışlı harita ve mekân düğmeleri.
+- `game/Betikler/Kartlar/KarakterGorselleri.cs`, `Mekanlar.cs` ve `game/Veri/mekanlar.json`: rol → portre/mekân eşlemesi; haritadaki mekânlar, sözcüleri ve gösterge aralığına göre durum cümleleri. Çizimler `game/Assets/karakterler/`, `mekanlar/`, `harita/` altındadır.
 - `game/Betikler/Kartlar/`: Kart doğrulama, yerel deste, tema ve oturum boyunca sabit karakter adları/hitap.
-- `game/Testler/SahneIskeletiTesti.tscn`: H1 çekirdek, fare/dokunma/klavye, telefondaki dokunma sırası, geri tuşu ve dört boyutta (dikey telefon 360×800 dahil) yerleşim kontrolleri.
+- `game/Testler/SahneIskeletiTesti.tscn`: H1 çekirdek; tam ekran taht salonu, harf harf akan ve sayfalanan konuşma, kart kaydırma, açılır kapanır istatistikler, yürüyerek gelen konuşan, harita ve mekânlar; fare/dokunma/klavye, telefondaki dokunma sırası, geri tuşu ve beş boyutta (dikey telefon 360×800 dahil) yerleşim kontrolleri.
 - `game/Testler/H2OyunTesti.tscn`: Sekiz son, sonuç ekranı, yıl sayacı, yeniden oyun ve bozuk desteden toparlanma.
 - `game/Testler/MenuTesti.tscn`: Menülerin teması, dört boyutta yerleşimi, düğme geçişleri, Escape, Android geri tuşu, dikey telefon ayarları, güvenli alan ve ses ayarı.
-- `game/Testler/KartCevirmeTesti.tscn`: Kartın iki yöne sürüklenmesi, eğimi, iptali ve tek karar.
+- `game/Testler/KartCevirmeTesti.tscn`, `KaydirmaKontroluTesti.tscn`: Kartın iki yöne kaydırılması, eğimi, iptali, önizlemesi ve tek karar.
+- `game/Testler/GorselVeriTesti.tscn`: Her rolün portresi ve mekânı, iki hükümdar çizimi, harita verisi, durum aralıkları ve bozuk mekân verisinin reddi.
 
 ## Sahne iskeleti testi
 
@@ -83,7 +85,7 @@ git lfs pull
 
 Diğer bilgisayarlarda aynı argümanları kurulu Godot .NET çalıştırılabilir dosyasına verin. Test başarıda `H1 TESTLERİ BAŞARILI` yazar ve 0 koduyla çıkar; başarısızlıkta hata ve 1 koduyla çıkar. `--headless` olmadan çalıştırıldığında ayrıca `.godot/testler/` altında yerel ekran görüntüleri oluşturur. Bu çıktılar Git'e girmez.
 
-Kontroller: kart/deste doğrulama, başlangıç ve sınırlar, hitap/isimler, eski/çift girişin reddi; Godot viewport'una sentetik fare sürüklemesi, çoklu dokunma ve klavye (← → Enter) girdisi; kart metninin kartın içinde kalması; 1152×648, 360×640, 640×360 yerleşimleri. Fiziksel dokunmatik, ikinci bilgisayar ve APK doğrulaması ayrıca gerekir.
+Kontroller: kart/deste doğrulama, başlangıç ve sınırlar, hitap/isimler, eski/çift girişin reddi; Godot viewport'una sentetik fare sürüklemesi ve tıklaması, çoklu dokunma, telefondaki taklit fare + dokunma ve klavye (← → Enter, Esc) girdisi; konuşmanın kutuya sığması, uzun metnin eksiksiz sayfalanması; harita adlarının üst üste binmemesi; 1152×648, 923×520, 360×640, 360×800, 640×360 yerleşimleri. Fiziksel dokunmatik, ikinci bilgisayar ve APK doğrulaması ayrıca gerekir.
 
 H2 testi için aynı derlemeden sonra:
 
@@ -93,7 +95,7 @@ H2 testi için aynı derlemeden sonra:
 
 Başarı çıktısı `H2 TESTLERİ BAŞARILI` ve çıkış kodu 0'dır. Bu test kontrollü desteleri geçici `user://` dosyasına yazar ve temizler; proje destesini değiştirmez. Boş deste testi sırasında üç adet `Deste boş olamaz` uyarısı beklenir. Grafik modunda `.godot/testler/h2/` altına sekiz son ve sonuç ekranları kaydedilir. Linux'ta ekransız grafik kontrolü için komutun başına `xvfb-run -a` eklenebilir ve `--headless` kaldırılır.
 
-Ömer'in bileşen testleri de birleşik sahneye uyarlanmıştır. Aynı Godot komutunda son argüman olarak sırasıyla `res://Testler/OyunDurumuTesti.tscn`, `YedekDesteTesti.tscn`, `KartGorunumuTesti.tscn`, `KaydirmaKontroluTesti.tscn`, `KartCevirmeTesti.tscn`, `AcilisEkraniTesti.tscn`, `OyunAkisiTesti.tscn` ve `MenuTesti.tscn` kullanın (her dosya `res://Testler/` altındadır). Menü testi gerçek `user://ayarlar.cfg` dosyasını değiştirirse sonunda eski hâline döndürür.
+Ömer'in bileşen testleri de birleşik sahneye uyarlanmıştır. Aynı Godot komutunda son argüman olarak sırasıyla `res://Testler/OyunDurumuTesti.tscn`, `YedekDesteTesti.tscn`, `GorselVeriTesti.tscn`, `KaydirmaKontroluTesti.tscn`, `KartCevirmeTesti.tscn`, `AcilisEkraniTesti.tscn`, `OyunAkisiTesti.tscn` ve `MenuTesti.tscn` kullanın (her dosya `res://Testler/` altındadır). Menü testi gerçek `user://ayarlar.cfg` dosyasını değiştirirse sonunda eski hâline döndürür.
 
 Tüm testleri tek seferde, Game repo kökünden:
 

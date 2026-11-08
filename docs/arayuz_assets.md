@@ -85,3 +85,25 @@ Paketin 97 parçasından hâlâ kullanılmayanlar, sonraki işler için:
 | Çubuk | `widget_01`–`04`, `07`, `08` | Gösterge çubuklarının çerçevesi |
 | Perde/bant | `widget_10`, `tab_label_15` | Ana menü başlığı |
 | Diğer | `buttons/` 8 parça, `cards/` 7 çerçeve, `panels_frames/` 11 bant, `tab_label` 16 parça, `atlases/` 7 atlas | Atlaslar ayrı PNG'lerin kaynağıdır; oyunda gerekmez |
+
+## 8 Kasım · Taht salonu, konuşma kutusu ve harita
+
+Kart kaydırma kaldırıldı; oyun ekranı artık bir sahnedir. Oyun mantığı (`OyunYoneticisi`: kart, karar, sonuç, son, kayıt) değişmedi.
+
+- **Taht salonu:** `taht_salonu.svg` önünde seçilen hükümdar tahtta oturur (`karakterler/hukumdar_bey.svg`, `hukumdar_hatun.svg`). Kartın konuşanı sağdan yürüyerek gelir, tahtın önünde durur; sıradaki kartta çıkıp yenisi gelir.
+- **Konuşma kutusu** (`DiyalogKutusu`): parşömen kutu, lacivert isim plakası. Söz harf harf akar; kutuya dokunmak, tıklamak ya da Enter tamamlar. Altı satırı aşan söz sayfalara bölünür (▼ işareti). Söz bitince iki seçenek açılır, altlarında etkilenen göstergeler ▲ ▼ ile yazar. Sonuç aynı kutuda anlatılır, altında sayısal etkiler ve Devam Et vardır.
+- **Harita** (`harita/krallik_haritasi.svg`, `KrallikHaritasi`): üstten bakışlı krallık; saray, hazine, kale, çarşı, kervansaray, köy. Ok tuşları mekândan mekâna atlar, Enter ya da dokunma girer. Göstergesi uçta (0–15 ya da 85–100) olan mekânın adı bordo zemindedir.
+- **Mekânlar:** `Veri/mekanlar.json` her mekânın sözcüsünü, göstergesini ve beş aralık için durum cümlesini tutar (kale → ordu, köy → halk, hazine ve çarşı → para, kervansaray → yönetim). Mekânda sözcü ve oranın diğer karakterleri durur; çizim çöküşte soluk, taşkınlıkta sıcak tonlanır. Kartlar yalnız taht salonunda gelir.
+- **Yeni çizimler:** eksik 11 rolün portresi (başkâtip, beylerbeyi, soytarı, kale kumandanı, sınır beyi, çiftçi, ozan, çoban, demirci usta, hancı, tüccar) aynı düz SVG tarzında çizildi; 23 rolün hepsinin artık portresi var.
+- **Dikey telefon:** göstergeler, sahne, konuşma ve seçenekler 360×800'de kaydırmadan sığar (Altın Set'in en uzun kartları dahil). Harita ve Kaydet ve Çık düğmeleri sahnenin üst köşelerindedir; ayrı satır kaplamaz.
+
+### Aynı gün, ikinci tur: tam ekran sahne, kaydırılan kart, açılır istatistikler
+
+- **Tam ekran sahne:** mekân çizimi bütün ekranın arkasındadır. Çizimler yatay (400×300) olduğu için önemli bölge (taht salonunda tahtın tepesinden konuşanın ayağına; mekânda sakinler) istatistik çubuğu ile kart arasındaki görünür alana sığacak kadar büyütülür; dikey ekranda çizim her zaman ekranın enini doldurur. Çizimin taşmadığı yerler çizimin kendi üst (duvar/gök) ve alt (zemin) rengiyle dolar. Görünür alan her karede izlenir: istatistikler açılınca ya da kart uzayınca sahne yeniden yerleşir.
+- **Kaydırılan kart:** konuşma kutusu kartın kendisidir (`DiyalogKutusu` → `KaydirmaKontrolu`). Söz akarken dokunma yazıyı tamamlar; söz bitince kart sağa/sola kaydırılır, yattıkça seçenek ve etki okları görünür, eşikte bırakınca karar verilir. Klavye: ← → önizler, Enter ya da aynı ok onaylar. Seçenek düğmeleri kaldırıldı.
+- **İstatistik çubuğu:** üstte dört gösterge simgesi, sayısı ve yıl; uçtaki gösterge kırmızı yazar. Dokununca ayrıntılı çubuklar (ad, değer, yıl/karar) açılır, yine dokununca kapanır; oyun kapalı başlar. Son ekranında ayrıntılı göstergeler her zaman görünür.
+
+### Aynı gün, üçüncü tur: sabit kart, kıpırdamayan sahne
+
+- Kartın metin alanı sabit yüksekliktedir: telefonda 8 satır, daha geniş kartta genişliğe göre en az 4 satır. Eylem alanı da her kartta 100 birimdir; böylece kart söz, sonuç ve mekân kartında aynı boydadır. Destedeki bütün sözler ve sonuçlar telefonda tek sayfaya sığar (H1 testi 1800 metni dener); sığmayan söz eşit sayfalara bölünür.
+- Sahnenin görünür alanı istatistik çubuğunun altından kartın üstüne kadardır ve yalnız ekran boyundan hesaplanır: dokunma, kaydırma, sayfa geçişi ya da açılan istatistikler sahneyi büyütüp küçültmez. Ayrıntılı istatistikler yarı saydam lacivert kutuda sahnenin üstüne açılır.

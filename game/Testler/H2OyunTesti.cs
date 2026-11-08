@@ -139,14 +139,15 @@ public partial class H2OyunTesti : Node
     {
         if (ad is "SolKarar" or "SagKarar")
         {
-            var kart = ekran.GetNode<KartGorunumu>("%KartAlani");
-            int yon = ad == "SagKarar" ? 1 : -1;
+            var kart = ekran.GetNode<DiyalogKutusu>("%DiyalogKutusu");
+            kart.Tamamla();
+            float x = 200 + (ad == "SagKarar" ? 1 : -1) * kart.Esik * 1.5f;
             kart.SuruklemeyiBaslat(200);
-            kart.SuruklemeyiGuncelle(200 + yon * kart.Esik * 1.4f);
-            kart.SuruklemeyiBitir(200 + yon * kart.Esik * 1.4f);
-            await ToSignal(GetTree().CreateTimer(0.3), SceneTreeTimer.SignalName.Timeout);
+            kart.SuruklemeyiGuncelle(x);
+            kart.SuruklemeyiBitir(x);
         }
         else ekran.GetNode<Button>("%" + ad).EmitSignal(BaseButton.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
     }
     private async Task SahneleriDene()
     {
@@ -162,6 +163,7 @@ public partial class H2OyunTesti : Node
             {
                 Yaz(JsonSerializer.Serialize(new[] { SonKarti(gosterge, sinir) }));
                 var ekran = sahne.Instantiate<OyunEkranlari>();
+                ekran.Animasyonlar = false;
                 ekran.DesteYolu = _geciciYol;
                 AddChild(ekran);
                 await Bekle();
@@ -170,9 +172,9 @@ public partial class H2OyunTesti : Node
                 for (int i = 1; i <= 4; i++)
                 {
                     await Tikla(ekran, "SagKarar");
-                    Dogrula(ekran.GetNode<Label>("%SonucMetni").Text == "Hatunum, sağ kararın ardından çarşı açıldı.",
+                    Dogrula(ekran.GetNode<DiyalogKutusu>("%DiyalogKutusu").TamMetin == "Hatunum, sağ kararın ardından çarşı açıldı.",
                         "Yalnız seçilen kararın sonucu ve doğru hitap görünmeli.");
-                    var etkiler = ekran.GetNode<Label>("%SonucEtkileri").Text;
+                    var etkiler = ekran.GetNode<Label>("%EylemBilgisi").Text;
                     Dogrula(etkiler.Contains(Gostergeler.Ad(gosterge) + (sinir == 0 ? " −15" : " +15")), "İşaretli sayılar yanlış.");
                     Dogrula(ekran.AktifEkran == OyunEkranlari.Ekran.Sonuc, "Son kararda dahi önce sonuç görünmeli.");
                     await Tikla(ekran, "SolKarar");
@@ -201,6 +203,7 @@ public partial class H2OyunTesti : Node
             dengeli = dengeli with { Sag = dengeli.Sag with { Etki = new() { ["para"] = 5, ["halk"] = -5 } } };
             Yaz(JsonSerializer.Serialize(new[] { dengeli }));
             var yilEkrani = sahne.Instantiate<OyunEkranlari>();
+            yilEkrani.Animasyonlar = false;
             yilEkrani.DesteYolu = _geciciYol;
             AddChild(yilEkrani);
             await Bekle();
@@ -216,6 +219,7 @@ public partial class H2OyunTesti : Node
 
             Yaz(JsonSerializer.Serialize(new[] { EtkiliKart(new() { ["para"] = -15, ["halk"] = 15 }) }));
             var ciftEkran = sahne.Instantiate<OyunEkranlari>();
+            ciftEkran.Animasyonlar = false;
             ciftEkran.DesteYolu = _geciciYol;
             AddChild(ciftEkran);
             await Bekle();
@@ -232,6 +236,7 @@ public partial class H2OyunTesti : Node
             // Bozuk destenin hata ekranından yeniden yüklemeyle toparlanması.
             Yaz("[]");
             var bozukEkran = sahne.Instantiate<OyunEkranlari>();
+            bozukEkran.Animasyonlar = false;
             bozukEkran.DesteYolu = _geciciYol;
             AddChild(bozukEkran);
             await Bekle();
@@ -250,7 +255,8 @@ public partial class H2OyunTesti : Node
         var scroll = ekran.GetNode<ScrollContainer>("%Icerik");
         Dogrula(scroll.GetHScrollBar().MaxValue <= scroll.Size.X + 1, "Sonuç/son ekranı yatay taşmamalı.");
         foreach (var e in Enum.GetValues<OyunEkranlari.Ekran>())
-            Dogrula(ekran.GetNode<Control>("%" + e + "Paneli").IsVisibleInTree() == (e == ekran.AktifEkran), "Yalnız aktif panel görünmeli.");
+            Dogrula(ekran.GetNode<Control>("%" + OyunEkranlari.PanelAdi(e)).IsVisibleInTree() ==
+                (OyunEkranlari.PanelAdi(e) == OyunEkranlari.PanelAdi(ekran.AktifEkran)), "Yalnız aktif panel görünmeli.");
         var dugme = ekran.GetNode<Button>(ekran.AktifEkran == OyunEkranlari.Ekran.Son ? "%Yeniden" : "%Devam");
         Dogrula(dugme.Size.Y >= 48 && dugme.HasFocus() && dugme.GlobalPosition.Y >= 0 &&
             dugme.GlobalPosition.Y + dugme.Size.Y <= boyut.Y,

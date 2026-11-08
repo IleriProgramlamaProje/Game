@@ -105,6 +105,31 @@ Düzeltme 3, 4, 5 ve 7 geçici olarak geri alındığında ilgili test başarıs
 
 Bulunan sorun: rekor satırı iki satır tutunca son ekranında "Ana Menüye Dön" ekranın altına taşıyordu (testlerde kayıt olmadığı için görünmemişti). Rekor tek satıra indi, taç görseli küçüldü, sonda sayfa iki düğmeyi gösterecek kadar kayar. H1 testi artık kayıtlı oyunla 360×800'de son ekranını denetler; düzeltme geri alınınca başarısız oluyor.
 
+## 8 Kasım · taht salonu sürümü (tam ekran sahne, kaydırılan kart, harita)
+
+Aynı telefonda (POCO X5 Pro, Android 14) debug APK (125 MB) kuruldu; adb dokunma, kaydırma ve geri tuşuyla denendi.
+
+| Kontrol | Sonuç |
+|---|---|
+| Ana menü, Yeni Oyun, Başla, hükümdar seçimi | ✅ Desenli zemin, altın köşeler, ayraç |
+| Taht salonu tam ekran | ✅ Hatun ve Bey tahtta; konuşan yürüyerek geliyor, sıradaki gelince sağdan çıkıyor |
+| Söz harf harf akıyor, dokunma tamamlıyor, uzun söz sayfalanıyor (▼) | ✅ (ilk kart hatası düzeltildikten sonra, aşağıda) |
+| Kartı tutup yatırma | ✅ Seçenek, etki okları ve "Seçmek için bırak" görünüyor; ortaya geri getirince karar yok |
+| Kısa sürükleme | ✅ Karar vermiyor |
+| Tam kaydırma (sağ ve sol) | ✅ Karar; sonuç akıyor, etkiler ve Devam Et beliriyor; göstergeler çubukta güncelleniyor |
+| İstatistik çubuğu | ✅ Dokununca ayrıntılı çubuklar açılıyor, sahne küçülüyor; yine dokununca kapanıyor; uçtaki gösterge (Para 10) kırmızı |
+| Harita | ✅ Altı mekân okunur, üst üste binmiyor; dokunma mekâna giriyor |
+| Mekânlar: kervansaray, kale, köy | ✅ Sözcü ve sakinler duruyor, durum cümlesi hitapla geliyor, gösterge değeri yazıyor |
+| Geri tuşu | ✅ Mekân → harita → taht salonu (aynı kart); taht salonunda kaydedip ana menü; son → ana menü |
+| Kaydet ve Çık → Kayıtlı Oyun → devam | ✅ Aynı kart, aynı karakter adı, aynı göstergeler |
+| Arka plana alıp dönme | ✅ Aynı kart ve göstergeler |
+| Tam oyun | ✅ Hatunum, iki sağ bir sol: 12 karar, 2 yıl, "Para İsyanı"; sikke simgesi, bordo zemin, "Rekorun: 7 yıl · 35 karar" |
+| Günlük (logcat, oyunun süreci) | ✅ Hata yok |
+
+Bulunan sorun: **ilk kartın sözü akmıyordu.** Hükümdar seçilince açılan ilk kart, kart henüz genişlik almadan gösteriliyordu; yazı ilk karede bitmiş sayılıyor, genişlik gelince sayfalara bölünüp doğrudan son sayfaya atlıyordu (kartta yalnız sözün son birkaç kelimesi görünüyordu). Masaüstü testleri kartı hep yerleşmişken denediği için yakalamamıştı. Kart artık genişliğini alınca yazmaya başlıyor ve yazının bittiğini etiketin şekillenmesine değil metnin uzunluğuna göre anlıyor. `AcilisEkraniTesti` yeni açılan sahnede ilk kartın baştan harf harf aktığını denetler; düzeltmeden önce başarısız oluyordu.
+
+İkinci tur (aynı gün): **yarım metin ve kıpırdayan sahne.** Söz altı satırı aşınca sayfalanıyor, son sayfada birkaç kelime kalıyordu; kart boyu her sözde değiştiği için arkadaki sahne de her dokunuşta, kaydırmada ve istatistik açılışında büyüyüp küçülüyordu. Artık kartın metin alanı sabittir (telefonda 8 satır; geniş ekranda genişliğe göre en az 4), destedeki 600 sözün ve 1200 sonucun hepsi telefonda tek sayfaya sığar; sığmayan söz eşit sayfalara bölünür. Sahnenin ölçüsü yalnız ekran boyuna bağlıdır; ayrıntılı istatistikler yarı saydam kutuda sahnenin üstüne açılır. Telefonda yazı akarken, bitince, kart yatırılırken, sonuçta ve istatistikler açıkken taht bölgesinin ekran görüntüleri piksel piksel aynıydı.
+
 ## Kalanlar
 
 - **Release çıktısı:** İmza anahtarı (keystore) ekip kararıdır. Anahtar ve parolası repoya girmez. 3.10'da denenecek.

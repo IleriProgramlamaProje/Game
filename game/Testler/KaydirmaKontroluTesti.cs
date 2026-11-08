@@ -9,9 +9,12 @@ public partial class KaydirmaKontroluTesti : Node
         {
             var ekranlar = GD.Load<PackedScene>("res://Sahneler/Oyun.tscn").Instantiate<OyunEkranlari>();
             ekranlar.DesteYolu = "res://Testler/Veri/ornek_deste.json"; // Etkileri bilinen örnek deste.
+            ekranlar.Animasyonlar = false;
             AddChild(ekranlar);
             ekranlar.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
-            var kart = ekranlar.GetNode<KartGorunumu>("%KartAlani");
+            for (int i = 0; i < 4; i++) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            var kart = ekranlar.GetNode<DiyalogKutusu>("%DiyalogKutusu");
+            if (!kart.Bitti || !kart.Etkin) throw new Exception("Söz bitince kart kaydırılabilmeli.");
             var metin = ekranlar.GetNode<Label>("%KararOnizleme");
             string anlatim = metin.Text;
             kart.SuruklemeyiBaslat(200);

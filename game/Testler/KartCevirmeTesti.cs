@@ -20,13 +20,14 @@ public partial class KartCevirmeTesti : Node
                 GetWindow().Size = boyut;
                 var ekran = GD.Load<PackedScene>("res://Sahneler/Oyun.tscn").Instantiate<OyunEkranlari>();
                 ekran.DesteYolu = "res://Testler/Veri/ornek_deste.json";
+                ekran.Animasyonlar = false;
                 AddChild(ekran);
                 ekran.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
                 await Bekle();
-                var kart = ekran.GetNode<KartGorunumu>("%KartAlani");
+                var kart = ekran.GetNode<DiyalogKutusu>("%DiyalogKutusu");
                 var secenek = yon > 0 ? ekran.Oyun.AktifKart.Sag : ekran.Oyun.AktifKart.Sol;
                 var once = new System.Collections.Generic.Dictionary<string, int>(ekran.Oyun.Durum.Gostergeler.Degerler);
-                string metin = ekran.GetNode<Label>("%KartMetni").Text;
+                string metin = ekran.GetNode<Label>("%DiyalogMetni").Text;
                 Vector2 merkez = kart.Position;
                 kart.SuruklemeyiBaslat(200);
                 kart.SuruklemeyiGuncelle(200 + yon * kart.Esik / 2);
@@ -39,7 +40,7 @@ public partial class KartCevirmeTesti : Node
                 Dogrula(Mathf.IsEqualApprox(kart.RotationDegrees, yon * KaydirmaKontrolu.AzamiEgim), "Kartın hafif eğimi yanlış.");
                 Dogrula(Mathf.IsEqualApprox(Mathf.Abs(kart.Position.X - merkez.X), kart.Esik * 1.5f), "Azami kaydırma mesafesi yanlış.");
                 Dogrula(Mathf.Sign(kart.Position.X - merkez.X) == yon && Mathf.IsEqualApprox(kart.Position.Y, merkez.Y), "Kart doğru yöne yatay hareket etmedi.");
-                Dogrula(ekran.GetNode<Label>("%KartMetni").Text == metin, "Ana metin önizlemede değişti.");
+                Dogrula(ekran.GetNode<Label>("%DiyalogMetni").Text == metin, "Ana metin önizlemede değişti.");
                 Dogrula(ekran.GetNode<Label>("%KararOnizleme").Text.Contains("Seçmek için bırak"), "Onay eşiği görünmüyor.");
                 kart.SuruklemeyiBitir(200 + yon * kart.Esik * 2);
                 kart.SuruklemeyiBaslat(200);

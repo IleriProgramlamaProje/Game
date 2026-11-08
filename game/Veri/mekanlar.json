@@ -1,0 +1,86 @@
+{
+  "_not": "8 Kasım 2026. Haritadaki mekânlar. 'harita': çizimdeki yer (0–1, sol üstten), 'etiket': haritadaki adın ortası. 'durumlar': göstergenin 0–15, 16–35, 36–64, 65–84, 85–100 aralıkları için sözcünün sözü. Taht salonunda durum yoktur; kartlar orada gelir.",
+  "mekanlar": [
+    {
+      "anahtar": "taht_salonu",
+      "ad": "Taht Salonu",
+      "harita": [0.5, 0.25],
+      "etiket": [0.5, 0.145]
+    },
+    {
+      "anahtar": "hazine_odasi",
+      "ad": "Hazine Odası",
+      "harita": [0.773, 0.23],
+      "etiket": [0.773, 0.31],
+      "gosterge": "para",
+      "sozcu": "hazinedar",
+      "durumlar": [
+        "{hitap}, sandıkların dibi göründü. Bu ay askerin ve ustaların hakkını ödeyecek akçe yok.",
+        "Hazine azalıyor, {hitap}. Her gideri iki kez saymadan yazmıyorum.",
+        "Gelir ile gider denk, {hitap}. Hazine idare eder ama bolluk da yok.",
+        "Sandıklar dolu, eski hesaplar kapandı. Hazine rahat nefes alıyor, {hitap}.",
+        "Hazine taşıyor, {hitap}. Bu kadar altın, komşu krallıkların gözünü üstümüze çekiyor."
+      ]
+    },
+    {
+      "anahtar": "kale_surlari",
+      "ad": "Kale Surları",
+      "harita": [0.2, 0.195],
+      "etiket": [0.2, 0.31],
+      "gosterge": "ordu",
+      "sozcu": "kale_kumandani",
+      "durumlar": [
+        "{hitap}, surlarda nöbet tutacak asker kalmadı. Kapılar gece açık; bir saldırıya dayanamayız.",
+        "Askerin hakkı gecikti, nöbetler aksıyor. Surlardaki gedikleri kapatacak el yok, {hitap}.",
+        "Nöbetler düzenli, surlar sağlam. Ordu ne güçlü ne zayıf, {hitap}.",
+        "Askerler talimde, erzak yerinde. Sınırın öte yanındaki düşman iki kez düşünüyor, {hitap}.",
+        "Kışlalar taşıyor, komutanlar söz dinlemez oldu. Bu kadar güçlü bir ordu tahta göz dikebilir, {hitap}."
+      ]
+    },
+    {
+      "anahtar": "carsi",
+      "ad": "Çarşı",
+      "harita": [0.5, 0.5425],
+      "etiket": [0.5, 0.645],
+      "gosterge": "para",
+      "sozcu": "ahi_ustasi",
+      "durumlar": [
+        "{hitap}, çarşıda tezgâhlar kapandı. Akçe dönmüyor, ustalar çıraklarını evlerine yolluyor.",
+        "Alışveriş azaldı, esnaf veresiyeyle ayakta duruyor. Tartılar boş kalıyor, {hitap}.",
+        "Çarşıda alışveriş olağan. Esnaf ne çok kazanıyor ne zarar ediyor, {hitap}.",
+        "Tezgâhlar dolu, uzak illerden tüccar geliyor. Esnafın yüzü gülüyor, {hitap}.",
+        "Çarşı altına boğuldu, fiyatlar uçtu. Bu zenginlik komşu beyliklerin iştahını kabartıyor, {hitap}."
+      ]
+    },
+    {
+      "anahtar": "kervansaray",
+      "ad": "Kervansaray",
+      "harita": [0.793, 0.75],
+      "etiket": [0.793, 0.855],
+      "gosterge": "yonetim",
+      "sozcu": "kervan_basi",
+      "durumlar": [
+        "{hitap}, yollarda devletin sözü geçmiyor. Kervanlar eşkıyaya haraç veriyor, fermanlar hanlarda okunmuyor.",
+        "Hanlar bakımsız, yol kayıtları karışık. Divanın emirleri buraya geç ve eksik ulaşıyor, {hitap}.",
+        "Kervanlar yolunda, hanlar açık. Devletin düzeni işliyor ama ağır, {hitap}.",
+        "Yollar emin, her handa kayıt tutuluyor. Divanın düzeni en uzak menzile kadar ulaşıyor, {hitap}.",
+        "Divanın kâtipleri her yükü tek tek sayıyor, her kervandan üç ayrı izin isteniyor. Yük yolda bekliyor, {hitap}."
+      ]
+    },
+    {
+      "anahtar": "koy_tarla",
+      "ad": "Köy ve Tarlalar",
+      "harita": [0.233, 0.795],
+      "etiket": [0.233, 0.925],
+      "gosterge": "halk",
+      "sozcu": "koy_kethudasi",
+      "durumlar": [
+        "{hitap}, köylü tarlayı bırakıp dağa çıktı. Ocaklar sönük, öfke her köyde büyüyor.",
+        "Ambarlar yarı boş, vergi ağır geliyor. Köyde şikâyet eksik olmuyor, {hitap}.",
+        "Ekin yerinde, köylü işinde. Ne şikâyet eden çok ne sevinen, {hitap}.",
+        "Hasat bereketli, düğünler eksik olmuyor. Köylü adını iyilikle anıyor, {hitap}.",
+        "Halk seni öyle seviyor ki her sözün türkü oldu. Divandakiler bu sevgiyi kıskanıyor, {hitap}."
+      ]
+    }
+  ]
+}

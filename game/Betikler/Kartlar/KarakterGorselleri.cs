@@ -1,27 +1,40 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Krallik;
 
 /// <summary>
-/// Kartın üstündeki sahne: konuşanın portresi ve bulunduğu mekân.
-/// Çizimler <c>Assets/karakterler/</c> ve <c>Assets/mekanlar/</c> altındadır; dosya adı rol anahtarından farklı olabilir.
+/// Karakter ve mekân çizimlerinin yolları. Çizimler <c>Assets/karakterler/</c> ve <c>Assets/mekanlar/</c>
+/// altındadır; dosya adı rol anahtarından farklı olabilir.
 /// </summary>
 public static class KarakterGorselleri
 {
     public const string KarakterKlasoru = "res://Assets/karakterler/";
     public const string MekanKlasoru = "res://Assets/mekanlar/";
+    public const string HaritaYolu = "res://Assets/harita/krallik_haritasi.svg";
 
     /// <summary>
     /// Portre anahtarı (ör. <c>hekim_kadin</c>) ya da rol anahtarı → çizim adı. Önce portre anahtarına bakılır,
-    /// böylece "Çift" rollere kadın/erkek ayrı çizim eklenebilir. Listede olmayan rol portresiz gösterilir.
+    /// böylece "Çift" rollere kadın/erkek ayrı çizim eklenebilir. Bütün roller şimdilik tek çizimlidir.
     /// </summary>
     public static readonly IReadOnlyDictionary<string, string> Portreler = new Dictionary<string, string>
     {
         ["vezir"] = "vezir",
         ["kadi"] = "kadi",
+        ["baskatip"] = "baskatip",
         ["elci"] = "elci",
+        ["beylerbeyi"] = "beylerbeyi",
+        ["soytari"] = "soytari",
         ["akinci_beyi"] = "akinci_beyi",
+        ["kale_kumandani"] = "kale_kumandani",
+        ["sinir_beyi"] = "sinir_beyi",
+        ["ciftci"] = "ciftci",
+        ["ozan"] = "ozan",
+        ["coban"] = "coban",
         ["kervan_basi"] = "kervan_basi",
+        ["demirci_usta"] = "demirci_usta",
+        ["hanci"] = "hanci",
+        ["tuccar"] = "tuccar",
         // Yakın karşılıklar: çizimin unvanı temadaki rolden farklı.
         ["saray_hatun"] = "valide_hatun",
         ["gozcu_basi"] = "casusbasi",
@@ -32,7 +45,7 @@ public static class KarakterGorselleri
         ["ahi_ustasi"] = "ahi_babasi",
     };
 
-    /// <summary>Her rolün kartta göründüğü mekân. Alanına göre seçilir; birkaç rolün kendi yeri vardır.</summary>
+    /// <summary>Her rolün bulunduğu mekân; mekânı gezerken orada duran karakterler buradan seçilir.</summary>
     public static readonly IReadOnlyDictionary<string, string> Mekanlar = new Dictionary<string, string>
     {
         // Yönetim
@@ -71,7 +84,18 @@ public static class KarakterGorselleri
         (portreAnahtari != null && Portreler.TryGetValue(portreAnahtari, out var ad)) || Portreler.TryGetValue(rol, out ad)
             ? KarakterKlasoru + ad + ".svg" : null;
 
-    /// <summary>Konuşanın mekân yolu; listede olmayan rol taht salonunda görünür.</summary>
+    /// <summary>Rolün mekânının çizimi; listede olmayan rol taht salonundadır.</summary>
     public static string MekanYolu(string rol) =>
-        MekanKlasoru + (Mekanlar.TryGetValue(rol, out var ad) ? ad : VarsayilanMekan) + ".svg";
+        MekanCizimi(Mekanlar.TryGetValue(rol, out var ad) ? ad : VarsayilanMekan);
+
+    public static string MekanCizimi(string mekan) => MekanKlasoru + mekan + ".svg";
+
+    /// <summary>Tahtta oturan hükümdar: Beyim ya da Hatunum.</summary>
+    public static string HukumdarYolu(Hukumdar hukumdar) =>
+        KarakterKlasoru + (hukumdar == Hukumdar.Hatun ? "hukumdar_hatun" : "hukumdar_bey") + ".svg";
+
+    /// <summary>Mekânda duran roller: önce sözcü, sonra çizimi olan diğerleri, en fazla <paramref name="enFazla"/>.</summary>
+    public static IReadOnlyList<string> Sakinler(string mekan, string sozcu, int enFazla = 3) =>
+        new[] { sozcu }.Concat(Mekanlar.Where(m => m.Value == mekan && m.Key != sozcu).Select(m => m.Key))
+            .Where(r => r != null && Portreler.ContainsKey(r)).Take(enFazla).ToArray();
 }

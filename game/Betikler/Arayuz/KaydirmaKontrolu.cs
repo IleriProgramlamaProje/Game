@@ -28,6 +28,8 @@ public partial class KaydirmaKontrolu : PanelContainer
     /// <summary>Godot'nun dokunmadan taklit ettiği fare olaylarının aygıt kimliği.</summary>
     public const int TaklitAygit = (int)InputEvent.DeviceIdEmulation;
     public float Esik => Mathf.Max(24, Size.X * 0.11f);
+    /// <summary>Doğruysa onaylanan kart uçup gitmeden karar hemen bildirilir (testler, ekran görüntüleri).</summary>
+    protected virtual bool HemenOnayla => false;
 
     public override void _Ready()
     {
@@ -160,8 +162,15 @@ public partial class KaydirmaKontrolu : PanelContainer
         _isaretci = null;
         _yatay = false;
         _klavyeTarafi = null;
-        _onaylaniyor = true;
         _geriDonus?.Kill();
+        if (HemenOnayla)
+        {
+            Position = _merkez;
+            RotationDegrees = 0;
+            if (Etkin) KararOnaylandi?.Invoke(taraf);
+            return;
+        }
+        _onaylaniyor = true;
         var yon = taraf == KartTarafi.Sag ? 1 : -1;
         _geriDonus = CreateTween().SetParallel();
         _geriDonus.TweenProperty(this, "position:x", Position.X + yon * GetViewportRect().Size.X, 0.2)
@@ -197,6 +206,18 @@ public partial class KaydirmaKontrolu : PanelContainer
             _geriDonus.TweenProperty(this, "rotation_degrees", 0.0f, 0.18f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
         }
         Onizleme?.Invoke(0);
+    }
+
+    /// <summary>Yeni kart için: süren sürükleme, önizleme ve uçuş biter; kart dinlenme noktasında düz durur.</summary>
+    protected void Sifirla()
+    {
+        _isaretci = null;
+        _yatay = false;
+        _klavyeTarafi = null;
+        _onaylaniyor = false;
+        _geriDonus?.Kill();
+        Position = _merkez;
+        RotationDegrees = 0;
     }
 
     /// <summary>

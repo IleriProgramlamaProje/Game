@@ -40,6 +40,7 @@ public partial class OturumKaydiTesti : Node
         var tema = Tema.Oku(Godot.FileAccess.GetFileAsString("res://Veri/tema.json"));
         var oyunSahnesi = GD.Load<PackedScene>("res://Sahneler/Oyun.tscn");
         var ekran = oyunSahnesi.Instantiate<OyunEkranlari>();
+        ekran.Animasyonlar = false;
         ekran.KayitDeposu = depo;
         AddChild(ekran);
         await Bekle();
@@ -47,23 +48,21 @@ public partial class OturumKaydiTesti : Node
         var ilk = depo.Listele(tema).Kayitlar.Single();
         Dogrula(ilk.Oyun.Asama == Asama.Kart && ilk.Oyun.KararSayisi == 0 && ilk.Oyun.Hukumdar == Hukumdar.Hatun,
             "İlk karar öncesi otomatik kayıt eksik.");
-        string ilkBaslik = ekran.GetNode<Label>("%KartBasligi").Text;
+        string ilkBaslik = ekran.GetNode<Label>("%KonusanAdi").Text;
         ekran.Free();
 
         ekran = oyunSahnesi.Instantiate<OyunEkranlari>();
+
+        ekran.Animasyonlar = false;
         ekran.KayitDeposu = depo;
         ekran.YuklenecekKayit = depo.Yukle(ilk.Id, tema);
         AddChild(ekran);
         await Bekle();
         Dogrula(ekran.AktifEkran == OyunEkranlari.Ekran.Oyun &&
-            ekran.GetNode<Label>("%KartBasligi").Text == ilkBaslik &&
+            ekran.GetNode<Label>("%KonusanAdi").Text == ilkBaslik &&
             ekran.Oyun.AktifKart.OlayKimligi == ilk.Oyun.AktifOlay.OlayKimligi, "Kart veya karakter adı geri gelmedi.");
 
-        var kart = ekran.GetNode<KaydirmaKontrolu>("%KartAlani");
-        kart.SuruklemeyiBaslat(200);
-        kart.SuruklemeyiGuncelle(200 + kart.Esik * 1.5f);
-        kart.SuruklemeyiBitir(200 + kart.Esik * 1.5f);
-        await ToSignal(GetTree().CreateTimer(0.35), SceneTreeTimer.SignalName.Timeout);
+        Kaydir(ekran, sag: true);
         var sonuc = depo.Yukle(ilk.Id, tema);
         Dogrula(sonuc.Oyun.Asama == Asama.Sonuc && sonuc.Oyun.Kararlar.Single().Sag &&
             sonuc.Oyun.Kararlar[0].OlayId == ilk.Oyun.AktifOlay.OlayKimligi, "Karar geçmişi veya bekleyen sonuç kayboldu.");
@@ -99,7 +98,7 @@ public partial class OturumKaydiTesti : Node
         Dogrula(ekran.AktifEkran == OyunEkranlari.Ekran.Oyun && ekran.Oyun.Durum.KararSayisi == 1 &&
             ekran.Oyun.AktifKart.OlayKimligi != ilk.Oyun.AktifOlay.OlayKimligi, "Sonraki kart veya karar sayısı yanlış.");
         // Telefonun geri tuşu oyun ortasında "Kaydet ve Ana Menüye Dön" ile aynı işi yapar (G0 sonrası).
-        Dogrula(ekran.GetNode<Button>("%KaydetVeDon").Visible, "Kayıt açıkken oyunda Kaydet ve Ana Menüye Dön görünmeli.");
+        Dogrula(ekran.GetNode<Button>("%KaydetVeDon").Visible, "Kayıt açıkken taht salonunda Kaydet ve Çık görünmeli.");
         var gecisler = new List<string>();
         ekran.SahneGecisi = gecisler.Add;
         var onceki = depo.Yukle(ilk.Id, tema).KayitZamani;
@@ -112,6 +111,8 @@ public partial class OturumKaydiTesti : Node
         ekran.SahneGecisi = null;
 
         var yeni = oyunSahnesi.Instantiate<OyunEkranlari>();
+
+        yeni.Animasyonlar = false;
         yeni.KayitDeposu = depo;
         yeni.DesteYolu = "res://Testler/Veri/ornek_deste.json";
         AddChild(yeni);
@@ -122,11 +123,7 @@ public partial class OturumKaydiTesti : Node
         Dogrula(!Directory.EnumerateFiles(dizin, "*.tmp").Any(), "Geçici kayıt dosyası kalmamalı.");
         for (int i = 0; i < 30 && yeni.AktifEkran != OyunEkranlari.Ekran.Son; i++)
         {
-            kart = yeni.GetNode<KaydirmaKontrolu>("%KartAlani");
-            kart.SuruklemeyiBaslat(200);
-            kart.SuruklemeyiGuncelle(200 - kart.Esik * 1.5f);
-            kart.SuruklemeyiBitir(200 - kart.Esik * 1.5f);
-            await ToSignal(GetTree().CreateTimer(0.28), SceneTreeTimer.SignalName.Timeout);
+            Kaydir(yeni, sag: false);
             Bas(yeni, "%Devam");
         }
         Dogrula(yeni.AktifEkran == OyunEkranlari.Ekran.Son, "Tamamlanan hükümdarlık son ekranına gelmeli.");
@@ -166,6 +163,7 @@ public partial class OturumKaydiTesti : Node
         }
         int beklenen = new Random(5).Next(deste.Count);
         var ekran = oyunSahnesi.Instantiate<OyunEkranlari>();
+        ekran.Animasyonlar = false;
         ekran.KayitDeposu = depo;
         ekran.DesteYolu = ornek;
         ekran.BaslangicRastgele = new Random(5);
@@ -194,6 +192,16 @@ public partial class OturumKaydiTesti : Node
         GetViewport().GetTexture().GetImage().SavePng($"res://.godot/testler/{boyut.X}x{boyut.Y}-{ad}.png");
     }
 
+    /// <summary>Karar kartını sağa ya da sola kaydırır (metin önce tamamlanır).</summary>
+    private static void Kaydir(OyunEkranlari ekran, bool sag)
+    {
+        var kart = ekran.GetNode<DiyalogKutusu>("%DiyalogKutusu");
+        kart.Tamamla();
+        float x = 200 + (sag ? 1 : -1) * kart.Esik * 1.5f;
+        kart.SuruklemeyiBaslat(200);
+        kart.SuruklemeyiGuncelle(x);
+        kart.SuruklemeyiBitir(x);
+    }
     private static void Bas(Node ekran, string dugme) =>
         ekran.GetNode<Button>(dugme).EmitSignal(BaseButton.SignalName.Pressed);
 
