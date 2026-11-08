@@ -86,6 +86,25 @@ Sağ üst kenardaki ince dikey çubuk oyunun değil, MIUI'nin oyunlar için gös
 
 Düzeltme 3, 4, 5 ve 7 geçici olarak geri alındığında ilgili test başarısız oluyor (mutasyon denemesi).
 
+## 8 Kasım · kayıt ve rekorla birleşik sürüm
+
+Ömer'in `kara` dalındaki kayıt/yükleme, rekor ve deste kimlikleri `main` ile birleştirildi (`oyun/kara-main-birlesim`). Aynı telefonda yeniden denendi:
+
+| Kontrol | Sonuç |
+|---|---|
+| Rastgele başlangıç | ✅ İki oyunun ilk kartları farklı (Kadı İlyas, Saray Hatun Gül); önceden her oyun aynı kartla açılıyordu |
+| Geri tuşu oyun ortasında | ✅ İlerlemeyi kaydedip ana menüye döndü |
+| Kayıtlı Oyun → devam | ✅ Ayrılırken ve geri yüklenince ekran görüntüsü piksel piksel aynı: kart, karakter adı, sayaç, göstergeler |
+| Uygulamayı kapatıp açma | ✅ Kayıt yerinde; oyun kaldığı yerden sürdü |
+| Tam oyun 1 (Hatunum, sağ-sol sırayla) | ✅ 35 karar, 7 yıl, "Para İsyanı"; son ekranında "Yeni rekor!" |
+| Tam oyun 2 (Beyim, hep sağ) | ✅ 16 karar, 3 yıl, "Halk İsyanı"; son ekranında "Rekorun: 7 yıl · 35 karar" |
+| Son ekranı | ✅ Rekor satırıyla birlikte Tekrar Oyna ve Ana Menüye Dön görünüyor |
+| Kayıt ekranı | ✅ Devam eden kayıt ikonlu ve tarihli; geçmişte iki hükümdarlık, rekor vurgulu |
+| Ayarlar, Emeği Geçenler, geri tuşu, Çıkış | ✅ Ses %85 yeniden kurulumdan sonra da korunmuş |
+| Günlük (logcat) | ✅ Oyunun sürecinde hata yok |
+
+Bulunan sorun: rekor satırı iki satır tutunca son ekranında "Ana Menüye Dön" ekranın altına taşıyordu (testlerde kayıt olmadığı için görünmemişti). Rekor tek satıra indi, taç görseli küçüldü, sonda sayfa iki düğmeyi gösterecek kadar kayar. H1 testi artık kayıtlı oyunla 360×800'de son ekranını denetler; düzeltme geri alınınca başarısız oluyor.
+
 ## Kalanlar
 
 - **Release çıktısı:** İmza anahtarı (keystore) ekip kararıdır. Anahtar ve parolası repoya girmez. 3.10'da denenecek.

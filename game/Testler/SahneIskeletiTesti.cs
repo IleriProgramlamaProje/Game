@@ -205,7 +205,10 @@ public partial class SahneIskeletiTesti : Node
 		ekran.Free();
 
 		// 2.9: Altın set destesiyle açılış → karar → sonuç → Devam Et → son → yeniden oyun; ağ gerekmez.
+		// Geçici kayıt deposuyla: son ekranı telefondaki gibi rekor satırını da gösterir.
+		string kayitDizini = ProjectSettings.GlobalizePath("user://test-h1-" + Guid.NewGuid().ToString("N"));
 		var oyun = sahne.Instantiate<OyunEkranlari>();
+		oyun.KayitDeposu = new OyunKayitDeposu(kayitDizini);
 		AddChild(oyun);
 		await Bekle();
 		oyun.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
@@ -228,17 +231,20 @@ public partial class SahneIskeletiTesti : Node
 		Dogrula(oyun.AktifEkran == OyunEkranlari.Ekran.Son && oyun.GetNode<Label>("%SonMetni").Text.Length > 0 &&
 			oyun.GetNode<Label>("%SonOzet").Text.Contains($"{karar} karar"), "Altın set destesiyle oyun bir sona ulaşmalı.");
 		await YerlesimVeGoruntu(oyun, boyut, "-AltinSet");
+		Dogrula(oyun.GetNode<Label>("%SonRekor").Visible && oyun.GetNode<Label>("%SonRekor").Text == "Yeni rekor!",
+			"İlk tamamlanan hükümdarlık sonda yeni rekor olarak görünmeli.");
 		if (boyut.X <= 400 && boyut.Y >= 800)
-			foreach (string ad in new[] { "Yeniden", "AnaMenuyeDon" })
+			foreach (string ad in new[] { "SonBaslik", "Yeniden", "AnaMenuyeDon" })
 			{
-				var dugme = oyun.GetNode<Control>("%" + ad).GetGlobalRect();
-				Dogrula(dugme.Position.Y >= 0 && dugme.End.Y <= boyut.Y, $"{boyut}: sonda {ad} kaydırmadan görünmeli.");
+				var oge = oyun.GetNode<Control>("%" + ad).GetGlobalRect();
+				Dogrula(oge.Position.Y >= 0 && oge.End.Y <= boyut.Y, $"{boyut}: sonda {ad} ekranda görünmeli (rekor satırıyla).");
 			}
 		oyun.GetNode<Button>("%Yeniden").EmitSignal(BaseButton.SignalName.Pressed);
 		Dogrula(oyun.AktifEkran == OyunEkranlari.Ekran.Acilis, "Tekrar Oyna hükümdar seçimine dönmeli.");
 		oyun.GetNode<Button>("%Beyim").EmitSignal(BaseButton.SignalName.Pressed);
 		Dogrula(oyun.Oyun.Durum.KararSayisi == 0 && oyun.AktifEkran == OyunEkranlari.Ekran.Oyun, "Yeni oyun sıfırdan başlamalı.");
 		oyun.Free();
+		if (System.IO.Directory.Exists(kayitDizini)) System.IO.Directory.Delete(kayitDizini, true);
 	}
 	private async Task Animasyon() => await ToSignal(GetTree().CreateTimer(0.35), SceneTreeTimer.SignalName.Timeout);
 	private async Task UzunKartYerlesimi(OyunEkranlari ekran, Vector2I boyut)

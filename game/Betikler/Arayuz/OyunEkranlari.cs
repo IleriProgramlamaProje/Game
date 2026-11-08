@@ -199,9 +199,10 @@ public partial class OyunEkranlari : Control
 		{
 			var rekor = new HukumdarlikGecmisi(KayitDeposu.Listele(_tema).Kayitlar).Rekor;
 			if (rekor == null) return;
+			// Tek satır: dar telefonda son ekranının düğmeleri aşağı itilmesin.
 			etiket.Text = rekor.Id == _oturumId
-				? "Yeni rekor! Bu, en uzun hükümdarlığın."
-				: $"En iyi hükümdarlığın: {rekor.Oyun.Yil} yıl · {rekor.Oyun.KararSayisi} karar";
+				? "Yeni rekor!"
+				: $"Rekorun: {rekor.Oyun.Yil} yıl · {rekor.Oyun.KararSayisi} karar";
 			etiket.Visible = true;
 		}
 		catch (Exception hata) when (hata is IOException or UnauthorizedAccessException or FormatException)
@@ -295,7 +296,10 @@ public partial class OyunEkranlari : Control
 		var agac = GetTree();
 		await ToSignal(agac, SceneTree.SignalName.ProcessFrame);
 		await ToSignal(agac, SceneTree.SignalName.ProcessFrame);
-		if (GodotObject.IsInstanceValid(this) && IsInsideTree() && AktifEkran == ekran && odak.HasFocus())
-			Bul<ScrollContainer>("Icerik").EnsureControlVisible(odak);
+		if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || AktifEkran != ekran || !odak.HasFocus()) return;
+		var kaydirma = Bul<ScrollContainer>("Icerik");
+		// Sonda iki düğme de görünsün: önce alttaki "Ana Menüye Dön", sonra odaklı düğme görünür alana alınır.
+		if (ekran == Ekran.Son) kaydirma.EnsureControlVisible(Bul<Control>("AnaMenuyeDon"));
+		kaydirma.EnsureControlVisible(odak);
 	}
 }

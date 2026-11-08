@@ -12,9 +12,9 @@ config_version=5
 
 config/name="BUYRUK"
 run/main_scene="res://Sahneler/AnaMenu.tscn"
+config/quit_on_go_back=false
 config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
-config/quit_on_go_back=false
 
 [display]
 
