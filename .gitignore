@@ -7,7 +7,7 @@
 
 # Local exports and signing credentials
 builds/
-exports/
+exports/*
 *.apk
 *.aab
 *.keystore
@@ -17,3 +17,7 @@ export_credentials.cfg
 # OS files
 .DS_Store
 Thumbs.db
+
+# Paylaşılan APK ve sürüm notu
+!exports/buyruk.apk
+!exports/README.md
